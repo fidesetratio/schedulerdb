@@ -1,4 +1,4 @@
-package com.helix.quartz.demo.entity.converter;
+package com.app.quartz.engine.entity.converter;
 
 import javax.persistence.AttributeConverter;
 

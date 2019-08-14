@@ -1,2 +1,0 @@
-INSERT INTO `scheduler_job_info` (`cron_expression`, `job_class`, `job_group`, `job_name`, `cron_job`, `repeat_time`) VALUES ( '0 * * ? * *', 'com.helix.quartz.demo.jobs.SampleCronJob', 'Test_Cron', 'Sample Cron', '', NULL);
-INSERT INTO `scheduler_job_info` (`cron_expression`, `job_class`, `job_group`, `job_name`, `cron_job`, `repeat_time`) VALUES ( NULL, 'com.helix.quartz.demo.jobs.SimpleJob', 'Test_Job', 'Simple Job', '\0', '600000');

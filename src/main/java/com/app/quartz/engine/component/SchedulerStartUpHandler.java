@@ -1,11 +1,11 @@
-package com.helix.quartz.demo.component;
+package com.app.quartz.engine.component;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import com.helix.quartz.demo.service.SchedulerService;
+import com.app.quartz.engine.service.SchedulerService;
 
 import lombok.extern.slf4j.Slf4j;
 

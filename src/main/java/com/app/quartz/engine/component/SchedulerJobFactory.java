@@ -1,4 +1,4 @@
-package com.helix.quartz.demo.component;
+package com.app.quartz.engine.component;
 
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;

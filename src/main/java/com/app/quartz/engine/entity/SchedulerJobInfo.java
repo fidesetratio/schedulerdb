@@ -1,4 +1,4 @@
-package com.helix.quartz.demo.entity;
+package com.app.quartz.engine.entity;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.helix.quartz.demo.entity.converter.BooleanStringConverter;
+import com.app.quartz.engine.entity.converter.BooleanStringConverter;
 
 @Entity
 @Table(name = "scheduler_job_info")

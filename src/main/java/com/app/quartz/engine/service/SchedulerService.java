@@ -1,6 +1,6 @@
-package com.helix.quartz.demo.service;
+package com.app.quartz.engine.service;
 
-import com.helix.quartz.demo.entity.SchedulerJobInfo;
+import com.app.quartz.engine.entity.SchedulerJobInfo;
 
 public interface SchedulerService {
 

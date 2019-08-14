@@ -1,4 +1,4 @@
-package com.helix.quartz.demo.config;
+package com.app.quartz.engine.config;
 
 import java.util.Properties;
 
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import com.helix.quartz.demo.component.SchedulerJobFactory;
+import com.app.quartz.engine.component.SchedulerJobFactory;
 
 @Configuration
 public class SchedulerConfig {

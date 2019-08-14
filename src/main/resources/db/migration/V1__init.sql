@@ -184,7 +184,7 @@ CREATE INDEX IDX_QRTZ_FT_TG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
 
 commit;
 
-INSERT INTO `scheduler_job_info` (`cron_expression`, `job_class`, `job_group`, `job_name`, `cron_job`, `repeat_time`) VALUES ( '0 * * ? * *', 'com.helix.quartz.demo.jobs.SampleCronJob', 'Test_Cron', 'Sample Cron', 'Y', NULL);
-INSERT INTO `scheduler_job_info` (`cron_expression`, `job_class`, `job_group`, `job_name`, `cron_job`, `repeat_time`) VALUES ( NULL, 'com.helix.quartz.demo.jobs.SimpleJob', 'Test_Job', 'Simple Job', 'N', '600000');
+INSERT INTO `scheduler_job_info` (`cron_expression`, `job_class`, `job_group`, `job_name`, `cron_job`, `repeat_time`) VALUES ( '0 * * ? * *', 'com.app.quartz.engine.jobs.SampleCronJob', 'Test_Cron', 'Sample Cron', 'Y', NULL);
+INSERT INTO `scheduler_job_info` (`cron_expression`, `job_class`, `job_group`, `job_name`, `cron_job`, `repeat_time`) VALUES ( NULL, 'com.app.quartz.engine.jobs.SimpleJob', 'Test_Job', 'Simple Job', 'N', '600000');
 
 commit;

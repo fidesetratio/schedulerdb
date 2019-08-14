@@ -1,4 +1,4 @@
-package com.helix.quartz.demo.service.impl;
+package com.app.quartz.engine.service.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -19,10 +19,10 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.helix.quartz.demo.component.JobScheduleCreator;
-import com.helix.quartz.demo.entity.SchedulerJobInfo;
-import com.helix.quartz.demo.repository.SchedulerRepository;
-import com.helix.quartz.demo.service.SchedulerService;
+import com.app.quartz.engine.component.JobScheduleCreator;
+import com.app.quartz.engine.entity.SchedulerJobInfo;
+import com.app.quartz.engine.repository.SchedulerRepository;
+import com.app.quartz.engine.service.SchedulerService;
 
 import lombok.extern.slf4j.Slf4j;
 
