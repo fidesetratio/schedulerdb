@@ -100,6 +100,9 @@ public class SchedulerServiceImpl implements SchedulerService {
 
                 jobDetail = scheduleCreator.createJob((Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()),
                         false, context, jobInfo.getJobName(), jobInfo.getJobGroup());
+                
+                
+                
 
                 Trigger trigger;
                 if (jobInfo.getCronJob()) {
@@ -149,7 +152,10 @@ public class SchedulerServiceImpl implements SchedulerService {
     @Override
     public boolean deleteJob(SchedulerJobInfo jobInfo) {
         try {
-            return schedulerFactoryBean.getScheduler().deleteJob(new JobKey(jobInfo.getJobName(), jobInfo.getJobGroup()));
+        	boolean ret = false;
+        	ret = schedulerFactoryBean.getScheduler().deleteJob(new JobKey(jobInfo.getJobName(), jobInfo.getJobGroup()));
+            schedulerRepository.delete(jobInfo);
+            return ret;
         } catch (SchedulerException e) {
             return false;
         }

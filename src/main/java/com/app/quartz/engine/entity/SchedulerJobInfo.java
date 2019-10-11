@@ -85,4 +85,9 @@ public class SchedulerJobInfo {
     
     @Convert(converter=BooleanStringConverter.class)
 	private Boolean cronJob;
+    
+    
+    
+    
+    
 }
