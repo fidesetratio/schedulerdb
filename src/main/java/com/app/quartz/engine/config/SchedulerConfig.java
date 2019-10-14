@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import com.app.quartz.engine.component.SchedulerJobFactory;
+import com.app.quartz.engine.listeners.CustomListeners;
 
 @Configuration
 public class SchedulerConfig {
@@ -33,11 +34,11 @@ public class SchedulerConfig {
 
         SchedulerJobFactory jobFactory = new SchedulerJobFactory();
         jobFactory.setApplicationContext(applicationContext);
-
         Properties properties = new Properties();
         properties.putAll(quartzProperties.getProperties());
 
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
+        factory.setGlobalTriggerListeners(new CustomListeners("sinarmasmsig"));
         factory.setOverwriteExistingJobs(true);
         factory.setDataSource(dataSource);
         factory.setQuartzProperties(properties);
