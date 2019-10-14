@@ -8,6 +8,6 @@ public class QuartzDemoApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(QuartzDemoApplication.class, args);
-    }	
+    };	
 }
 

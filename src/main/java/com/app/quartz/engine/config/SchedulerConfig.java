@@ -31,12 +31,10 @@ public class SchedulerConfig {
      */
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean() {
-
         SchedulerJobFactory jobFactory = new SchedulerJobFactory();
         jobFactory.setApplicationContext(applicationContext);
         Properties properties = new Properties();
         properties.putAll(quartzProperties.getProperties());
-
         SchedulerFactoryBean factory = new SchedulerFactoryBean();
         factory.setGlobalTriggerListeners(new CustomListeners("sinarmasmsig"));
         factory.setOverwriteExistingJobs(true);
