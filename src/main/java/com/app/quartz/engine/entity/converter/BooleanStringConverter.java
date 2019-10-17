@@ -2,6 +2,12 @@ package com.app.quartz.engine.entity.converter;
 
 import javax.persistence.AttributeConverter;
 
+/**
+ * Boolean String converter
+ * @author Patar.Tambunan
+ *
+ */
+
 public class BooleanStringConverter implements AttributeConverter<Boolean,String> {
 
 	@Override

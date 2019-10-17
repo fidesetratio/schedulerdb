@@ -19,6 +19,8 @@ CREATE TABLE `scheduler_job_info` (
   `job_group` varchar(255) DEFAULT NULL,
   `job_name` varchar(255) DEFAULT NULL,
   `repeat_time` bigint(20) DEFAULT NULL,
+  `params` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB;
 

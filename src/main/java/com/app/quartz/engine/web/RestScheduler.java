@@ -19,7 +19,6 @@ public class RestScheduler {
 	
 	@RequestMapping("/add")
 	public ResponseEntity<String> add(@RequestBody SchedulerJobInfo jobInfo ){
-		System.out.println("ikut aja sih");
 		String okDesc = "ok";
 		
 		schedulerService.scheduleNewJob(jobInfo);

@@ -3,6 +3,8 @@ package com.app.quartz.engine.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.quartz.CronExpression;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -23,8 +25,6 @@ import com.app.quartz.engine.component.JobScheduleCreator;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.repository.SchedulerRepository;
 import com.app.quartz.engine.service.SchedulerService;
-
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Transactional
@@ -60,7 +60,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                     	System.out.println("heh ngak ada");
                         Trigger trigger;
                         jobDetail = scheduleCreator.createJob((Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()),
-                                false, context, jobInfo.getJobName(), jobInfo.getJobGroup());
+                                false, context, jobInfo.getJobName(), jobInfo.getJobGroup(),jobInfo.getParams(),jobInfo.getUrl());
 
                         System.out.println("ngak mungkin gak lewat");
                         System.out.println("cron ngak?"+jobInfo.getCronJob());
@@ -97,10 +97,16 @@ public class SchedulerServiceImpl implements SchedulerService {
             JobDetail jobDetail = JobBuilder.newJob((Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()))
                     .withIdentity(jobInfo.getJobName(), jobInfo.getJobGroup()).build();
             if (!scheduler.checkExists(jobDetail.getKey())) {
+            	
                 jobDetail = scheduleCreator.createJob((Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()),
-                        false, context, jobInfo.getJobName(), jobInfo.getJobGroup());
-                           Trigger trigger;
-                if (jobInfo.getCronJob()) {
+                        false, context, jobInfo.getJobName(), jobInfo.getJobGroup(),jobInfo.getParams(),jobInfo.getUrl());
+                 
+                
+                
+                
+                Trigger trigger;
+                
+                 if (jobInfo.getCronJob()) {
                     trigger = scheduleCreator.createCronTrigger(jobInfo.getJobName(), new Date(), jobInfo.getCronExpression(),
                             SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
                 } else {

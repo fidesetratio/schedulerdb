@@ -9,6 +9,13 @@ import com.app.quartz.engine.service.SchedulerService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Scheduler Start Up
+ * @author Patar.Tambunan
+ *
+ */
+
+
 @Slf4j
 @Component
 public class SchedulerStartUpHandler implements ApplicationRunner {
@@ -18,8 +25,6 @@ public class SchedulerStartUpHandler implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-    	
-    	System.out.println("start runn");
         try {
             schedulerService.startAllSchedulers();
         } catch (Exception ex) {

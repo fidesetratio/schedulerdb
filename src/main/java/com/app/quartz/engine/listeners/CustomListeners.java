@@ -39,7 +39,7 @@ public class CustomListeners implements TriggerListener{
 	public void triggerMisfired(Trigger trigger) {
 		// TODO Auto-generated method stub
 		
-	}
+	};
 
 	@Override
 	public void triggerComplete(Trigger trigger, JobExecutionContext context,

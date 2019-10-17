@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class QuartzDemoApplication {
+public class MsigQuartzApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(QuartzDemoApplication.class, args);
+	public static void main(String[] args) {
+        SpringApplication.run(MsigQuartzApplication.class, args);
     };	
 }
 

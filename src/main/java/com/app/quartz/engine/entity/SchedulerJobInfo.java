@@ -1,5 +1,7 @@
 package com.app.quartz.engine.entity;
 
+import java.util.HashMap;
+
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.app.quartz.engine.entity.converter.BooleanStringConverter;
+import com.app.quartz.engine.entity.converter.MapStringConverter;
+
+
+/**
+ * JPA Model for scheduler job info
+ * @author Patar.Tambunan
+ *
+ */
 
 @Entity
 @Table(name = "scheduler_job_info")
@@ -86,6 +96,28 @@ public class SchedulerJobInfo {
     @Convert(converter=BooleanStringConverter.class)
 	private Boolean cronJob;
     
+    
+    public HashMap getParams() {
+		return params;
+	}
+
+	public void setParams(HashMap params) {
+		this.params = params;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	@Convert(converter=MapStringConverter.class)
+    private HashMap params;
+    
+    
+    private String url;
     
     
     
