@@ -5,8 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 
-
 @Repository
-public interface SchedulerRepository extends JpaRepository<SchedulerJobInfo, Long> {
+public interface SchedulerInfoRepository extends JpaRepository<SchedulerJobInfo, Long> {
 
 }

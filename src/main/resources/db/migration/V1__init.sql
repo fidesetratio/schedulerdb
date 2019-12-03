@@ -21,6 +21,7 @@ CREATE TABLE `scheduler_job_info` (
   `repeat_time` bigint(20) DEFAULT NULL,
   `params` varchar(255) DEFAULT NULL,
   `url` varchar(255) DEFAULT NULL,
+  `http_method` varchar(10) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB;
 
@@ -183,10 +184,5 @@ CREATE INDEX IDX_QRTZ_FT_J_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_NAME,JOB_GROU
 CREATE INDEX IDX_QRTZ_FT_JG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,JOB_GROUP);
 CREATE INDEX IDX_QRTZ_FT_T_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIGGER_GROUP);
 CREATE INDEX IDX_QRTZ_FT_TG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
-
-commit;
-
-INSERT INTO `scheduler_job_info` (`cron_expression`, `job_class`, `job_group`, `job_name`, `cron_job`, `repeat_time`) VALUES ( '0 * * ? * *', 'com.app.quartz.engine.jobs.SampleCronJob', 'Test_Cron', 'Sample Cron', 'Y', NULL);
-INSERT INTO `scheduler_job_info` (`cron_expression`, `job_class`, `job_group`, `job_name`, `cron_job`, `repeat_time`) VALUES ( NULL, 'com.app.quartz.engine.jobs.SimpleJob', 'Test_Job', 'Simple Job', 'N', '600000');
 
 commit;
