@@ -36,18 +36,18 @@ public class RestCronJob extends QuartzJobBean {
 		System.out.println("-------------------------- Start RestCronJob -------------------------------------");
 		System.out.println(new Date().toString());
 		
-		List<SchedulerJobInfo> jobsList = schedulerJobService.schedulerJobList();
-
-		for (SchedulerJobInfo j : jobsList) {
-			if (j.getUrl() != null) {
-				try {
-					restClient.restClientOutput(j.getUrl(), HttpMethod.valueOf(j.getHttpMethod().toUpperCase()), null);
-				} catch (URISyntaxException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+//		List<SchedulerJobInfo> jobsList = schedulerJobService.schedulerJobList();
+//
+//		for (SchedulerJobInfo j : jobsList) {
+//			if (j.getUrl() != null) {
+//				try {
+//					restClient.restClientOutput(j.getUrl(), HttpMethod.valueOf(j.getHttpMethod().toUpperCase()), null);
+//				} catch (URISyntaxException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		}
 
 		System.out.println();
 		System.out.println("-------------------------- End RestCronJob -------------------------------------");

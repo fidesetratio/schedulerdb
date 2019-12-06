@@ -29,10 +29,11 @@ public class SchedulerStartUpHandler implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        try {
-            schedulerService.startAllSchedulers();
-            schedulerJobService.resumeAllSchedulers();
-        } catch (Exception ex) {
-        }
+//        try {
+//            schedulerService.startAllSchedulers();
+//            schedulerJobService.resumeAllSchedulers();
+//        } catch (Exception ex) {
+//        }
+    	System.out.println("run SchedulerStartUpHandler");
     }
 }

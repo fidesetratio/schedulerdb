@@ -7,8 +7,8 @@ import com.app.quartz.engine.entity.SchedulerJobInfo;
 
 public interface SchedulerJobMvcService {
 
-	List<SchedulerJob> schedulerJobMvcList();
+	public List<SchedulerJob> schedulerJobMvcList();
 
-	boolean createSchedulerJobMvc(SchedulerJobInfo jobInfo);
+	public boolean createSchedulerJobMvc(SchedulerJobInfo jobInfo);
 
 }

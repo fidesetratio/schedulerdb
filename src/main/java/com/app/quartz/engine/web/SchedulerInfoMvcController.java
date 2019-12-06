@@ -8,15 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.app.quartz.engine.dto.AjaxRequestModel;
 import com.app.quartz.engine.dto.SchedulerJob;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
-import com.app.quartz.engine.service.SchedulerJobMvcService;
+import com.app.quartz.engine.service.JobRequestProcessService;
 import com.app.quartz.engine.service.SchedulerJobService;
 import com.app.quartz.engine.util.ResultResponse;
 
@@ -24,26 +25,19 @@ import com.app.quartz.engine.util.ResultResponse;
 public class SchedulerInfoMvcController {
 
 	@Autowired
-	private SchedulerJobMvcService schedulerJobMvcService;
+	private SchedulerJobService schedulerJobService;
 	
 	@Autowired
-	private SchedulerJobService schedulerJobService;
+	private JobRequestProcessService jobRequestProcessService;
 
-	/*
-	 * Get List Job Scheduler
-	 */
-	@GetMapping("/schedulerlist")
+	@RequestMapping(value = "/schedulerlist", method = RequestMethod.GET, headers = "Accept=application/json")
 	public String listJob(Model model) {
-		List<SchedulerJob> listJob = schedulerJobMvcService.schedulerJobMvcList();
-		System.out.println("schedulerJob size: " + listJob.size());
+		List<SchedulerJob> listJob = schedulerJobService.getAllJobs();
 		model.addAttribute("jobList", listJob);
 		return "job_list";
 	}
 
-	/*
-	 * Get List Job Scheduler
-	 */
-	@PostMapping("/submit")
+	@RequestMapping(value = "/submit", method = RequestMethod.POST, headers = "Accept=application/json")
 	public String submit(@Valid @ModelAttribute("schedulerJobInfo")SchedulerJobInfo schedulerJobInfo, 
 			  BindingResult result, Model model) {
 		String checkResult = ResultResponse.MANDATORY_FIELD;
@@ -62,13 +56,17 @@ public class SchedulerInfoMvcController {
 		return "create_job";
 	}
 	
-	/*
-	 * Get List Job Scheduler
-	 */
-	@GetMapping("/createjob")
+	@RequestMapping(value = "/createjob", method = RequestMethod.GET, headers = "Accept=application/json")
 	public String createJob(Model model) {
 		model.addAttribute("schedulerJobInfo", new SchedulerJobInfo());
 		return "create_job";
+	}
+	
+	@RequestMapping(value = "/ajax", method = RequestMethod.POST, headers = "Accept=application/json")
+	@ResponseBody
+	public String ajaxCall(@RequestBody AjaxRequestModel ajaxRequestModel) {
+		jobRequestProcessService.jobRequestProcess(ajaxRequestModel);
+		return "success";
 	}
 
 }

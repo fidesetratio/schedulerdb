@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.quartz.engine.dto.SchedulerJob;
 import com.app.quartz.engine.dto.ServerResponse;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.service.SchedulerJobService;
@@ -93,23 +94,23 @@ public class SchedulerJobController {
 		return getServerResponse(ServerResponseCode.SUCCESS, deleteResp);
 	}
 
-	/*
-	 * Pause Job Scheduler
-	 */
-	@RequestMapping(value = "/pause", method = RequestMethod.POST)
-	public ServerResponse pauseJob(@RequestBody SchedulerJobInfo jobInfo) {
-		boolean pauseResp = schedulerJobService.pauseScheduleJob(jobInfo);
-		return getServerResponse(ServerResponseCode.SUCCESS, pauseResp);
-	}
-
-	/*
-	 * Resume Job Scheduler
-	 */
-	@RequestMapping(value = "/resume", method = RequestMethod.POST)
-	public ServerResponse resumeJob(@RequestBody SchedulerJobInfo jobInfo) {
-		boolean resumeResp = schedulerJobService.resumeScheduleJob(jobInfo);
-		return getServerResponse(ServerResponseCode.SUCCESS, resumeResp);
-	}
+//	/*
+//	 * Pause Job Scheduler
+//	 */
+//	@RequestMapping(value = "/pause", method = RequestMethod.POST)
+//	public ServerResponse pauseJob(@RequestBody SchedulerJobInfo jobInfo) {
+//		boolean pauseResp = schedulerJobService.pauseScheduleJob(jobInfo);
+//		return getServerResponse(ServerResponseCode.SUCCESS, pauseResp);
+//	}
+//
+//	/*
+//	 * Resume Job Scheduler
+//	 */
+//	@RequestMapping(value = "/resume", method = RequestMethod.POST)
+//	public ServerResponse resumeJob(@RequestBody SchedulerJobInfo jobInfo) {
+//		boolean resumeResp = schedulerJobService.resumeScheduleJob(jobInfo);
+//		return getServerResponse(ServerResponseCode.SUCCESS, resumeResp);
+//	}
 
 	/*
 	 * Resume Job Scheduler
@@ -143,7 +144,7 @@ public class SchedulerJobController {
 	 */
 	@RequestMapping("/jobs")
 	public ServerResponse getAllJobs() {
-		List<Map<String, Object>> list = schedulerJobService.getAllJobs();
+		List<SchedulerJob> list = schedulerJobService.getAllJobs();
 		return getServerResponse(ServerResponseCode.SUCCESS, list);
 	}
 

@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.quartz.engine.component.JobScheduleCreator;
+import com.app.quartz.engine.dto.SchedulerJob;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.repository.SchedulerJobRepository;
 import com.app.quartz.engine.service.SchedulerJobService;
@@ -39,7 +40,7 @@ import com.app.quartz.engine.service.SchedulerJobService;
 @Service
 public class SchedulerJobServiceImpl implements SchedulerJobService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SchedulerJobServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(SchedulerJobServiceImpl.class);
 
 	@Autowired
 	private SchedulerFactoryBean schedulerFactoryBean;
@@ -201,22 +202,19 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 					.deleteJob(new JobKey(jobInfo.getJobName(), jobInfo.getJobGroup()));
 			schedulerJobRepository.deleteById(jobInfo.getId());
 
-			LOGGER.debug("deleteJob succesfully....");
+			logger.debug("deleteJob succesfully....");
 			return ret;
 		} catch (SchedulerException e) {
 
 		}
 		return false;
 	}
-
-	/*
-	 * Pause Job Scheduler
-	 */
+	
 	@Override
-	public boolean pauseScheduleJob(SchedulerJobInfo jobInfo) {
+	public boolean pauseScheduleJob(JobKey jobKey) {
 		// TODO Auto-generated method stub
 		try {
-			schedulerFactoryBean.getScheduler().pauseJob(new JobKey(jobInfo.getJobName(), jobInfo.getJobGroup()));
+			schedulerFactoryBean.getScheduler().pauseJob(jobKey);
 			return true;
 		} catch (SchedulerException e) {
 			return false;
@@ -227,10 +225,10 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 * Resume Job Scheduler
 	 */
 	@Override
-	public boolean resumeScheduleJob(SchedulerJobInfo jobInfo) {
+	public boolean resumeScheduleJob(JobKey jobKey) {
 		// TODO Auto-generated method stub
 		try {
-			schedulerFactoryBean.getScheduler().resumeJob(new JobKey(jobInfo.getJobName(), jobInfo.getJobGroup()));
+			schedulerFactoryBean.getScheduler().resumeJob(jobKey);
 			return true;
 		} catch (SchedulerException e) {
 			return false;
@@ -268,9 +266,8 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 * Get All Job Scheduler
 	 */
 	@Override
-	public List<Map<String, Object>> getAllJobs() {
-		// TODO Auto-generated method stub
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+	public List<SchedulerJob> getAllJobs() {
+		List<SchedulerJob> list = new ArrayList<SchedulerJob>();
 		try {
 			Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
@@ -286,28 +283,27 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 					Date nextFireTime = triggers.get(0).getNextFireTime();
 					Date lastFiredTime = triggers.get(0).getPreviousFireTime();
 
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("jobName", jobName);
-					map.put("groupName", jobGroup);
-					map.put("scheduleTime", scheduleTime); // date
-					map.put("lastFiredTime", lastFiredTime); // date
-					map.put("nextFireTime", nextFireTime); // date
-
-					if (isJobRunning(jobName, jobGroup)) {
-						map.put("jobStatus", "RUNNING");
-					} else {
-						String jobState = getJobState(jobName, jobGroup);
-						map.put("jobStatus", jobState);
+					SchedulerJob jobObj = new SchedulerJob();
+					jobObj.setJobName(jobName);
+					jobObj.setGroupName(jobGroup);
+					jobObj.setScheduleTime(scheduleTime);
+					jobObj.setLastFiredTime(lastFiredTime);
+					jobObj.setNextFireTime(nextFireTime);
+					String jobState = "";
+					
+					if(isJobRunning(jobName, jobGroup)){
+						jobState = "RUNNING";
+					}else{
+						jobState = getJobState(jobName, jobGroup);
 					}
+					jobObj.setJobState(jobState);
 
-					list.add(map);
-					System.out.println("Job details:");
-					System.out.println(
-							"Job Name:" + jobName + ", Group Name:" + groupName + ", Schedule Time:" + scheduleTime);
+					
+					list.add(jobObj);
 				}
 			}
 		} catch (SchedulerException e) {
-			System.out.println("SchedulerException while fetching all jobs. error message :" + e.getMessage());
+			logger.debug("SchedulerException while fetching all jobs. error message : " + e.getMessage());
 			e.printStackTrace();
 		}
 		return list;
@@ -318,9 +314,9 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 */
 	@Override
 	public boolean isJobRunning(String jobName, String groupKey) {
-		System.out.println("Request received to check if job is running");
+		logger.debug("Request received to check if job is running");
 		String jobKey = jobName;
-		System.out.println("Parameters received for checking job is running now : jobKey :" + jobKey);
+		logger.debug("Parameters received for checking job is running now : jobKey :" + jobKey);
 
 		try {
 			List<JobExecutionContext> currentJobs = schedulerFactoryBean.getScheduler().getCurrentlyExecutingJobs();
