@@ -1,9 +1,11 @@
 package com.app.quartz.engine.web.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.quartz.CronExpression;
+import org.quartz.JobKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,7 +92,10 @@ public class SchedulerJobController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public ServerResponse jobdelete(@RequestBody SchedulerJobInfo jobInfo) {
-		boolean deleteResp = schedulerJobService.deleteScheduleJob(jobInfo);
+		List<JobKey> jobKeylist = new ArrayList<JobKey>();
+		JobKey jobKey = new JobKey(jobInfo.getJobName(), jobInfo.getJobGroup());
+		jobKeylist.add(jobKey);
+		boolean deleteResp = schedulerJobService.deleteScheduleJob(jobKeylist);
 		return getServerResponse(ServerResponseCode.SUCCESS, deleteResp);
 	}
 

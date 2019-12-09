@@ -48,7 +48,6 @@ public class SchedulerServiceImpl implements SchedulerService {
 		List<SchedulerJobInfo> jobInfoList = schedulerRepository.findAll();
 
 		if (jobInfoList != null) {
-			System.out.println("runn..." + jobInfoList.size());
 			Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
 			jobInfoList.forEach(jobInfo -> {
@@ -56,20 +55,14 @@ public class SchedulerServiceImpl implements SchedulerService {
 					JobDetail jobDetail = JobBuilder
 							.newJob((Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()))
 							.withIdentity(jobInfo.getJobName(), jobInfo.getJobGroup()).build();
-					System.out.println(jobDetail.getKey());
 					
 					if (!scheduler.checkExists(jobDetail.getKey())) {
-						System.out.println("heh ngak ada");
 						Trigger trigger;
 						jobDetail = scheduleCreator.createJob(
 								(Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()), false, context,
 								jobInfo.getJobName(), jobInfo.getJobGroup(), jobInfo.getParams(), jobInfo.getUrl(), jobInfo.getHttpMethod());
 
-						System.out.println("ngak mungkin gak lewat");
-						System.out.println("cron ngak?" + jobInfo.getCronJob());
-
 						if (jobInfo.getCronJob() && CronExpression.isValidExpression(jobInfo.getCronExpression())) {
-							System.out.println("fire cron job now");
 							trigger = scheduleCreator.createCronTrigger(jobInfo.getJobName(), new Date(),
 									jobInfo.getCronExpression(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 						} else {
@@ -79,9 +72,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
 						scheduler.scheduleJob(jobDetail, trigger);
 
-					} else {
-						System.out.println("already exist.");
-					}
+					} 
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (SchedulerException e) {

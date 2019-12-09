@@ -38,17 +38,13 @@ public class BirthdayGreetingJob extends QuartzJobBean {
 //		
 //		try {
 //			String response = restClient.restClientOutput(url, HttpMethod.valueOf(httpMethod.toUpperCase()), null);
-//			SchedulerJobHistory history = new SchedulerJobHistory(context.getJobInstance().toString(), context.getFireTime(), url, httpMethod, response);
-//			schedulerJobHistoryRepository.saveAndFlush(history);
 //		} catch (URISyntaxException e) {
 //			logger.debug("BirthdayGreetingJob.executeInternal");
 //			e.printStackTrace();
 //		}
 		
-//		int i = 0;
-//		while (i == 0) {
-//			logger.debug("runnnnn");
-//		}
+		JobDataMap map = context.getMergedJobDataMap();
+		System.out.println("job : " + context.getJobInstance().toString());
 		
 		System.out.println("-------------------------- End BirthdayGreetingJob " + new Date() + "-------------------------------------");
 	}

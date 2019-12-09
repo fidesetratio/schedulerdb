@@ -74,7 +74,6 @@ public class SchedulerInfoServiceImpl implements SchedulerInfoService {
 			}
 
 		} catch (Exception e) {
-			System.out.println("error message :" + e.getMessage());
 			e.printStackTrace();
 		}
 		return list;
@@ -100,8 +99,6 @@ public class SchedulerInfoServiceImpl implements SchedulerInfoService {
 			return true;
 
 		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("error message :" + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -119,8 +116,6 @@ public class SchedulerInfoServiceImpl implements SchedulerInfoService {
 			return true;
 
 		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("error message :" + e.getMessage());
 			e.printStackTrace();
 		}
 

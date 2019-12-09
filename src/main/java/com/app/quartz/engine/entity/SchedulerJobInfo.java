@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.app.quartz.engine.entity.converter.BooleanStringConverter;
 import com.app.quartz.engine.entity.converter.MapStringConverter;
@@ -27,8 +29,10 @@ public class SchedulerJobInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotEmpty(message = "Job Name")
 	private String jobName;
 
+	@NotEmpty(message = "Job Group")
 	private String jobGroup;
 
 	private String jobClass;
@@ -37,6 +41,7 @@ public class SchedulerJobInfo {
 
 	private Long repeatTime;
 
+	@NotEmpty(message = "URL")
 	private String url;
 
 	@Convert(converter = BooleanStringConverter.class)
@@ -45,6 +50,7 @@ public class SchedulerJobInfo {
 	@Convert(converter = MapStringConverter.class)
 	private HashMap params;
 	
+	@NotEmpty(message = "Please provide HTTP Method")
 	private String httpMethod;
 	
 	public Long getId() {

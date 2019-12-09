@@ -40,7 +40,6 @@ public class RestClient {
 			
 			result = restTemplate.exchange(uri, method, requestEntity, String.class);			
 			
-			System.out.println("result get : " + result);
 		} catch (HttpClientErrorException e) {
 			e.printStackTrace();
 			logger.debug("RestClient. Http client error exception");

@@ -28,7 +28,6 @@ public class RestScheduler {
 
 	@RequestMapping("/remove")
 	public ResponseEntity<String> remove(@RequestBody SchedulerJobInfo jobInfo) {
-		System.out.println("remove aja sih");
 		String okDesc = "ok";
 		schedulerService.deleteJob(jobInfo);
 		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc, HttpStatus.OK);
@@ -37,7 +36,6 @@ public class RestScheduler {
 
 	@RequestMapping("/pause")
 	public ResponseEntity<String> pause(@RequestBody SchedulerJobInfo jobInfo) {
-		System.out.println("pause aja sih");
 		String okDesc = "ok";
 		schedulerService.pauseJob(jobInfo);
 		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc, HttpStatus.OK);
@@ -46,7 +44,6 @@ public class RestScheduler {
 
 	@RequestMapping("/resume")
 	public ResponseEntity<String> resume(@RequestBody SchedulerJobInfo jobInfo) {
-		System.out.println("resume aja sih");
 		String okDesc = "ok";
 		schedulerService.resumeJob(jobInfo);
 		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc, HttpStatus.OK);

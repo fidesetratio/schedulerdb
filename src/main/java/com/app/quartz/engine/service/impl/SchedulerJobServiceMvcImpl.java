@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.app.quartz.engine.component.JobScheduleCreator;
 import com.app.quartz.engine.dto.SchedulerJob;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
-import com.app.quartz.engine.repository.SchedulerJobRepository;
+import com.app.quartz.engine.repository.SchedulerJobInfoRepository;
 import com.app.quartz.engine.service.SchedulerJobMvcService;
 
 @Slf4j
@@ -47,7 +47,7 @@ public class SchedulerJobServiceMvcImpl implements SchedulerJobMvcService {
 	private ApplicationContext context;
 
 	@Autowired
-	private SchedulerJobRepository schedulerJobRepository;
+	private SchedulerJobInfoRepository schedulerJobRepository;
 
 	@Override
 	public List<SchedulerJob> schedulerJobMvcList() {
@@ -79,7 +79,7 @@ public class SchedulerJobServiceMvcImpl implements SchedulerJobMvcService {
 				}
 			}
 		} catch (SchedulerException e) {
-			System.out.println("SchedulerException while fetching all jobs. error message :" + e.getMessage());
+			LOGGER.debug("SchedulerException while fetching all jobs. error message :" + e.getMessage());
 			e.printStackTrace();
 		}
 		return list;
@@ -89,8 +89,6 @@ public class SchedulerJobServiceMvcImpl implements SchedulerJobMvcService {
 	 * Get the current state of job
 	 */
 	public String getJobState(String jobName, String groupKey) {
-		System.out.println("jobName " + jobName + " groupKey " + groupKey);
-
 		try {
 			JobKey jobKey = new JobKey(jobName, groupKey);
 
@@ -118,7 +116,7 @@ public class SchedulerJobServiceMvcImpl implements SchedulerJobMvcService {
 				}
 			}
 		} catch (SchedulerException e) {
-			System.out.println("SchedulerException while checking job with name and group exist:" + e.getMessage());
+			LOGGER.debug("SchedulerException while checking job with name and group exist:" + e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
@@ -153,17 +151,14 @@ public class SchedulerJobServiceMvcImpl implements SchedulerJobMvcService {
 
 				scheduler.scheduleJob(jobDetail, trigger);
 				schedulerJobRepository.save(jobInfo);
-				System.out.println("scheduler mvc added sucessfully.... ");
 
 				return true;
 
-			} else {
-				System.out.println("nothing to do.....");
 			}
 		} catch (ClassNotFoundException e) {
-			System.out.println("ClassNotFoundException ==> " + e.getMessage());
+			LOGGER.debug("ClassNotFoundException ==> " + e.getMessage());
 		} catch (SchedulerException e) {
-			System.out.println(e.getMessage());
+			LOGGER.debug(e.getMessage());
 		}
 
 		return false;

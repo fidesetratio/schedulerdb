@@ -6,26 +6,45 @@
 	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css">
 	
 	<title>Job List</title>
+	<style>
+		.table {
+		   margin: auto;
+		   width: 85% !important; 
+		   overflow-y: auto !important;
+		}
+		.processButtons {
+			margin: auto;
+			text-align: right !important;
+			width: 85% !important;
+		}
+	</style>
 </head>
 <body>
 <div>
 	<jsp:include page="/static/common/include/menu_bar.jsp" />
-	<div>
+	<br />
+	<div class="processButtons">
+		<button type="button" class="btn btn-warning processButton">Start</button>
 		<button type="button" class="btn btn-primary processButton">Pause</button>
+		<button type="button" class="btn btn-primary processButton">Pause All</button>
 		<button type="button" class="btn btn-info processButton">Resume</button>
+		<button type="button" class="btn btn-info processButton">Resume All</button>
+		<button type="button" class="btn btn-danger processButton">Delete</button>
 	</div>
-	<div>
+	<br />
+	<div class="table-responsive">
 		<!-- tabel daftar job -->
 		<table class="table" id="jobDatalist">
 			<thead class="thead-light">
 				<tr>
-					<th scope="col"><input type="checkbox" id="parentBox" />&nbsp;</th>
+					<th scope="col"><input type="checkbox" id="parentBox" /></th>
 					<th scope="col">Job Name</th>
 					<th scope="col">Group Name</th>
 					<th scope="col">Schedule Time</th>
 					<th scope="col">Last Fired Time</th>
 					<th scope="col">Next Fire Time</th>
 					<th scope="col">Job State</th>
+					<th scope="col">Action</th>
 				</tr>
 			</thead>
 		<tbody>
@@ -38,6 +57,7 @@
 	    			<td>${job.lastFiredTime}</td>
 	    			<td>${job.nextFireTime}</td>
 	    			<td class="jobState">${job.jobState}</td>
+	    			<td><a class="btn btn-primary" href="${path}/createjob?jobName=${job.jobName}&groupName=${job.groupName}" role="button">Edit</a></td>
 	    		</tr>
 			</c:forEach>
 		</tbody>
@@ -78,23 +98,19 @@ $(document).ready(function () {
 	        jobList: jobList
 	    }
 
-		/* if (jobList.length > 0) {
-			$.ajax({
-				type: "POST",
-		        url: "${path}/ajax",
-		        dataType: 'json',
-		        contentType: "application/json; charset=utf-8",
-		        data: JSON.stringify(AjaxRequestModel),
-		        success: function(responseData, status, xhr) {
-		        	if (responseData == 'success') {
-		        		window.location.reload();
-		        	}
-		        },
-		        error: function(request, status, error) {
-		            console.log(request.responseText);
-		        }
-			});
-		}  */
+		$.ajax({
+			type: "POST",
+	        url: "${path}/ajax",
+	        dataType: 'json',
+	        contentType: "application/json; charset=utf-8",
+	        data: JSON.stringify(AjaxRequestModel),
+	        success: function(responseData, status, xhr) {
+	        	location.reload(true);
+	        },
+	        error: function(request, status, error) {
+	            console.log(request.responseText);
+	        }
+		});
 	});
 });
 </script>

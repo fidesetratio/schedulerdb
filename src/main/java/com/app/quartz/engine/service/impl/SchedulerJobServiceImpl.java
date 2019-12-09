@@ -9,6 +9,7 @@ import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 
 import org.quartz.CronExpression;
+import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
@@ -32,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.app.quartz.engine.component.JobScheduleCreator;
 import com.app.quartz.engine.dto.SchedulerJob;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
-import com.app.quartz.engine.repository.SchedulerJobRepository;
+import com.app.quartz.engine.repository.SchedulerJobInfoRepository;
 import com.app.quartz.engine.service.SchedulerJobService;
 
 @Slf4j
@@ -52,7 +53,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	private ApplicationContext context;
 
 	@Autowired
-	private SchedulerJobRepository schedulerJobRepository;
+	private SchedulerJobInfoRepository schedulerJobInfoRepository;
 
 	@Autowired
 	private SchedulerJobService schedulerJobService;
@@ -62,7 +63,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 		// TODO Auto-generated method stub
 		List<SchedulerJobInfo> schedulerJobInfoList = null;
 		try {
-			schedulerJobInfoList = schedulerJobRepository.findAll();
+			schedulerJobInfoList = schedulerJobInfoRepository.findAll();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -74,7 +75,6 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 */
 	@Override
 	public boolean createScheduleJob(SchedulerJobInfo jobInfo) {
-		// TODO Auto-generated method stub
 		try {
 			Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
@@ -91,7 +91,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 
 				if (jobInfo.getCronJob()) {
 					trigger = scheduleCreator.createCronTrigger(jobInfo.getJobName(), new Date(),
-							jobInfo.getCronExpression(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
+							jobInfo.getCronExpression(), CronTrigger.MISFIRE_INSTRUCTION_DO_NOTHING);
 
 				} else {
 					trigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), new Date(),
@@ -100,23 +100,21 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 				}
 
 				scheduler.scheduleJob(jobDetail, trigger);
-				schedulerJobRepository.save(jobInfo);
-				System.out.println("scheduler added sucessfully.... ");
+				schedulerJobInfoRepository.save(jobInfo);
+				logger.debug("scheduler added sucessfully....");
 
 				return true;
 
 			} else {
-				System.out.println("nothing to do.....");
+				this.updateScheduleJob(jobInfo);
 			}
 
 		} catch (ClassNotFoundException e) {
-			System.out.println("ClassNotFoundException ==> " + e.getMessage());
+			logger.debug("SchedulerJobServiceImpl:createScheduleJob. ClassNotFoundException ==> " + e.getMessage());
 
 		} catch (SchedulerException e) {
-			System.out.println(e.getMessage());
-
+			logger.debug("SchedulerJobServiceImpl:createScheduleJob." + e.getMessage());
 		}
-
 		return false;
 	}
 
@@ -146,22 +144,19 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 			}
 
 		} catch (Exception e) {
-			System.out.println("error message :" + e.getMessage());
 			e.printStackTrace();
 		}
 		return list;
 	}
 
-	/*
-	 * Update Job Scheduler
-	 */
+	
 	@Override
 	public boolean updateScheduleJob(SchedulerJobInfo jobInfo) {
 		Trigger newTrigger;
 
 		if (jobInfo.getCronJob()) {
 			newTrigger = scheduleCreator.createCronTrigger(jobInfo.getJobName(), new Date(),
-					jobInfo.getCronExpression(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
+					jobInfo.getCronExpression(), CronTrigger.MISFIRE_INSTRUCTION_DO_NOTHING);
 
 		} else {
 			newTrigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), new Date(), jobInfo.getRepeatTime(),
@@ -169,23 +164,24 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 		}
 
 		try {
+			Trigger triggerJob = schedulerFactoryBean.getScheduler().getTrigger(TriggerKey.triggerKey(jobInfo.getJobName()));
 			schedulerFactoryBean.getScheduler().rescheduleJob(TriggerKey.triggerKey(jobInfo.getJobName()), newTrigger);
 
-			SchedulerJobInfo jobsInfo = schedulerJobRepository.getOne(jobInfo.getId());
+			SchedulerJobInfo jobsInfo = schedulerJobInfoRepository.findByNameAndGroup(jobInfo.getJobName(), jobInfo.getJobGroup()).get(0);
 			jobsInfo.setCronExpression(jobInfo.getCronExpression());
 			jobsInfo.setCronJob(jobInfo.getCronJob());
 			jobsInfo.setJobClass(jobInfo.getJobClass());
 			jobsInfo.setJobGroup(jobInfo.getJobGroup());
 			jobsInfo.setJobName(jobInfo.getJobName());
-			jobsInfo.setParams(jobInfo.getParams());
 			jobsInfo.setRepeatTime(jobInfo.getRepeatTime());
+			jobsInfo.setParams(jobInfo.getParams());
 			jobsInfo.setUrl(jobInfo.getUrl());
-			schedulerJobRepository.save(jobsInfo);
+			schedulerJobInfoRepository.save(jobsInfo);
 
 			return true;
 
 		} catch (SchedulerException e) {
-			System.out.println("SchedulerException " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		return false;
@@ -195,17 +191,23 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 * Delete Job Scheduler
 	 */
 	@Override
-	public boolean deleteScheduleJob(SchedulerJobInfo jobInfo) {
+	public boolean deleteScheduleJob(List<JobKey> jobKeys) {
 		try {
 			boolean ret = true;
-			ret = schedulerFactoryBean.getScheduler()
-					.deleteJob(new JobKey(jobInfo.getJobName(), jobInfo.getJobGroup()));
-			schedulerJobRepository.deleteById(jobInfo.getId());
-
-			logger.debug("deleteJob succesfully....");
+			ret = schedulerFactoryBean.getScheduler().deleteJobs(jobKeys);
+			
+			// delete scheduler info job
+			List<SchedulerJobInfo> listSchedulerJobInfo = new ArrayList<SchedulerJobInfo>();
+			for (JobKey j : jobKeys) {
+				SchedulerJobInfo schedulerJobInfo = schedulerJobInfoRepository.findByNameAndGroup(j.getName(), j.getGroup()).get(0);
+				listSchedulerJobInfo.add(schedulerJobInfo);
+			}
+			schedulerJobInfoRepository.deleteAll(listSchedulerJobInfo);
+			
 			return ret;
 		} catch (SchedulerException e) {
-
+			logger.error("SchedulerJobService:deleteScheduleJob");
+			e.printStackTrace();
 		}
 		return false;
 	}
@@ -320,21 +322,17 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 
 		try {
 			List<JobExecutionContext> currentJobs = schedulerFactoryBean.getScheduler().getCurrentlyExecutingJobs();
-			System.out.println("current job not null? ... " + currentJobs.size());
 
 			if (currentJobs != null && currentJobs.size() > 0) {
 				for (JobExecutionContext jobCtx : currentJobs) {
 					String jobNameDB = jobCtx.getJobDetail().getKey().getName();
 					String groupNameDB = jobCtx.getJobDetail().getKey().getGroup();
 					if (jobKey.equalsIgnoreCase(jobNameDB) && groupKey.equalsIgnoreCase(groupNameDB)) {
-						System.out.println("check job is running return true...");
 						return true;
 					}
 				}
 			}
 		} catch (SchedulerException e) {
-			System.out.println("SchedulerException while checking job with key :" + jobKey
-					+ " is running. error message :" + e.getMessage());
 			e.printStackTrace();
 			return false;
 		}
@@ -345,8 +343,6 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 * Get the current state of job
 	 */
 	public String getJobState(String jobName, String groupKey) {
-		System.out.println("jobName " + jobName + " groupKey " + groupKey);
-
 		try {
 			JobKey jobKey = new JobKey(jobName, groupKey);
 
@@ -374,7 +370,6 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 				}
 			}
 		} catch (SchedulerException e) {
-			System.out.println("SchedulerException while checking job with name and group exist:" + e.getMessage());
 			e.printStackTrace();
 		}
 		return null;
@@ -382,10 +377,9 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 
 	@Override
 	public void startAllSchedulers() {
-		List<SchedulerJobInfo> jobInfoList = schedulerJobRepository.findAll();
+		List<SchedulerJobInfo> jobInfoList = schedulerJobInfoRepository.findAll();
 
 		if (jobInfoList != null) {
-			System.out.println("runn..." + jobInfoList.size());
 			Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
 			jobInfoList.forEach(jobInfo -> {
@@ -393,19 +387,13 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 					JobDetail jobDetail = JobBuilder
 							.newJob((Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()))
 							.withIdentity(jobInfo.getJobName(), jobInfo.getJobGroup()).build();
-					System.out.println(jobDetail.getKey());
 					if (!scheduler.checkExists(jobDetail.getKey())) {
-						System.out.println("heh ngak ada");
 						Trigger trigger;
 						jobDetail = scheduleCreator.createJob(
 								(Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()), false, context,
 								jobInfo.getJobName(), jobInfo.getJobGroup(), jobInfo.getParams(), jobInfo.getUrl(), jobInfo.getHttpMethod());
 
-						System.out.println("ngak mungkin gak lewat");
-						System.out.println("cron ngak?" + jobInfo.getCronJob());
-
 						if (jobInfo.getCronJob() && CronExpression.isValidExpression(jobInfo.getCronExpression())) {
-							System.out.println("fire cron job now");
 							trigger = scheduleCreator.createCronTrigger(jobInfo.getJobName(), new Date(),
 									jobInfo.getCronExpression(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 						} else {
@@ -416,7 +404,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 						scheduler.scheduleJob(jobDetail, trigger);
 
 					} else {
-						System.out.println("already exist.");
+						logger.debug("already exist.");
 					}
 
 				} catch (ClassNotFoundException e) {
@@ -430,7 +418,6 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 
 	@Override
 	public void resumeAllSchedulers() {
-		// TODO Auto-generated method stub
 		try {
 			Scheduler scheduler = schedulerFactoryBean.getScheduler();
 
@@ -440,17 +427,31 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 					String jobName = jobKey.getName();
 					String jobGroup = jobKey.getGroup();
 					String jobState = getJobState(jobName, jobGroup);
-					System.out.println("Job Name:" + jobName + ", Group Name:" + groupName + ", Job State " + jobState);
 
 					if (jobState.equals("PAUSED")) {
-						System.out.println("Resume Job Successfully.... ");
 						schedulerFactoryBean.getScheduler().resumeJob(new JobKey(jobName, jobGroup));
 					}
 				}
 			}
 
 		} catch (SchedulerException e) {
-			System.out.println("SchedulerException while fetching all jobs. error message :" + e.getMessage());
+			logger.debug("SchedulerException while fetching all jobs. error message :" + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public SchedulerJobInfo getJobInfo(JobKey jobKey) {
+		SchedulerJobInfo schedulerJobInfo = schedulerJobInfoRepository.findByNameAndGroup(jobKey.getName(), jobKey.getGroup()).get(0);
+		return schedulerJobInfo;
+	}
+
+	@Override
+	public void pauseAllSchedulers() {
+		try {
+			schedulerFactoryBean.getScheduler().pauseAll();
+		} catch (SchedulerException e) {
+			logger.debug("SchedulerJobService:pauseAllSchedulers.");
 			e.printStackTrace();
 		}
 	}
