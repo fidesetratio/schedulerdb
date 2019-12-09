@@ -1,13 +1,11 @@
 package com.app.quartz.engine.service.impl;
 
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import com.app.quartz.engine.dto.AjaxRequestModel;
-import com.app.quartz.engine.dto.SchedulerJob;
+import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.service.JobRequestProcessService;
 import com.app.quartz.engine.service.SchedulerJobService;
 import com.app.quartz.engine.util.RestClient;
@@ -36,17 +34,15 @@ public class JobRequestProcessServiceImpl implements JobRequestProcessService {
 	
 	@Override
 	public void jobRequestProcess(AjaxRequestModel ajaxRequestModel) {
-		List<SchedulerJob> schedulerInfolist = ajaxRequestModel.getJobList();
+		List<SchedulerJobInfo> schedulerInfolist = ajaxRequestModel.getJobList();
 		if (ajaxRequestModel.getJobProcess().toUpperCase().equals("PAUSE")) {
-			for (SchedulerJob sc : schedulerInfolist) {
-				JobKey jobKey = new JobKey(sc.getJobName(), sc.getGroupName());
-				schedulerJobService.pauseScheduleJob(jobKey);
+			for (SchedulerJobInfo sc : schedulerInfolist) {
+				schedulerJobService.pauseScheduleJob(sc);
 				logger.debug("Job: " + sc.getJobName() + " is paused. Time: " + new Date());
 			}
 		} else if (ajaxRequestModel.getJobProcess().toUpperCase().equals("RESUME")) {
-			for (SchedulerJob sc : schedulerInfolist) {
-				JobKey jobKey = new JobKey(sc.getJobName(), sc.getGroupName());
-				schedulerJobService.resumeScheduleJob(jobKey);
+			for (SchedulerJobInfo sc : schedulerInfolist) {
+				schedulerJobService.resumeScheduleJob(sc);
 				logger.debug("Job: " + sc.getJobName() + " is resumed. Time: " + new Date());
 			}
 		} else if (ajaxRequestModel.getJobProcess().toUpperCase().equals("RESUME ALL")) {
@@ -56,13 +52,11 @@ public class JobRequestProcessServiceImpl implements JobRequestProcessService {
 			schedulerJobService.pauseAllSchedulers();
 			logger.debug("All job is paused. Time: " + new Date());
 		} else if (ajaxRequestModel.getJobProcess().toUpperCase().equals("DELETE")) {
-			List<JobKey> jobKeylist = new ArrayList<JobKey>();
-			for (SchedulerJob sc : schedulerInfolist) {
-				JobKey jobKey = new JobKey(sc.getJobName(), sc.getGroupName());
-				jobKeylist.add(jobKey);
-				logger.debug("Job: " + sc.getJobName() + " is deleted. Time: " + new Date());
+			schedulerJobService.deleteScheduleJob(schedulerInfolist);
+		} else if (ajaxRequestModel.getJobProcess().toUpperCase().equals("START NOW")) {
+			for (SchedulerJobInfo sc : schedulerInfolist) {
+				schedulerJobService.startJobNow(sc);
 			}
-			schedulerJobService.deleteScheduleJob(jobKeylist);
 		}
 	}
 

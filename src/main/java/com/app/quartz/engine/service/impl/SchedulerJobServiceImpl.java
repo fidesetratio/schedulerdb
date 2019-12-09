@@ -191,32 +191,31 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 * Delete Job Scheduler
 	 */
 	@Override
-	public boolean deleteScheduleJob(List<JobKey> jobKeys) {
+	public boolean deleteScheduleJob(List<SchedulerJobInfo> schedulerJobinfoList) {
 		try {
 			boolean ret = true;
-			ret = schedulerFactoryBean.getScheduler().deleteJobs(jobKeys);
-			
-			// delete scheduler info job
 			List<SchedulerJobInfo> listSchedulerJobInfo = new ArrayList<SchedulerJobInfo>();
-			for (JobKey j : jobKeys) {
-				SchedulerJobInfo schedulerJobInfo = schedulerJobInfoRepository.findByNameAndGroup(j.getName(), j.getGroup()).get(0);
+			List<JobKey> jobKeys = new ArrayList<JobKey>();
+			for (SchedulerJobInfo sc : schedulerJobinfoList) {
+				jobKeys.add(new JobKey(sc.getJobName(), sc.getJobGroup()));
+				SchedulerJobInfo schedulerJobInfo = schedulerJobInfoRepository.findByNameAndGroup(sc.getJobName(), sc.getJobGroup()).get(0);
 				listSchedulerJobInfo.add(schedulerJobInfo);
 			}
+			ret = schedulerFactoryBean.getScheduler().deleteJobs(jobKeys);
 			schedulerJobInfoRepository.deleteAll(listSchedulerJobInfo);
 			
 			return ret;
 		} catch (SchedulerException e) {
-			logger.error("SchedulerJobService:deleteScheduleJob");
-			e.printStackTrace();
+
 		}
 		return false;
 	}
 	
 	@Override
-	public boolean pauseScheduleJob(JobKey jobKey) {
+	public boolean pauseScheduleJob(SchedulerJobInfo schedulerJobInfo) {
 		// TODO Auto-generated method stub
 		try {
-			schedulerFactoryBean.getScheduler().pauseJob(jobKey);
+			schedulerFactoryBean.getScheduler().pauseJob(new JobKey(schedulerJobInfo.getJobName(), schedulerJobInfo.getJobGroup()));
 			return true;
 		} catch (SchedulerException e) {
 			return false;
@@ -227,10 +226,10 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 * Resume Job Scheduler
 	 */
 	@Override
-	public boolean resumeScheduleJob(JobKey jobKey) {
+	public boolean resumeScheduleJob(SchedulerJobInfo schedulerJobInfo) {
 		// TODO Auto-generated method stub
 		try {
-			schedulerFactoryBean.getScheduler().resumeJob(jobKey);
+			schedulerFactoryBean.getScheduler().resumeJob(new JobKey(schedulerJobInfo.getJobName(), schedulerJobInfo.getJobGroup()));
 			return true;
 		} catch (SchedulerException e) {
 			return false;

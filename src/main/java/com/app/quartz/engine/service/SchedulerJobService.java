@@ -17,9 +17,9 @@ public interface SchedulerJobService {
 	public List<Map<String, Object>> schedulerJobMapList();
 	public boolean createScheduleJob(SchedulerJobInfo jobInfo);
 	public boolean updateScheduleJob(SchedulerJobInfo jobInfo);
-	public boolean deleteScheduleJob(List<JobKey> jobKey);
-	public boolean pauseScheduleJob(JobKey jobKey);
-	public boolean resumeScheduleJob(JobKey jobKey);
+	public boolean deleteScheduleJob(List<SchedulerJobInfo> schedulerJobInfo);
+	public boolean pauseScheduleJob(SchedulerJobInfo schedulerJobInfo);
+	public boolean resumeScheduleJob(SchedulerJobInfo schedulerJobInfo);
 	public boolean startJobNow(SchedulerJobInfo jobInfo);
 	public boolean unScheduleJob(String jobName);
 	public List<SchedulerJob> getAllJobs();

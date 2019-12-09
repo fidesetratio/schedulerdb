@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.quartz.CronExpression;
-import org.quartz.JobKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,31 +41,31 @@ public class SchedulerJobController {
 		String result = ResultResponse.MANDATORY_FIELD;
 		boolean createResp = false;
 
-//		if (jobInfo.getCronJob() == null || jobInfo.getCronJob().equals(""))
-//			result = ResultResponse.MANDATORY_FIELD;
-
-		if (jobInfo.getJobClass() == null || jobInfo.getJobClass().equals("")) 
+		if (jobInfo.getCronJob() == null || jobInfo.getCronJob().equals("")) {
 			result = ResultResponse.MANDATORY_FIELD;
 
-		if (jobInfo.getJobName() == null || jobInfo.getJobName().equals("")) 
+		} else if (jobInfo.getJobClass() == null || jobInfo.getJobClass().equals("")) {
 			result = ResultResponse.MANDATORY_FIELD;
 
-//		} else if (jobInfo.getJobGroup() == null || jobInfo.getJobGroup().equals("")) {
-//			result = ResultResponse.MANDATORY_FIELD;
-
-		if (jobInfo.getUrl() == null || jobInfo.getUrl().equals("")) 
+		} else if (jobInfo.getJobName() == null || jobInfo.getJobName().equals("")) {
 			result = ResultResponse.MANDATORY_FIELD;
 
-//		} else {
+		} else if (jobInfo.getJobGroup() == null || jobInfo.getJobGroup().equals("")) {
+			result = ResultResponse.MANDATORY_FIELD;
 
-//			if (CronExpression.isValidExpression(jobInfo.getCronExpression())) {
+		} else if (jobInfo.getUrl() == null || jobInfo.getUrl().equals("")) {
+			result = ResultResponse.MANDATORY_FIELD;
+
+		} else {
+
+			if (CronExpression.isValidExpression(jobInfo.getCronExpression())) {
 				createResp = schedulerJobService.createScheduleJob(jobInfo);
 
-//			} else {
-//				result = ResultResponse.NOT_VALID_EXPRESSION;
-//
-//			}
-//		}
+			} else {
+				result = ResultResponse.NOT_VALID_EXPRESSION;
+
+			}
+		}
 
 		if (createResp) {
 			return getServerResponse(ServerResponseCode.SUCCESS, ResultResponse.INSERT_SUCCES);
@@ -92,30 +91,28 @@ public class SchedulerJobController {
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	public ServerResponse jobdelete(@RequestBody SchedulerJobInfo jobInfo) {
-		List<JobKey> jobKeylist = new ArrayList<JobKey>();
-		JobKey jobKey = new JobKey(jobInfo.getJobName(), jobInfo.getJobGroup());
-		jobKeylist.add(jobKey);
-		boolean deleteResp = schedulerJobService.deleteScheduleJob(jobKeylist);
+		List<SchedulerJobInfo> schedulerJobinfoList = new ArrayList<SchedulerJobInfo>();
+		boolean deleteResp = schedulerJobService.deleteScheduleJob(schedulerJobinfoList);
 		return getServerResponse(ServerResponseCode.SUCCESS, deleteResp);
 	}
 
-//	/*
-//	 * Pause Job Scheduler
-//	 */
-//	@RequestMapping(value = "/pause", method = RequestMethod.POST)
-//	public ServerResponse pauseJob(@RequestBody SchedulerJobInfo jobInfo) {
-//		boolean pauseResp = schedulerJobService.pauseScheduleJob(jobInfo);
-//		return getServerResponse(ServerResponseCode.SUCCESS, pauseResp);
-//	}
-//
-//	/*
-//	 * Resume Job Scheduler
-//	 */
-//	@RequestMapping(value = "/resume", method = RequestMethod.POST)
-//	public ServerResponse resumeJob(@RequestBody SchedulerJobInfo jobInfo) {
-//		boolean resumeResp = schedulerJobService.resumeScheduleJob(jobInfo);
-//		return getServerResponse(ServerResponseCode.SUCCESS, resumeResp);
-//	}
+	/*
+	 * Pause Job Scheduler
+	 */
+	@RequestMapping(value = "/pause", method = RequestMethod.POST)
+	public ServerResponse pauseJob(@RequestBody SchedulerJobInfo jobInfo) {
+		boolean pauseResp = schedulerJobService.pauseScheduleJob(jobInfo);
+		return getServerResponse(ServerResponseCode.SUCCESS, pauseResp);
+	}
+
+	/*
+	 * Resume Job Scheduler
+	 */
+	@RequestMapping(value = "/resume", method = RequestMethod.POST)
+	public ServerResponse resumeJob(@RequestBody SchedulerJobInfo jobInfo) {
+		boolean resumeResp = schedulerJobService.resumeScheduleJob(jobInfo);
+		return getServerResponse(ServerResponseCode.SUCCESS, resumeResp);
+	}
 
 	/*
 	 * Resume Job Scheduler

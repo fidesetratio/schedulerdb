@@ -24,7 +24,7 @@
 	<jsp:include page="/static/common/include/menu_bar.jsp" />
 	<br />
 	<div class="processButtons">
-		<button type="button" class="btn btn-warning processButton">Start</button>
+		<button type="button" class="btn btn-warning processButton">Start Now</button>
 		<button type="button" class="btn btn-primary processButton">Pause</button>
 		<button type="button" class="btn btn-primary processButton">Pause All</button>
 		<button type="button" class="btn btn-info processButton">Resume</button>
@@ -80,15 +80,14 @@ $(document).ready(function () {
 		console.log(boxes.length);
 		
 		boxes.each(function(){
-			var jobNamee = $(this).closest("tr").find(".jobName").text();  
+			var jobName = $(this).closest("tr").find(".jobName").text();  
 			var jobGroupname = $(this).closest("tr").find(".groupName").text(); 
 			var jobState = $(this).closest("tr").find(".jobState").text(); 
-			var SchedulerJob = {
-				jobName: jobNamee,
-				groupName: jobGroupname,
-				jobState: jobState
+			var SchedulerJobInfo = {
+				jobName: jobName,
+				jobGroup: jobGroupname
 			}
-			jobList.push(SchedulerJob);
+			jobList.push(SchedulerJobInfo);
 		});
 		
 		console.log("job list : " + jobList);
