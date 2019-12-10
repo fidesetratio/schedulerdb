@@ -13,7 +13,7 @@
         <div class="container">
         	<br />
         	<h3>Create Job</h3><br />
-	        <form:form method="POST" action="${path}/submit" modelAttribute="schedulerJobInfo">
+	        <form:form method="POST" action="${path}/submit" modelAttribute="schedulerJobInfo" autocomplete="off">
 	        	<span style = "color:#ff0000;"><c:if test="${not empty errors}"><b>Error</b>: ${errors}<br /><br /></c:if></span>
 	        	<div class="form-group row align-items-center">
 		    		<form:label class="col-sm-2 col-form-label" path="jobName">Name</form:label>
@@ -27,13 +27,20 @@
 						<form:input type="text" class="form-control" path="jobGroup" placeholder="" />
 				    </div> --%>
 				    <div class="col-sm-8">
-						<form:select class="custom-select" path="jobGroup">
+						<%-- <form:select class="custom-select" path="jobGroup">
 							<form:option value="NONE" label="None"/>
 							<c:forEach items="${jobGrouplist}" var="itemGroup">
-								<%-- selected="${not empty jobName ? 'true' : 'false'}" --%>
+								selected="${not empty jobName ? 'true' : 'false'}"
 					        	<form:option value="${itemGroup}">${itemGroup}</form:option>
 					    	</c:forEach>
-						</form:select>
+						</form:select> --%>
+						
+						<form:input list="grouplist" type="text" path="jobGroup" class="form-control col-sm-6 custom-select custom-select-sm" placeholder="" />
+						<datalist id="grouplist">
+	                    	<c:forEach var="itemGroup" items="${jobGrouplist}">
+	                        	<option value="${itemGroup}"/>
+	                    	</c:forEach>
+               			</datalist>
 					</div>
 		  		</div>
 		  		<div class="form-group row">
@@ -90,6 +97,7 @@
 <script type="text/javascript" src="${path}/static/plugins/js/popper.min.js"></script>
 <script type="text/javascript" src="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script> 
 <script type="text/javascript">
+$(document).ready(function () {
 	$("#cronJobid").click(function(){
 		if($(this).is(':checked')) {
 			$('#cronExpressionid').prop('disabled', false);
@@ -103,7 +111,7 @@
 			$('#repeatTimeid').val("");
 		}
 	});
-
+});
 </script>    
 </body>
 </html>
