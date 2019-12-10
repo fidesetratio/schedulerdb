@@ -79,6 +79,7 @@ public class SchedulerInfoMvcController {
 	@RequestMapping(value = "/createjob", method = RequestMethod.GET, headers = "Accept=application/json")
 	public String createJob(@RequestParam("jobName") String jobName, @RequestParam("groupName") String groupName, Model model) {
 		SchedulerJobInfo schedulerJobInfo = new SchedulerJobInfo();
+		model.addAttribute("jobGrouplist", schedulerJobService.getGroupList());
 		if (!jobName.isEmpty() && jobName != null && !groupName.isEmpty() && groupName != null) {
 			JobKey jobKey = new JobKey(jobName, groupName);
 			schedulerJobInfo = schedulerJobService.getJobInfo(jobKey);

@@ -13,9 +13,15 @@
 		   overflow-y: auto !important;
 		}
 		.processButtons {
-			margin: auto;
-			text-align: right !important;
-			width: 85% !important;
+			text-align: right;
+			width: 90% !important;
+			display: table;
+		}
+		.processButtonsleft {
+		 	display: table-cell;
+		}
+		.processButtonsright {
+			display: table-cell;
 		}
 	</style>
 </head>
@@ -24,12 +30,16 @@
 	<jsp:include page="/static/common/include/menu_bar.jsp" />
 	<br />
 	<div class="processButtons">
-		<button type="button" class="btn btn-warning processButton">Start Now</button>
-		<button type="button" class="btn btn-primary processButton">Pause</button>
-		<button type="button" class="btn btn-primary processButton">Pause All</button>
-		<button type="button" class="btn btn-info processButton">Resume</button>
-		<button type="button" class="btn btn-info processButton">Resume All</button>
-		<button type="button" class="btn btn-danger processButton">Delete</button>
+		<div class="processButtonsleft">
+			<button type="button" class="btn btn-primary processButton">Pause All</button>
+			<button type="button" class="btn btn-info processButton">Resume All</button>
+		</div>
+		<div>
+			<button type="button" class="btn btn-warning processButton">Start Now</button>
+			<button type="button" class="btn btn-primary processButton">Pause</button>
+			<button type="button" class="btn btn-info processButton">Resume</button>
+			<button type="button" class="btn btn-danger processButton">Delete</button>
+		</div>
 	</div>
 	<br />
 	<div class="table-responsive">

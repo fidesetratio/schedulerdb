@@ -136,8 +136,11 @@ public class SchedulerJobController {
 	 * Resume Job Scheduler
 	 */
 	@RequestMapping(value = "/unschedule")
-	public ServerResponse unschedulejob(@RequestParam("jobName") String jobName) {
-		boolean uncsheduleResp = schedulerJobService.unScheduleJob(jobName);
+	public ServerResponse unschedulejob(@RequestParam("jobName") String jobName, @RequestParam("jobGroup") String jobGroup) {
+		SchedulerJobInfo jobInfo = new SchedulerJobInfo();
+		jobInfo.setJobName(jobName);
+		jobInfo.setJobGroup(jobGroup);
+		boolean uncsheduleResp = schedulerJobService.unScheduleJob(jobInfo);
 		return getServerResponse(ServerResponseCode.SUCCESS, uncsheduleResp);
 	}
 

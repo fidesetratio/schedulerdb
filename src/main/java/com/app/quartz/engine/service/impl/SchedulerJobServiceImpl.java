@@ -123,7 +123,6 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 */
 	@Override
 	public List<Map<String, Object>> schedulerJobMapList() {
-		// TODO Auto-generated method stub
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 
@@ -213,7 +212,6 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	
 	@Override
 	public boolean pauseScheduleJob(SchedulerJobInfo schedulerJobInfo) {
-		// TODO Auto-generated method stub
 		try {
 			schedulerFactoryBean.getScheduler().pauseJob(new JobKey(schedulerJobInfo.getJobName(), schedulerJobInfo.getJobGroup()));
 			return true;
@@ -227,7 +225,6 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 */
 	@Override
 	public boolean resumeScheduleJob(SchedulerJobInfo schedulerJobInfo) {
-		// TODO Auto-generated method stub
 		try {
 			schedulerFactoryBean.getScheduler().resumeJob(new JobKey(schedulerJobInfo.getJobName(), schedulerJobInfo.getJobGroup()));
 			return true;
@@ -241,7 +238,6 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 */
 	@Override
 	public boolean startJobNow(SchedulerJobInfo jobInfo) {
-		// TODO Auto-generated method stub
 		try {
 			schedulerFactoryBean.getScheduler().triggerJob(new JobKey(jobInfo.getJobName(), jobInfo.getJobGroup()));
 			return true;
@@ -254,10 +250,9 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 * UnSchedule Job Scheduler
 	 */
 	@Override
-	public boolean unScheduleJob(String jobName) {
-		// TODO Auto-generated method stub
+	public boolean unScheduleJob(SchedulerJobInfo jobInfo) {
 		try {
-			return schedulerFactoryBean.getScheduler().unscheduleJob(new TriggerKey(jobName));
+			return schedulerFactoryBean.getScheduler().unscheduleJob(TriggerKey.triggerKey(jobInfo.getJobName()));
 		} catch (SchedulerException e) {
 			return false;
 		}
@@ -453,6 +448,18 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 			logger.debug("SchedulerJobService:pauseAllSchedulers.");
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<String> getGroupList() {
+		List<String> jobGrouplist = new ArrayList<String>();
+		try {
+			jobGrouplist = schedulerFactoryBean.getScheduler().getJobGroupNames();
+		} catch (SchedulerException e) {
+			logger.debug("SchedulerJobService:getGroupList.");
+			e.printStackTrace();
+		}
+		return jobGrouplist;
 	}
 
 }

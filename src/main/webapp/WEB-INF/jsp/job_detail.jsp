@@ -23,9 +23,18 @@
 		  		</div>
 		  		<div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="jobGroup">Group Name</form:label>
-				    <div class="col-sm-8">
+				    <%-- <div class="col-sm-8">
 						<form:input type="text" class="form-control" path="jobGroup" placeholder="" />
-				    </div>
+				    </div> --%>
+				    <div class="col-sm-8">
+						<form:select class="custom-select" path="jobGroup">
+							<form:option value="NONE" label="None"/>
+							<c:forEach items="${jobGrouplist}" var="itemGroup">
+								<%-- selected="${not empty jobName ? 'true' : 'false'}" --%>
+					        	<form:option value="${itemGroup}">${itemGroup}</form:option>
+					    	</c:forEach>
+						</form:select>
+					</div>
 		  		</div>
 		  		<div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="jobClass">Class</form:label>
@@ -78,6 +87,7 @@
 	</div>   
 
 <script type="text/javascript" src="${path}/static/plugins/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="${path}/static/plugins/js/popper.min.js"></script>
 <script type="text/javascript" src="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script> 
 <script type="text/javascript">
 	$("#cronJobid").click(function(){

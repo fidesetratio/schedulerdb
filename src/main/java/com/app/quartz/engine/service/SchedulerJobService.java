@@ -21,10 +21,10 @@ public interface SchedulerJobService {
 	public boolean pauseScheduleJob(SchedulerJobInfo schedulerJobInfo);
 	public boolean resumeScheduleJob(SchedulerJobInfo schedulerJobInfo);
 	public boolean startJobNow(SchedulerJobInfo jobInfo);
-	public boolean unScheduleJob(String jobName);
+	public boolean unScheduleJob(SchedulerJobInfo jobInfo);
 	public List<SchedulerJob> getAllJobs();
 	public boolean isJobRunning(String jobName, String groupKey);
 	public String getJobState(String jobName, String groupKey);
 	public SchedulerJobInfo getJobInfo(JobKey jobKey);
-
+	public List<String> getGroupList();
 }
