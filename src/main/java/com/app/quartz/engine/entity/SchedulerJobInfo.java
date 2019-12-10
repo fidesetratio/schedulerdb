@@ -12,9 +12,9 @@ import javax.persistence.Table;
 import com.app.quartz.engine.entity.converter.BooleanStringConverter;
 import com.app.quartz.engine.entity.converter.MapStringConverter;
 
-
 /**
  * JPA Model for scheduler job info
+ * 
  * @author Patar.Tambunan
  *
  */
@@ -23,11 +23,29 @@ import com.app.quartz.engine.entity.converter.MapStringConverter;
 @Table(name = "scheduler_job_info")
 public class SchedulerJobInfo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    public Long getId() {
+	private String jobName;
+
+	private String jobGroup;
+
+	private String jobClass;
+
+	private String cronExpression;
+
+	private Long repeatTime;
+
+	private String url;
+
+	@Convert(converter = BooleanStringConverter.class)
+	private Boolean cronJob;
+
+	@Convert(converter = MapStringConverter.class)
+	private HashMap params;
+	
+	public Long getId() {
 		return id;
 	}
 
@@ -83,21 +101,7 @@ public class SchedulerJobInfo {
 		this.cronJob = cronJob;
 	}
 
-	private String jobName;
-
-    private String jobGroup;
-
-    private String jobClass;
-
-    private String cronExpression;
-
-    private Long repeatTime;
-    
-    @Convert(converter=BooleanStringConverter.class)
-	private Boolean cronJob;
-    
-    
-    public HashMap getParams() {
+	public HashMap getParams() {
 		return params;
 	}
 
@@ -113,13 +117,4 @@ public class SchedulerJobInfo {
 		this.url = url;
 	}
 
-	@Convert(converter=MapStringConverter.class)
-    private HashMap params;
-    
-    
-    private String url;
-    
-    
-    
-    
 }

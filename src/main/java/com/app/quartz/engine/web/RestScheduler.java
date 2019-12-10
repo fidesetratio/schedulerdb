@@ -13,53 +13,52 @@ import com.app.quartz.engine.service.SchedulerService;
 @RestController
 @RequestMapping("/scheduler")
 public class RestScheduler {
-	
+
 	@Autowired
 	private SchedulerService schedulerService;
-	
+
 	@RequestMapping("/add")
-	public ResponseEntity<String> add(@RequestBody SchedulerJobInfo jobInfo ){
+	public ResponseEntity<String> add(@RequestBody SchedulerJobInfo jobInfo) {
 		String okDesc = "ok";
-		
+
 		schedulerService.scheduleNewJob(jobInfo);
-		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc,HttpStatus.OK);					
+		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc, HttpStatus.OK);
 		return ok;
 	}
 
 	@RequestMapping("/remove")
-	public ResponseEntity<String> remove(@RequestBody SchedulerJobInfo jobInfo ){
+	public ResponseEntity<String> remove(@RequestBody SchedulerJobInfo jobInfo) {
 		System.out.println("remove aja sih");
 		String okDesc = "ok";
 		schedulerService.deleteJob(jobInfo);
-		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc,HttpStatus.OK);					
-		return ok;
-	}
-	
-	@RequestMapping("/pause")
-	public ResponseEntity<String> pause(@RequestBody SchedulerJobInfo jobInfo ){
-		System.out.println("pause aja sih");
-		String okDesc = "ok";
-		schedulerService.pauseJob(jobInfo);
-		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc,HttpStatus.OK);					
-		return ok;
-	}
-	
-	@RequestMapping("/resume")
-	public ResponseEntity<String> resume(@RequestBody SchedulerJobInfo jobInfo ){
-		System.out.println("resume aja sih");
-		String okDesc = "ok";
-		schedulerService.resumeJob(jobInfo);
-		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc,HttpStatus.OK);					
-		return ok;
-	}
-	
-	@RequestMapping("/reload")
-	public ResponseEntity<String> reload(){
-		String okDesc = "okyeye";
-		schedulerService.startAllSchedulers();
-		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc,HttpStatus.OK);					
+		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc, HttpStatus.OK);
 		return ok;
 	}
 
-	
+	@RequestMapping("/pause")
+	public ResponseEntity<String> pause(@RequestBody SchedulerJobInfo jobInfo) {
+		System.out.println("pause aja sih");
+		String okDesc = "ok";
+		schedulerService.pauseJob(jobInfo);
+		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc, HttpStatus.OK);
+		return ok;
+	}
+
+	@RequestMapping("/resume")
+	public ResponseEntity<String> resume(@RequestBody SchedulerJobInfo jobInfo) {
+		System.out.println("resume aja sih");
+		String okDesc = "ok";
+		schedulerService.resumeJob(jobInfo);
+		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc, HttpStatus.OK);
+		return ok;
+	}
+
+	@RequestMapping("/reload")
+	public ResponseEntity<String> reload() {
+		String okDesc = "okyeye";
+		schedulerService.startAllSchedulers();
+		ResponseEntity<String> ok = new ResponseEntity<String>(okDesc, HttpStatus.OK);
+		return ok;
+	}
+
 }
