@@ -1,6 +1,8 @@
 package com.app.quartz.engine.service.impl;
 
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -26,6 +28,11 @@ public class GenericMethodServiceImpl implements GenericMethodService {
 		JobDataMap map = context.getMergedJobDataMap();
 		String url = map.getString("url");
 		String httpMethod = map.getString("httpMethod");
+		String params = map.getString("params");
+		
+		if (params != null && !params.isEmpty()) {
+			url += params;
+		}
 		
 		try {
 			String response = restClient.restClientOutput(url, HttpMethod.valueOf(httpMethod.toUpperCase()), null);

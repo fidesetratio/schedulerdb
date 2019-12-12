@@ -1,6 +1,6 @@
 package com.app.quartz.engine.entity;
 
-import java.util.HashMap;
+import java.util.List;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -8,8 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.URL;
 
 import com.app.quartz.engine.entity.converter.BooleanStringConverter;
 import com.app.quartz.engine.entity.converter.MapStringConverter;
@@ -29,10 +31,10 @@ public class SchedulerJobInfo {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotEmpty(message = "Job Name")
+	@NotEmpty(message = "Job name can not be empty or null.")
 	private String jobName;
 
-	@NotEmpty(message = "Job Group")
+	@NotEmpty(message = "Job group can not be empty or null.")
 	private String jobGroup;
 
 	private String jobClass;
@@ -41,18 +43,28 @@ public class SchedulerJobInfo {
 
 	private Long repeatTime;
 
-	@NotEmpty(message = "URL")
+	@NotEmpty(message = "URL can not be empty or null.")
+	@URL(message = "URL must be valid http:// or https://")
 	private String url;
 
 	@Convert(converter = BooleanStringConverter.class)
 	private Boolean cronJob;
 
-	@Convert(converter = MapStringConverter.class)
-	private HashMap params;
+	private String params;
 	
-	@NotEmpty(message = "Please provide HTTP Method")
+	@Transient
+	private List<String> paramName;
+	
+	@Transient
+	private List<String> paramInput;
+	
+	@NotEmpty(message = "Please choose HTTP Method")
 	private String httpMethod;
 	
+	public SchedulerJobInfo() {
+		this.jobClass = "com.app.quartz.engine.jobs.GenericSchedulerJob";
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -109,11 +121,11 @@ public class SchedulerJobInfo {
 		this.cronJob = cronJob;
 	}
 
-	public HashMap getParams() {
+	public String getParams() {
 		return params;
 	}
 
-	public void setParams(HashMap params) {
+	public void setParams(String params) {
 		this.params = params;
 	}
 
@@ -133,10 +145,29 @@ public class SchedulerJobInfo {
 		this.httpMethod = httpMethod;
 	}
 
+	public List<String> getParamName() {
+		return paramName;
+	}
+
+	public void setParamName(List<String> paramName) {
+		this.paramName = paramName;
+	}
+
+	public List<String> getParamInput() {
+		return paramInput;
+	}
+
+	public void setParamInput(List<String> paramInput) {
+		this.paramInput = paramInput;
+	}
+
 	@Override
 	public String toString() {
 		return "SchedulerJobInfo [id=" + id + ", jobName=" + jobName + ", jobGroup=" + jobGroup + ", jobClass="
 				+ jobClass + ", cronExpression=" + cronExpression + ", repeatTime=" + repeatTime + ", url=" + url
-				+ ", cronJob=" + cronJob + ", params=" + params + ", httpMethod=" + httpMethod + "]";
+				+ ", cronJob=" + cronJob + ", params=" + params + ", paramName=" + paramName + ", paramInput="
+				+ paramInput + ", httpMethod=" + httpMethod + "]";
 	}
+
+	
 }

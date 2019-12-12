@@ -77,7 +77,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	public boolean createScheduleJob(SchedulerJobInfo jobInfo) {
 		try {
 			Scheduler scheduler = schedulerFactoryBean.getScheduler();
-
+			
 			JobDetail jobDetail = JobBuilder
 					.newJob((Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()))
 					.withIdentity(jobInfo.getJobName(), jobInfo.getJobGroup()).build();
@@ -413,20 +413,22 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	@Override
 	public void resumeAllSchedulers() {
 		try {
-			Scheduler scheduler = schedulerFactoryBean.getScheduler();
-
-			for (String groupName : scheduler.getJobGroupNames()) {
-				for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
-
-					String jobName = jobKey.getName();
-					String jobGroup = jobKey.getGroup();
-					String jobState = getJobState(jobName, jobGroup);
-
-					if (jobState.equals("PAUSED")) {
-						schedulerFactoryBean.getScheduler().resumeJob(new JobKey(jobName, jobGroup));
-					}
-				}
-			}
+			// yang ini salah, tidak menghapus data qrtz_paused_trigger_grps
+//			Scheduler scheduler = schedulerFactoryBean.getScheduler();
+//
+//			for (String groupName : scheduler.getJobGroupNames()) {
+//				for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
+//
+//					String jobName = jobKey.getName();
+//					String jobGroup = jobKey.getGroup();
+//					String jobState = getJobState(jobName, jobGroup);
+//
+//					if (jobState.equals("PAUSED")) {
+//						schedulerFactoryBean.getScheduler().resumeJob(new JobKey(jobName, jobGroup));
+//					}
+//				}
+//			}
+			schedulerFactoryBean.getScheduler().resumeAll();
 
 		} catch (SchedulerException e) {
 			logger.debug("SchedulerException while fetching all jobs. error message :" + e.getMessage());
@@ -437,6 +439,11 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	@Override
 	public SchedulerJobInfo getJobInfo(JobKey jobKey) {
 		SchedulerJobInfo schedulerJobInfo = schedulerJobInfoRepository.findByNameAndGroup(jobKey.getName(), jobKey.getGroup()).get(0);
+		if (schedulerJobInfo.getParams() != null && !schedulerJobInfo.getParams().isEmpty() && !schedulerJobInfo.getParams().equals("null")) {
+			Map<String, List<String>> map =  generateParamsToMap(schedulerJobInfo.getParams());
+			schedulerJobInfo.setParamName(map.get("keys"));
+			schedulerJobInfo.setParamInput(map.get("values"));
+		}
 		return schedulerJobInfo;
 	}
 
@@ -460,6 +467,63 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 			e.printStackTrace();
 		}
 		return jobGrouplist;
+	}
+
+	@Override
+	public List<SchedulerJob> searchSchedulerb(String inJobName, String inJobGroup) {
+		List<SchedulerJobInfo> listSchedulerjobInfo = new ArrayList<SchedulerJobInfo>();
+		List<SchedulerJob> listSchedulerjob = new ArrayList<SchedulerJob>();
+		try {
+			Scheduler scheduler = schedulerFactoryBean.getScheduler();
+			listSchedulerjobInfo = schedulerJobInfoRepository.findByNameGroup(inJobName, inJobGroup);
+			
+			for (SchedulerJobInfo sc : listSchedulerjobInfo) {
+					String jobName = sc.getJobName();
+					String jobGroup = sc.getJobGroup();
+					Trigger trigger = scheduler.getTrigger(TriggerKey.triggerKey(jobName));
+					Date scheduleTime = trigger.getStartTime();
+					Date nextFireTime = trigger.getNextFireTime();
+					Date lastFiredTime = trigger.getPreviousFireTime();
+
+					SchedulerJob jobObj = new SchedulerJob();
+					jobObj.setJobName(jobName);
+					jobObj.setGroupName(jobGroup);
+					jobObj.setScheduleTime(scheduleTime);
+					jobObj.setLastFiredTime(lastFiredTime);
+					jobObj.setNextFireTime(nextFireTime);
+					String jobState = "";
+					
+					if(isJobRunning(jobName, jobGroup)){
+						jobState = "RUNNING";
+					}else{
+						jobState = getJobState(jobName, jobGroup);
+					}
+					jobObj.setJobState(jobState);
+
+					listSchedulerjob.add(jobObj);
+			}
+		} catch (SchedulerException e) {
+			logger.debug("SchedulerJobService:searchSchedulerb.");
+			e.printStackTrace();
+		}
+		return listSchedulerjob;
+	}
+	
+	private Map<String, List<String>> generateParamsToMap(String str) {
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		List<String> keys = new ArrayList<String>();
+		List<String> values = new ArrayList<String>();
+		String[] arrOfStr = str.split("\\?");
+		String newString = arrOfStr[1];
+		String[] newString1 = newString.split("\\&");
+		for (String s : newString1) {
+			String[] finalString = s.split("\\=");
+			keys.add(finalString[0]);
+			values.add(finalString[1]);
+		}
+		map.put("keys", keys);
+		map.put("values", values);
+		return map;
 	}
 
 }

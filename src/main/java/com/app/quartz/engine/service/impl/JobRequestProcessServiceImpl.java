@@ -1,5 +1,6 @@
 package com.app.quartz.engine.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.quartz.engine.dto.AjaxRequestModel;
+import com.app.quartz.engine.dto.SchedulerJob;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.service.JobRequestProcessService;
 import com.app.quartz.engine.service.SchedulerJobService;
@@ -50,5 +52,24 @@ public class JobRequestProcessServiceImpl implements JobRequestProcessService {
 				schedulerJobService.startJobNow(sc);
 			}
 		}
+	}
+
+	@Override
+	public List<SchedulerJob> searchScheduler(String jobSearchoption, String jobSearchinput) {
+		List<SchedulerJob> schedulerJoblist = new ArrayList<SchedulerJob>();
+		String name = "";
+		String group = "";
+		if (jobSearchoption.toUpperCase().equals("BOTHJOBNAMEGROUP")) {
+			name = jobSearchinput;
+			group = jobSearchinput;
+		} else if (jobSearchoption.toUpperCase().equals("INJOBNAME")) {
+			name = jobSearchinput;
+		} else if (jobSearchoption.toUpperCase().equals("INJOBGROUP")) {
+			group = jobSearchinput;
+		}
+		
+		schedulerJoblist = schedulerJobService.searchSchedulerb(name, group);
+		
+		return schedulerJoblist;
 	}
 }

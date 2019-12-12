@@ -4,17 +4,25 @@
 <html lang="en">
 <head>
 	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css">
-    	
-    <title>Create Job</title>
+    
+    <title>${title}</title>
 </head>
 <body>
 	<jsp:include page="/static/common/include/menu_bar.jsp" />
 	<div>
         <div class="container">
         	<br />
-        	<h3>Create Job</h3><br />
+        	<h3>${title}</h3><br />
 	        <form:form method="POST" action="${path}/submit" modelAttribute="schedulerJobInfo" autocomplete="off">
-	        	<span style = "color:#ff0000;"><c:if test="${not empty errors}"><b>Error</b>: ${errors}<br /><br /></c:if></span>
+	        	<span style = "color:#ff0000;">
+	        		<c:if test="${not empty errors}"><b>Error</b>: 
+	        			<ul>
+				        	<c:forEach var="itemError" items="${errors}">
+				        		<li>${itemError}</li>
+				        	</c:forEach>
+			        	</ul>
+	        		</c:if>
+	        	</span>
 	        	<div class="form-group row align-items-center">
 		    		<form:label class="col-sm-2 col-form-label" path="jobName">Name</form:label>
 				    <div class="col-sm-8">
@@ -23,36 +31,56 @@
 		  		</div>
 		  		<div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="jobGroup">Group Name</form:label>
-				    <%-- <div class="col-sm-8">
-						<form:input type="text" class="form-control" path="jobGroup" placeholder="" />
-				    </div> --%>
 				    <div class="col-sm-8">
-						<%-- <form:select class="custom-select" path="jobGroup">
-							<form:option value="NONE" label="None"/>
-							<c:forEach items="${jobGrouplist}" var="itemGroup">
-								selected="${not empty jobName ? 'true' : 'false'}"
-					        	<form:option value="${itemGroup}">${itemGroup}</form:option>
-					    	</c:forEach>
-						</form:select> --%>
-						
-						<form:input list="grouplist" type="text" path="jobGroup" class="form-control col-sm-6 custom-select custom-select-sm" placeholder="" />
+						<form:input list="grouplist" type="text" path="jobGroup" class="form-control custom-select" placeholder="" />
 						<datalist id="grouplist">
 	                    	<c:forEach var="itemGroup" items="${jobGrouplist}">
-	                        	<option value="${itemGroup}"/>
+	                        	<option value="${itemGroup}" ${itemGroup == jobGroup ? 'selected="selected"' : ''} />
 	                    	</c:forEach>
                			</datalist>
 					</div>
 		  		</div>
 		  		<div class="form-group row">
-		    		<form:label class="col-sm-2 col-form-label" path="jobClass">Class</form:label>
-				    <div class="col-sm-8">
-						<form:input type="text" class="form-control" path="jobClass" placeholder="" />
-				    </div>
-		  		</div>
-		  		<div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="url">URL</form:label>
 				    <div class="col-sm-8">
 						<form:input type="text" class="form-control" path="url" placeholder="" />
+				    </div>
+		  		</div>
+		  		<div class="form-group row">
+		    		<form:label class="col-sm-2 col-form-label" path="paramName">URL Parameters</form:label>
+		    		<div class="col-sm-8 paramForm">
+						<c:choose>
+							<c:when test="${not empty schedulerJobInfo.paramName}">
+								<c:forEach var="counter" begin="${0}" end="${fn:length(schedulerJobInfo.paramName) - 1}">
+									<div class="form-row paramRow" style="margin-top: 5px;">
+		                        		<div class="col">
+							      			<form:input type="text" class="form-control paramName" path="paramName" value="${schedulerJobInfo.paramName[counter]}" />
+							    		</div>
+							    		<div class="col">
+									    	<form:input type="text" class="form-control paramInput" path="paramInput" value="${schedulerJobInfo.paramInput[counter]}" />
+									    </div>
+									    <div class="col">
+									    	<button type="button" class="btn btn-info deleteParam">Delete</button>
+									     	<button type="button" class="btn btn-info addParam">Add</button>
+									    </div>
+									</div>
+	                    		</c:forEach>
+							</c:when>
+							<c:when test="${empty schedulerJobInfo.paramName}">
+								<div class="form-row paramRow" style="margin-top: 5px;">
+						    		<div class="col">
+						      			<form:input type="text" class="form-control paramName" path="paramName" />
+						    		</div>
+								    <div class="col">
+								    	<form:input type="text" class="form-control paramInput" path="paramInput" />
+								    </div>
+								    <div class="col">
+								    	<button type="button" class="btn btn-info deleteParam">Delete</button>
+								      	<button type="button" class="btn btn-info addParam">Add</button>
+								    </div>
+								</div>
+	  						</c:when>
+	  					</c:choose>
 				    </div>
 		  		</div>
 		  		<div class="form-group row">
@@ -80,13 +108,17 @@
 		  		<div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="httpMethod">Http Method</form:label>
 				    <div class="col-sm-8">
-						<form:input type="text" class="form-control" path="httpMethod" placeholder="" />
-						<form:errors path="httpMethod" />
+						<form:select path="httpMethod" class="custom-select">
+						    <c:forEach var="methodItem" items="${httpMethodlist}">
+						        <form:option value="${methodItem}" selected="${methodItem == httpMethod ? 'selected' : ''}" />
+						    </c:forEach>
+						</form:select>
 				    </div>
 		  		</div>
 		  		<div class="form-group row">
 				    <div class="col-sm-8">
 				    	<button type="submit" class="btn btn-primary">Submit</button>
+				    	<a class="btn btn-primary" href="${path}/joblist" role="button">Cancel</a>
 				    </div>
   				</div>
 	        </form:form>
@@ -109,6 +141,16 @@ $(document).ready(function () {
 			$('#cronExpressionid').val("");
 			$('#repeatTimeid').prop('disabled', false);
 			$('#repeatTimeid').val("");
+		}
+	});
+	
+	$(document).on('click', '.addParam', function(e) {
+		$(this).closest(".paramRow").clone().find("input:text").val("").end().insertAfter($(this).closest(".paramRow"));
+	});
+	
+	$(document).on('click', '.deleteParam', function(e) {
+		if($('.paramRow').length > 1) {
+			$(this).closest(".paramRow").remove();	
 		}
 	});
 });

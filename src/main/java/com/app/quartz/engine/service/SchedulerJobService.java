@@ -27,4 +27,5 @@ public interface SchedulerJobService {
 	public String getJobState(String jobName, String groupKey);
 	public SchedulerJobInfo getJobInfo(JobKey jobKey);
 	public List<String> getGroupList();
+	public List<SchedulerJob> searchSchedulerb(String jobName, String jobGroup);
 }

@@ -4,24 +4,39 @@
 <html lang="en">
 <head>
 	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/css/dataTables.bootstrap4.min.css">
 	
 	<title>Job List</title>
 	<style>
 		.table {
-		   margin: auto;
-		   width: 85% !important; 
-		   overflow-y: auto !important;
+			margin: auto;
+		   	width: 85% !important; 
+		   	overflow-y: auto !important;
 		}
 		.processButtons {
-			text-align: right;
-			width: 90% !important;
+			text-align: left;
+			width: 85% !important;
 			display: table;
+			margin-left: 100px !important;
 		}
-		.processButtonsleft {
-		 	display: table-cell;
-		}
-		.processButtonsright {
+		.processButtonleft {
 			display: table-cell;
+		}
+		.processButtonright {
+			display: table-cell;
+		}
+		.searchScheduler {
+		   	display: table-cell;
+		}
+		.dataTables_info {
+			width: 75%;
+			float: center;
+			text-align: center;
+		}
+		.dataTables_paginate {
+			width: 85%;
+			float: center;
+			text-align: center;
 		}
 	</style>
 </head>
@@ -30,20 +45,33 @@
 	<jsp:include page="/static/common/include/menu_bar.jsp" />
 	<br />
 	<div class="processButtons">
-		<div class="processButtonsleft">
+		<div class="processButtonleft">
+			<a class="btn btn-light refreshButton" href="${path}/joblist" role="button">Refresh Page</a>
 			<button type="button" class="btn btn-primary processButton">Pause All</button>
 			<button type="button" class="btn btn-info processButton">Resume All</button>
 		</div>
-		<div>
+		<div class="searchScheduler">
+			<form class="form-inline" action="${path}/joblist" method="post" autocomplete="off">
+				<div class="dropdown mb-2 mr-sm-2">
+					<select class="custom-select" name="jobSearchoption">
+				    	<option value="bothJobnameGroup" selected>Search By</option>
+				  		<option value="inJobName">Job Name</option>
+				  		<option value="inJobGroup">Job Group</option>
+					</select>
+				</div>
+				<input class="form-control mb-2 mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="jobSearchinput">
+				<button class="btn btn btn-info mb-2 mr-sm-2" type="submit">Search</button>
+			</form>
+		</div>
+		<div class="processButtonright">
 			<button type="button" class="btn btn-warning processButton">Start Now</button>
 			<button type="button" class="btn btn-primary processButton">Pause</button>
 			<button type="button" class="btn btn-info processButton">Resume</button>
-			<button type="button" class="btn btn-danger processButton">Delete</button>
-		</div>
+			<button type="button" class="btn btn-warning processButton">Delete</button>
+		</div>		
 	</div>
 	<br />
 	<div class="table-responsive">
-		<!-- tabel daftar job -->
 		<table class="table" id="jobDatalist">
 			<thead class="thead-light">
 				<tr>
@@ -75,19 +103,31 @@
 	</div>
 </div>
 <script type="text/javascript" src="${path}/static/plugins/js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
-
+<script type="text/javascript" src="${path}/static/plugins/js/popper.min.js"></script>
+<script type="text/javascript" src="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script> 
+<script type="text/javascript" src="${path}/static/plugins/js/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="${path}/static/plugins/js/dataTables.bootstrap4.min.js"></script> 
 <script type="text/javascript">
 $(document).ready(function () {
+	$('#jobDatalist').DataTable({
+		"ordering": false,
+		"lengthChange": false,
+        "searching": false,
+        "autoWidth": false,
+	});
+	
 	$("#parentBox").click(function(){
 		$('input:checkbox').not(this).prop('checked', this.checked);
 	});
+	
+	/* $(".refreshButton").click(function(){
+		$(this).removeClass('btn-danger').addClass('btn-light');
+	}); */
 	
 	$(".processButton").click(function(){
 		var thisProcess = $(this).text(); 
 		var boxes = $('input[name=childboxName]:checked');
 		var jobList = [];
-		console.log(boxes.length);
 		
 		boxes.each(function(){
 			var jobName = $(this).closest("tr").find(".jobName").text();  
@@ -100,24 +140,28 @@ $(document).ready(function () {
 			jobList.push(SchedulerJobInfo);
 		});
 		
-		console.log("job list : " + jobList);
-		
 		var AjaxRequestModel = {
 	   		jobProcess: thisProcess,
 	        jobList: jobList
 	    }
 
 		$.ajax({
-			type: "POST",
-	        url: "${path}/ajax",
-	        dataType: 'json',
-	        contentType: "application/json; charset=utf-8",
-	        data: JSON.stringify(AjaxRequestModel),
+			url: '${path}/ajax',
+			type: 'POST',
+			data: JSON.stringify(AjaxRequestModel),
+	        //dataType: 'json',
+	        contentType: 'application/json',
+	        processData: false,
 	        success: function(responseData, status, xhr) {
-	        	location.reload(true);
+	        	
+	        	if (status == 'success') {
+	        		console.log("success");
+	        		location.reload(true);
+	        	}
 	        },
 	        error: function(request, status, error) {
-	            console.log(request.responseText);
+	            console.log("status: ", status);
+	            console.log("error: ", error);
 	        }
 		});
 	});
