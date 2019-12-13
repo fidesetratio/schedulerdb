@@ -13,7 +13,7 @@
         <div class="container">
         	<br />
         	<h3>${title}</h3><br />
-	        <form:form method="POST" action="${path}/submit" modelAttribute="schedulerJobInfo" autocomplete="off">
+	        <form:form method="POST" action="${path}/job/submit" modelAttribute="schedulerJobInfo" autocomplete="off">
 	        	<span style = "color:#ff0000;">
 	        		<c:if test="${not empty errors}"><b>Error</b>: 
 	        			<ul>
@@ -100,9 +100,9 @@
 				    </div>
 		  		</div>
 		  		<div class="form-group row">
-		    		<form:label class="col-sm-2 col-form-label" path="repeatTime">Repeat Time</form:label>
+		    		<form:label class="col-sm-2 col-form-label" path="repeatInterval">Repeat Time</form:label>
 				    <div class="col-sm-8">
-						<form:input type="text" class="form-control" path="repeatTime" disabled="${schedulerJobInfo.cronJob ? 'true' : 'false'}" placeholder="" id="repeatTimeid" />
+						<form:input type="text" class="form-control" path="repeatInterval" disabled="${schedulerJobInfo.cronJob ? 'true' : 'false'}" placeholder="" id="repeatIntervalid" />
 				    </div>
 		  		</div>
 		  		<div class="form-group row">
@@ -118,7 +118,7 @@
 		  		<div class="form-group row">
 				    <div class="col-sm-8">
 				    	<button type="submit" class="btn btn-primary">Submit</button>
-				    	<a class="btn btn-primary" href="${path}/joblist" role="button">Cancel</a>
+				    	<a class="btn btn-primary" href="${path}/job" role="button">Cancel</a>
 				    </div>
   				</div>
 	        </form:form>
@@ -134,13 +134,13 @@ $(document).ready(function () {
 		if($(this).is(':checked')) {
 			$('#cronExpressionid').prop('disabled', false);
 			$('#cronExpressionid').val("");
-			$('#repeatTimeid').prop('disabled', true);
-			$('#repeatTimeid').val("");
+			$('#repeatIntervalid').prop('disabled', true);
+			$('#repeatIntervalid').val("");
 		} else {
 			$('#cronExpressionid').prop('disabled', true);
 			$('#cronExpressionid').val("");
-			$('#repeatTimeid').prop('disabled', false);
-			$('#repeatTimeid').val("");
+			$('#repeatIntervalid').prop('disabled', false);
+			$('#repeatIntervalid').val("");
 		}
 	});
 	

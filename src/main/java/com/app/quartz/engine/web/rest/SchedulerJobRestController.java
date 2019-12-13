@@ -21,7 +21,7 @@ import com.app.quartz.engine.util.ServerResponseCode;
 
 @RestController
 @RequestMapping("/job")
-public class SchedulerJobController {
+public class SchedulerJobRestController {
 
 	@Autowired
 	private SchedulerJobService schedulerJobService;

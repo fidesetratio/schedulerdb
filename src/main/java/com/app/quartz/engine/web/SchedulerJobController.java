@@ -25,7 +25,8 @@ import com.app.quartz.engine.service.JobRequestProcessService;
 import com.app.quartz.engine.service.SchedulerJobService;
 
 @Controller
-public class SchedulerInfoMvcController {
+@RequestMapping("/job")
+public class SchedulerJobController {
 
 	@Autowired
 	private SchedulerJobService schedulerJobService;
@@ -41,7 +42,7 @@ public class SchedulerInfoMvcController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/joblist", method = { RequestMethod.GET, RequestMethod.POST }, headers = "Accept=application/json")
+	@RequestMapping(method = { RequestMethod.GET, RequestMethod.POST }, headers = "Accept=application/json")
 	public String listJob(HttpServletRequest request, Model model) {
 		List<SchedulerJob> listJob = new ArrayList<SchedulerJob>();
 		if (request.getParameter("jobSearchinput") != null && !request.getParameter("jobSearchinput").isEmpty()) {
@@ -52,7 +53,7 @@ public class SchedulerInfoMvcController {
 			listJob = schedulerJobService.getAllJobs();
 		}
 		model.addAttribute("jobList", listJob);
-		return "job_list";
+		return "job/job_list";
 	}
 	
 	/**
@@ -62,7 +63,7 @@ public class SchedulerInfoMvcController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/createjob", method = RequestMethod.GET, headers = "Accept=application/json")
+	@RequestMapping(value = "/create", method = RequestMethod.GET, headers = "Accept=application/json")
 	public String createJob(@RequestParam("jobName") String jobName, @RequestParam("groupName") String groupName, Model model) {
 		SchedulerJobInfo schedulerJobInfo = new SchedulerJobInfo();
 		model.addAttribute("jobGrouplist", schedulerJobService.getGroupList());
@@ -76,7 +77,7 @@ public class SchedulerInfoMvcController {
 			model.addAttribute("schedulerJobInfo", schedulerJobInfo);
 			model.addAttribute("title", "Create Job");
 		}
-		return "job_detail";
+		return "job/job_detail";
 	}
 	
 	/**
@@ -98,7 +99,7 @@ public class SchedulerInfoMvcController {
 			model.addAttribute("schedulerJobInfo", schedulerJobInfo);
 			model.addAttribute("httpMethodlist", httpMethodlist);
 			model.addAttribute("errors", responseErrorlist);
-			return "job_detail";
+			return "job/job_detail";
 		} else {
 			String params = "";
 			if (schedulerJobInfo.getParamName() != null && !schedulerJobInfo.getParamName().isEmpty()) {
@@ -106,7 +107,7 @@ public class SchedulerInfoMvcController {
 			}
 			schedulerJobInfo.setParams(params);
 			schedulerJobService.createScheduleJob(schedulerJobInfo);
-			return "redirect:/joblist";
+			return "redirect:/job";
 		}
 	}
 	
@@ -117,9 +118,9 @@ public class SchedulerInfoMvcController {
 	 * @return
 	 */
 	@RequestMapping(value = "/ajax", method = RequestMethod.POST)
-	public String ajaxCall(@RequestBody AjaxRequestModel ajaxRequestModel, Model model) {
+	public String ajaxCall(@RequestBody AjaxRequestModel ajaxRequestModel) {
 		jobRequestProcessService.jobRequestProcess(ajaxRequestModel);
-		return "redirect:/joblist";
+		return "redirect:/job";
 	}
 	
 	private String generateURLparams(List<String> str1, List<String> str2) {

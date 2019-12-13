@@ -67,7 +67,7 @@ public class SchedulerInfoServiceImpl implements SchedulerInfoService {
 				map.put("jobClass", jobList.getJobClass());
 				map.put("jobGroup", jobList.getJobGroup());
 				map.put("jobName", jobList.getJobName());
-				map.put("repeatTime", jobList.getRepeatTime());
+				map.put("repeatTime", jobList.getRepeatInterval());
 				map.put("params", jobList.getParams());
 				map.put("url", jobList.getUrl());
 				list.add(map);
@@ -92,7 +92,7 @@ public class SchedulerInfoServiceImpl implements SchedulerInfoService {
 			jobsInfo.setJobGroup(jobInfo.getJobGroup());
 			jobsInfo.setJobName(jobInfo.getJobName());
 			jobsInfo.setParams(jobInfo.getParams());
-			jobsInfo.setRepeatTime(jobInfo.getRepeatTime());
+			jobsInfo.setRepeatInterval(jobInfo.getRepeatInterval());
 			jobsInfo.setUrl(jobInfo.getUrl());
 			schedulerInfoRepository.save(jobsInfo);
 

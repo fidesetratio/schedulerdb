@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class GenericSchedulerJob extends QuartzJobBean {
 
-	private static final Logger logger = LoggerFactory.getLogger(BirthdayGreetingJob.class);
+	private static final Logger logger = LoggerFactory.getLogger(GenericSchedulerJob.class);
 	
 	@Autowired
 	private GenericMethodService genericMethodService;

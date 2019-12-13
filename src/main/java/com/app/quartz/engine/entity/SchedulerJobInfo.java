@@ -1,5 +1,6 @@
 package com.app.quartz.engine.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Convert;
@@ -14,8 +15,6 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
 import com.app.quartz.engine.entity.converter.BooleanStringConverter;
-import com.app.quartz.engine.entity.converter.MapStringConverter;
-
 /**
  * JPA Model for scheduler job info
  * 
@@ -41,7 +40,11 @@ public class SchedulerJobInfo {
 
 	private String cronExpression;
 
-	private Long repeatTime;
+	private Date startTime;
+	
+	private int repeatCount;
+	
+	private Long repeatInterval;
 
 	@NotEmpty(message = "URL can not be empty or null.")
 	@URL(message = "URL must be valid http:// or https://")
@@ -105,12 +108,28 @@ public class SchedulerJobInfo {
 		this.cronExpression = cronExpression;
 	}
 
-	public Long getRepeatTime() {
-		return repeatTime;
+	public Date getStartTime() {
+		return startTime;
 	}
 
-	public void setRepeatTime(Long repeatTime) {
-		this.repeatTime = repeatTime;
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public int getRepeatCount() {
+		return repeatCount;
+	}
+
+	public void setRepeatCount(int repeatCount) {
+		this.repeatCount = repeatCount;
+	}
+
+	public Long getRepeatInterval() {
+		return repeatInterval;
+	}
+
+	public void setRepeatInterval(Long repeatInterval) {
+		this.repeatInterval = repeatInterval;
 	}
 
 	public Boolean getCronJob() {
@@ -164,10 +183,9 @@ public class SchedulerJobInfo {
 	@Override
 	public String toString() {
 		return "SchedulerJobInfo [id=" + id + ", jobName=" + jobName + ", jobGroup=" + jobGroup + ", jobClass="
-				+ jobClass + ", cronExpression=" + cronExpression + ", repeatTime=" + repeatTime + ", url=" + url
-				+ ", cronJob=" + cronJob + ", params=" + params + ", paramName=" + paramName + ", paramInput="
-				+ paramInput + ", httpMethod=" + httpMethod + "]";
+				+ jobClass + ", cronExpression=" + cronExpression + ", startTime=" + startTime + ", repeatCount="
+				+ repeatCount + ", repeatInterval=" + repeatInterval + ", url=" + url + ", cronJob=" + cronJob
+				+ ", params=" + params + ", paramName=" + paramName + ", paramInput=" + paramInput + ", httpMethod="
+				+ httpMethod + "]";
 	}
-
-	
 }

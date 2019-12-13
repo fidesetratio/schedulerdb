@@ -127,12 +127,25 @@ public class JobScheduleCreator {
      * @param misFireInstruction Misfire instruction (what to do in case of misfire happens).
      * @return {@link SimpleTrigger}
      */
-    public SimpleTrigger createSimpleTrigger(String triggerName, Date startTime, Long repeatTime, int misFireInstruction) {
+    public SimpleTrigger createSimpleTrigger(String triggerName, Date startTime, Long repeatInterval, int misFireInstruction) {
         SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
         factoryBean.setName(triggerName);
         factoryBean.setStartTime(startTime);
-        factoryBean.setRepeatInterval(repeatTime);
+        factoryBean.setRepeatInterval(repeatInterval);
         factoryBean.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
+        factoryBean.setMisfireInstruction(misFireInstruction);
+        factoryBean.afterPropertiesSet();
+        return factoryBean.getObject();
+    }
+    
+    
+    public SimpleTrigger createSimpleTrigger(String triggerName, Date startTime,  
+    			Long repeatInterval, int repeatCount, int misFireInstruction) {
+        SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();
+        factoryBean.setName(triggerName);
+        factoryBean.setStartTime(startTime);
+        factoryBean.setRepeatInterval(repeatInterval);
+        factoryBean.setRepeatCount(repeatCount);
         factoryBean.setMisfireInstruction(misFireInstruction);
         factoryBean.afterPropertiesSet();
         return factoryBean.getObject();

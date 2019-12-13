@@ -8,13 +8,22 @@
 	
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
+				<li class="nav-item dropdown">
+		     		<span class="nav-link dropdown-toggle" id="groupDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          		Group
+		        	</span>
+		        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          		<a class="dropdown-item" href="${path}/schedulerdb/group">Group List</a>
+		          		<a class="dropdown-item" href="">Create Group</a>
+		        	</div>
+		      	</li>
 			    <li class="nav-item dropdown">
 		     		<span class="nav-link dropdown-toggle" id="jobDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		          		Job
 		        	</span>
 		        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-		          		<a class="dropdown-item" href="${path}/schedulerdb/joblist">List Job</a>
-		          		<a class="dropdown-item" href="${path}/schedulerdb/createjob?jobName=&groupName=">Create Job</a>
+		          		<a class="dropdown-item" href="${path}/schedulerdb/job">Job List</a>
+		          		<a class="dropdown-item" href="${path}/schedulerdb/job/create?jobName=&groupName=">Create Job</a>
 		        	</div>
 		      	</li>
 			</ul>

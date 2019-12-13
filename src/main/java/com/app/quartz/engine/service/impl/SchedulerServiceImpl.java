@@ -67,7 +67,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 									jobInfo.getCronExpression(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 						} else {
 							trigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), new Date(),
-									jobInfo.getRepeatTime(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
+									jobInfo.getRepeatInterval(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 						}
 
 						scheduler.scheduleJob(jobDetail, trigger);
@@ -104,7 +104,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 							jobInfo.getCronExpression(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 				} else {
 					trigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), new Date(),
-							jobInfo.getRepeatTime(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
+							jobInfo.getRepeatInterval(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 				}
 
 				scheduler.scheduleJob(jobDetail, trigger);
@@ -123,7 +123,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 			newTrigger = scheduleCreator.createCronTrigger(jobInfo.getJobName(), new Date(),
 					jobInfo.getCronExpression(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 		} else {
-			newTrigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), new Date(), jobInfo.getRepeatTime(),
+			newTrigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), new Date(), jobInfo.getRepeatInterval(),
 					SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 		}
 		try {

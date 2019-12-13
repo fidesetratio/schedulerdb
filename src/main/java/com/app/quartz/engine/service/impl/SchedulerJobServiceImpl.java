@@ -94,9 +94,8 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 							jobInfo.getCronExpression(), CronTrigger.MISFIRE_INSTRUCTION_DO_NOTHING);
 
 				} else {
-					trigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), new Date(),
-							jobInfo.getRepeatTime(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
-
+					trigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), jobInfo.getStartTime(),
+							jobInfo.getRepeatInterval(), jobInfo.getRepeatCount(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 				}
 
 				scheduler.scheduleJob(jobDetail, trigger);
@@ -136,7 +135,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 				map.put("jobClass", jobList.getJobClass());
 				map.put("jobGroup", jobList.getJobGroup());
 				map.put("jobName", jobList.getJobName());
-				map.put("repeatTime", jobList.getRepeatTime());
+				map.put("repeatTime", jobList.getRepeatInterval());
 				map.put("params", jobList.getParams());
 				map.put("url", jobList.getUrl());
 				list.add(map);
@@ -158,8 +157,8 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 					jobInfo.getCronExpression(), CronTrigger.MISFIRE_INSTRUCTION_DO_NOTHING);
 
 		} else {
-			newTrigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), new Date(), jobInfo.getRepeatTime(),
-					SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
+			newTrigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), jobInfo.getStartTime(),
+					jobInfo.getRepeatInterval(), jobInfo.getRepeatCount(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 		}
 
 		try {
@@ -172,7 +171,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 			jobsInfo.setJobClass(jobInfo.getJobClass());
 			jobsInfo.setJobGroup(jobInfo.getJobGroup());
 			jobsInfo.setJobName(jobInfo.getJobName());
-			jobsInfo.setRepeatTime(jobInfo.getRepeatTime());
+			jobsInfo.setRepeatInterval(jobInfo.getRepeatInterval());
 			jobsInfo.setParams(jobInfo.getParams());
 			jobsInfo.setUrl(jobInfo.getUrl());
 			schedulerJobInfoRepository.save(jobsInfo);
@@ -391,8 +390,9 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 							trigger = scheduleCreator.createCronTrigger(jobInfo.getJobName(), new Date(),
 									jobInfo.getCronExpression(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
 						} else {
-							trigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), new Date(),
-									jobInfo.getRepeatTime(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
+							trigger = scheduleCreator.createSimpleTrigger(jobInfo.getJobName(), jobInfo.getStartTime(),
+									jobInfo.getRepeatInterval(), jobInfo.getRepeatCount(), SimpleTrigger.MISFIRE_INSTRUCTION_FIRE_NOW);
+							
 						}
 
 						scheduler.scheduleJob(jobDetail, trigger);
@@ -400,7 +400,6 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 					} else {
 						logger.debug("already exist.");
 					}
-
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
 				} catch (SchedulerException e) {
@@ -413,21 +412,6 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	@Override
 	public void resumeAllSchedulers() {
 		try {
-			// yang ini salah, tidak menghapus data qrtz_paused_trigger_grps
-//			Scheduler scheduler = schedulerFactoryBean.getScheduler();
-//
-//			for (String groupName : scheduler.getJobGroupNames()) {
-//				for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
-//
-//					String jobName = jobKey.getName();
-//					String jobGroup = jobKey.getGroup();
-//					String jobState = getJobState(jobName, jobGroup);
-//
-//					if (jobState.equals("PAUSED")) {
-//						schedulerFactoryBean.getScheduler().resumeJob(new JobKey(jobName, jobGroup));
-//					}
-//				}
-//			}
 			schedulerFactoryBean.getScheduler().resumeAll();
 
 		} catch (SchedulerException e) {

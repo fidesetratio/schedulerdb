@@ -46,12 +46,12 @@
 	<br />
 	<div class="processButtons">
 		<div class="processButtonleft">
-			<a class="btn btn-light refreshButton" href="${path}/joblist" role="button">Refresh Page</a>
+			<a class="btn btn-light refreshButton" href="${path}/job" role="button">Refresh Page</a>
 			<button type="button" class="btn btn-primary processButton">Pause All</button>
 			<button type="button" class="btn btn-info processButton">Resume All</button>
 		</div>
 		<div class="searchScheduler">
-			<form class="form-inline" action="${path}/joblist" method="post" autocomplete="off">
+			<form class="form-inline" action="${path}/job" method="post" autocomplete="off">
 				<div class="dropdown mb-2 mr-sm-2">
 					<select class="custom-select" name="jobSearchoption">
 				    	<option value="bothJobnameGroup" selected>Search By</option>
@@ -146,7 +146,7 @@ $(document).ready(function () {
 	    }
 
 		$.ajax({
-			url: '${path}/ajax',
+			url: '${path}/job/ajax',
 			type: 'POST',
 			data: JSON.stringify(AjaxRequestModel),
 	        //dataType: 'json',
