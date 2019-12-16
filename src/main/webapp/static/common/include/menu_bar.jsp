@@ -14,7 +14,6 @@
 		        	</span>
 		        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 		          		<a class="dropdown-item" href="${path}/schedulerdb/group">Group List</a>
-		          		<a class="dropdown-item" href="">Create Group</a>
 		        	</div>
 		      	</li>
 			    <li class="nav-item dropdown">

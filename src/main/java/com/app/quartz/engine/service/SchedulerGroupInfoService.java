@@ -7,6 +7,9 @@ import com.app.quartz.engine.entity.SchedulerGroupInfo;
 public interface SchedulerGroupInfoService {
 
 	public List<SchedulerGroupInfo> getAllGroup();
+	public List<SchedulerGroupInfo> getAllGroupTable();
 	public SchedulerGroupInfo createGroup(SchedulerGroupInfo schedulerGroupInfo);
-	public boolean isExistGroupName(String groupName);
+	public SchedulerGroupInfo getGroupInfoByName(String groupName);
+	public SchedulerGroupInfo getGroupInfoByNameExceptId(String groupName, long groupId);
+	public SchedulerGroupInfo getGroupInfo(long groupId);
 }

@@ -6,6 +6,11 @@
 	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css">
     
     <title>${title}</title>
+    <style>
+    	.idDiv {
+		 	display: none;
+		 }
+    </style>
 </head>
 <body>
 	<jsp:include page="/static/common/include/menu_bar.jsp" />
@@ -23,6 +28,12 @@
 			        	</ul>
 	        		</c:if>
 	        	</span>
+	        	<div class="form-group row align-items-center idDiv" >
+		    		<form:label class="col-sm-2 col-form-label" path="id">ID</form:label>
+				    <div class="col-sm-8">
+						<form:input type="text" class="form-control" path="id" placeholder="" />
+				    </div>
+		  		</div>
 	        	<div class="form-group row align-items-center">
 		    		<form:label class="col-sm-2 col-form-label" path="jobName">Name</form:label>
 				    <div class="col-sm-8">
@@ -31,14 +42,13 @@
 		  		</div>
 		  		<div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="jobGroup">Group Name</form:label>
-				    <div class="col-sm-8">
-						<form:input list="grouplist" type="text" path="jobGroup" class="form-control custom-select" placeholder="" />
-						<datalist id="grouplist">
-	                    	<c:forEach var="itemGroup" items="${jobGrouplist}">
-	                        	<option value="${itemGroup}" ${itemGroup == jobGroup ? 'selected="selected"' : ''} />
-	                    	</c:forEach>
-               			</datalist>
-					</div>
+					<div class="col-sm-8">
+						<form:select path="jobGroup" class="custom-select">
+						    <c:forEach var="itemGroup" items="${jobGrouplist}">
+						        <form:option value="${itemGroup.groupName}" selected="${itemGroup == jobGroup ? 'selected' : ''}" />
+						    </c:forEach>
+						</form:select>
+				    </div>
 		  		</div>
 		  		<div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="url">URL</form:label>
@@ -100,7 +110,7 @@
 				    </div>
 		  		</div>
 		  		<div class="form-group row">
-		    		<form:label class="col-sm-2 col-form-label" path="repeatInterval">Repeat Time</form:label>
+		    		<form:label class="col-sm-2 col-form-label" path="repeatInterval">Repeat Interval</form:label>
 				    <div class="col-sm-8">
 						<form:input type="text" class="form-control" path="repeatInterval" disabled="${schedulerJobInfo.cronJob ? 'true' : 'false'}" placeholder="" id="repeatIntervalid" />
 				    </div>

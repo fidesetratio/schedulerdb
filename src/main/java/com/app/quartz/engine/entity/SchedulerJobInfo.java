@@ -33,7 +33,6 @@ public class SchedulerJobInfo {
 	@NotEmpty(message = "Job name can not be empty or null.")
 	private String jobName;
 
-	@NotEmpty(message = "Job group can not be empty or null.")
 	private String jobGroup;
 
 	private String jobClass;

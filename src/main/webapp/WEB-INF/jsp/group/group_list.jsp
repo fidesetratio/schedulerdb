@@ -34,18 +34,17 @@
 				<tr>
 					<th scope="col"><input type="checkbox" id="parentBox" /></th>
 					<th scope="col">Group Name</th>
-					<th scope="col">Total Scheduled Jobs</th>
-					<th scope="col">Total Paused Jobs</th>
+					<th scope="col">Total Jobs</th>
 					<th scope="col">Action</th>
 				</tr>
 			</thead>
 		<tbody>
 			<c:forEach var="group" items="${groupList}">
 	    		<tr>
-	    			<td><input type="checkbox" name="childboxName" value="${group.groupId}" />&nbsp;</td>
-	    			<td class="groupName" >${group.groupName}</td>
-	    			<td class="description">${group.description}</td>
-	    			<td><a class="btn btn-primary" href="" role="button">Edit</a></td>
+	    			<td><input type="checkbox" class="checkId" name="childboxName" value="${group.groupId}" />&nbsp;</td>
+	    			<td class="groupName">${group.groupName}</td>
+	    			<td>${group.totalJobs}</td>
+	    			<td><button type="button" class="btn btn-primary editButton">Edit</button></td>
 	    		</tr>
 			</c:forEach>
 		</tbody>
@@ -58,12 +57,13 @@
     		<div class="modal-content">
       			<div class="modal-header">
         			<h5 class="modal-title">${title}</h5>
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			        	<span aria-hidden="true">&times;</span>
-			        </button>
+			        </button> -->
       			</div>
 	      		<div class="modal-body">
 	      			<b><label class="col-form-label" id="errorLabel" style="color:#ff0000;"></label></b>
+	      			<input type="hidden" class="form-control" id="groupIdinput" value="">
           			<div class="form-group">         				
 			            <label class="col-form-label">Group Name</label>
 			            <input type="text" class="form-control" id="groupNameinput">
@@ -74,8 +74,8 @@
 		          	</div>
       			</div>
       			<div class="modal-footer">
-        			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        			<button type="button" class="btn btn-primary" id="submitForm">Send message</button>
+        			<button type="button" class="btn btn-secondary closeModal">Close</button>
+        			<button type="button" class="btn btn-primary submitForm">Submit</button>
       			</div>
    			</div>
   		</div>
@@ -89,12 +89,24 @@
 <script type="text/javascript">
 $(document).ready(function () {
 	$("#errorLabel").hide();
-	$("#submitForm").click(function(e){
-		e.preventDefault()
+	
+	$(".closeModal").click(function() {
+		$('#createGroupmodal').modal('hide');
+		
+		$("#groupIdinput").val("");
+		$("#groupNameinput").val("");
+		$("#descriptionInput").val("");
+		$("#errorLabel").hide();
+	});
+
+	$(".submitForm").click(function(e) {
+		e.preventDefault();
+		var groupId = $("#groupIdinput").val();
 		var groupName = $("#groupNameinput").val();
 		var description = $("#descriptionInput").val();
 		
 		var SchedulerGroupInfo = {
+			groupId: groupId,
 			groupName: groupName,
 			description: description
 		}
@@ -123,6 +135,36 @@ $(document).ready(function () {
 		    }
 		});
 	});
+	
+	$(".editButton").click(function(e){
+		var groupId = $(this).closest("tr").find(".checkId").val(); 
+		
+		$.ajax({
+			url: '${path}/group/' + groupId,
+			type: 'GET',
+			contentType: 'application/json',
+		    processData: false,
+		    success: function(responseData, status, xhr) {
+				if (xhr.status == 200) {
+					var groupInfo = $.parseJSON(responseData.data);
+					$("#groupIdinput").val(groupInfo.groupId);
+					$('#groupNameinput').val(groupInfo.groupName);
+					$('#descriptionInput').val(groupInfo.description);
+					
+					$('#createGroupmodal').modal('show');
+				} else {
+					setTimeout(function() {
+				        document.location.reload()
+				  }, 50);
+				}
+		    },
+		    error: function(request, status, error) {
+		    	console.log("status: ", status);
+		        console.log("error: ", error);
+		    }
+		});
+	});
+	
 });
 </script>
 </body>

@@ -26,6 +26,6 @@ public interface SchedulerJobService {
 	public boolean isJobRunning(String jobName, String groupKey);
 	public String getJobState(String jobName, String groupKey);
 	public SchedulerJobInfo getJobInfo(JobKey jobKey);
-	public List<String> getGroupList();
 	public List<SchedulerJob> searchSchedulerb(String jobName, String jobGroup);
+	public int countTotalJobByGroup(String jobGroup);
 }

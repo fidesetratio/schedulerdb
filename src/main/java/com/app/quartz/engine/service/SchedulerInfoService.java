@@ -7,12 +7,11 @@ import com.app.quartz.engine.entity.SchedulerJobInfo;
 
 public interface SchedulerInfoService {
 
-	boolean create(SchedulerJobInfo jobInfo);
-
-	List<Map<String, Object>> read();
-
-	boolean update(SchedulerJobInfo jobInfo);
-
-	boolean delete(SchedulerJobInfo jobInfo);
-
+	public boolean create(SchedulerJobInfo jobInfo);
+	public List<Map<String, Object>> read();
+	public boolean update(SchedulerJobInfo jobInfo);
+	public boolean delete(SchedulerJobInfo jobInfo);
+	public SchedulerJobInfo getInfoByName(String name);
+	public SchedulerJobInfo getInfoByNameExceptId(String name, long id);
+	
 }

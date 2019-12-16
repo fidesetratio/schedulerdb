@@ -64,7 +64,7 @@
 			</form>
 		</div>
 		<div class="processButtonright">
-			<button type="button" class="btn btn-warning processButton">Start Now</button>
+			<!-- <button type="button" class="btn btn-warning processButton">Start Now</button> -->
 			<button type="button" class="btn btn-primary processButton">Pause</button>
 			<button type="button" class="btn btn-info processButton">Resume</button>
 			<button type="button" class="btn btn-warning processButton">Delete</button>
@@ -95,7 +95,7 @@
 	    			<td>${job.lastFiredTime}</td>
 	    			<td>${job.nextFireTime}</td>
 	    			<td class="jobState">${job.jobState}</td>
-	    			<td><a class="btn btn-primary" href="${path}/createjob?jobName=${job.jobName}&groupName=${job.groupName}" role="button">Edit</a></td>
+	    			<td><a class="btn btn-primary" href="${path}/job/create?jobName=${job.jobName}&groupName=${job.groupName}" role="button">Edit</a></td>
 	    		</tr>
 			</c:forEach>
 		</tbody>
@@ -119,10 +119,6 @@ $(document).ready(function () {
 	$("#parentBox").click(function(){
 		$('input:checkbox').not(this).prop('checked', this.checked);
 	});
-	
-	/* $(".refreshButton").click(function(){
-		$(this).removeClass('btn-danger').addClass('btn-light');
-	}); */
 	
 	$(".processButton").click(function(){
 		var thisProcess = $(this).text(); 
@@ -149,7 +145,6 @@ $(document).ready(function () {
 			url: '${path}/job/ajax',
 			type: 'POST',
 			data: JSON.stringify(AjaxRequestModel),
-	        //dataType: 'json',
 	        contentType: 'application/json',
 	        processData: false,
 	        success: function(responseData, status, xhr) {

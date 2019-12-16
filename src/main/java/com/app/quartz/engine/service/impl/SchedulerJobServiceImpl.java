@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -75,6 +76,10 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 */
 	@Override
 	public boolean createScheduleJob(SchedulerJobInfo jobInfo) {
+		String trimName = jobInfo.getJobName().trim();
+		String trimGroupname = jobInfo.getJobGroup().trim();
+		jobInfo.setJobName(trimName);
+		jobInfo.setJobGroup(trimGroupname);
 		try {
 			Scheduler scheduler = schedulerFactoryBean.getScheduler();
 			
@@ -440,19 +445,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 			e.printStackTrace();
 		}
 	}
-
-	@Override
-	public List<String> getGroupList() {
-		List<String> jobGrouplist = new ArrayList<String>();
-		try {
-			jobGrouplist = schedulerFactoryBean.getScheduler().getJobGroupNames();
-		} catch (SchedulerException e) {
-			logger.debug("SchedulerJobService:getGroupList.");
-			e.printStackTrace();
-		}
-		return jobGrouplist;
-	}
-
+	
 	@Override
 	public List<SchedulerJob> searchSchedulerb(String inJobName, String inJobGroup) {
 		List<SchedulerJobInfo> listSchedulerjobInfo = new ArrayList<SchedulerJobInfo>();
@@ -510,4 +503,18 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 		return map;
 	}
 
+	@Override
+	public int countTotalJobByGroup(String jobGroup) {
+		int total = 0;
+		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+
+		try {
+			Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.jobGroupEquals(jobGroup));
+			total = jobKeys.size();
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+		
+		return total;
+	}
 }

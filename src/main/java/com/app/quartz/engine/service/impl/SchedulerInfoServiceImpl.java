@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.repository.SchedulerInfoRepository;
+import com.app.quartz.engine.repository.SchedulerJobInfoRepository;
 import com.app.quartz.engine.service.SchedulerInfoService;
 import com.app.quartz.engine.service.SchedulerJobService;
 
@@ -27,6 +28,9 @@ public class SchedulerInfoServiceImpl implements SchedulerInfoService {
 
 	@Autowired
 	private SchedulerInfoRepository schedulerInfoRepository;
+	
+	@Autowired
+	private SchedulerJobInfoRepository schedulerJobInfoRepository;
 
 	@Autowired
 	private SchedulerJobService schedulerJobService;
@@ -120,6 +124,26 @@ public class SchedulerInfoServiceImpl implements SchedulerInfoService {
 		}
 
 		return false;
+	}
+
+	@Override
+	public SchedulerJobInfo getInfoByName(String name) {
+		SchedulerJobInfo jobInfo = null;
+		List<SchedulerJobInfo> listJobinfo = schedulerJobInfoRepository.findByName(name.trim().toLowerCase());
+		if (listJobinfo != null && listJobinfo.size() > 0) {
+			jobInfo = listJobinfo.get(0);
+		}
+		return jobInfo;
+	}
+
+	@Override
+	public SchedulerJobInfo getInfoByNameExceptId(String name, long id) {
+		SchedulerJobInfo jobInfo = null;
+		List<SchedulerJobInfo> listJobinfo = schedulerJobInfoRepository.findByNameExceptId(name.trim().toLowerCase(), id);
+		if (listJobinfo != null && listJobinfo.size() > 0) {
+			jobInfo = listJobinfo.get(0);
+		}
+		return jobInfo;
 	}
 
 }

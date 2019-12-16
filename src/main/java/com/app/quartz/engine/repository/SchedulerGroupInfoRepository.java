@@ -11,8 +11,12 @@ import com.app.quartz.engine.entity.SchedulerGroupInfo;
 
 @Repository
 public interface SchedulerGroupInfoRepository extends JpaRepository<SchedulerGroupInfo, Long> {
-
-	@Query("FROM SchedulerGroupInfo sg WHERE LOWER(sg.groupName) LIKE %:groupName% ")
-	public List<SchedulerGroupInfo> findByGroupName(@Param("groupName") String groupName);
 	
+	public List<SchedulerGroupInfo> findAllByOrderByGroupNameAsc();
+
+	@Query("FROM SchedulerGroupInfo sg WHERE LOWER(sg.groupName) LIKE :groupName ")
+	public List<SchedulerGroupInfo> findByGroupName(@Param("groupName") String groupName);
+
+	@Query("FROM SchedulerGroupInfo sg WHERE LOWER(sg.groupName) LIKE :groupName and sg.groupId <> :groupId ")
+	public List<SchedulerGroupInfo> findByGroupNameExceptId(@Param("groupName") String groupName, @Param("groupId") long groupId);
 }

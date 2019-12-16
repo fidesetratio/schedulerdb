@@ -22,6 +22,8 @@ import com.app.quartz.engine.dto.AjaxRequestModel;
 import com.app.quartz.engine.dto.SchedulerJob;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.service.JobRequestProcessService;
+import com.app.quartz.engine.service.SchedulerGroupInfoService;
+import com.app.quartz.engine.service.SchedulerInfoService;
 import com.app.quartz.engine.service.SchedulerJobService;
 
 @Controller
@@ -30,6 +32,12 @@ public class SchedulerJobController {
 
 	@Autowired
 	private SchedulerJobService schedulerJobService;
+	
+	@Autowired
+	private SchedulerInfoService schedulerInfoService;
+	
+	@Autowired
+	private SchedulerGroupInfoService schedulerGroupInfoService;
 	
 	@Autowired
 	private JobRequestProcessService jobRequestProcessService;
@@ -66,7 +74,7 @@ public class SchedulerJobController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET, headers = "Accept=application/json")
 	public String createJob(@RequestParam("jobName") String jobName, @RequestParam("groupName") String groupName, Model model) {
 		SchedulerJobInfo schedulerJobInfo = new SchedulerJobInfo();
-		model.addAttribute("jobGrouplist", schedulerJobService.getGroupList());
+		model.addAttribute("jobGrouplist",schedulerGroupInfoService.getAllGroup());
 		model.addAttribute("httpMethodlist", httpMethodlist);
 		if (!jobName.isEmpty() && jobName != null && !groupName.isEmpty() && groupName != null) {
 			JobKey jobKey = new JobKey(jobName, groupName);
@@ -95,7 +103,20 @@ public class SchedulerJobController {
 		for (ObjectError oe : objectErrorlist) {
 			responseErrorlist.add(oe.getDefaultMessage());
 		}
-		if (bindingResult.hasErrors()) {
+	
+		// cek apakah job name sudah digunakan oleh job yang lain
+		SchedulerJobInfo existingJob = null;
+		if (schedulerJobInfo.getId() != null) {
+			existingJob = schedulerInfoService.getInfoByNameExceptId(schedulerJobInfo.getJobName(), schedulerJobInfo.getId());
+		} else {
+			existingJob = schedulerInfoService.getInfoByName(schedulerJobInfo.getJobName());
+		}
+		
+		if (existingJob != null) {
+			responseErrorlist.add("Job name is already used.");
+		}
+		
+		if (responseErrorlist != null && responseErrorlist.size() > 0) {
 			model.addAttribute("schedulerJobInfo", schedulerJobInfo);
 			model.addAttribute("httpMethodlist", httpMethodlist);
 			model.addAttribute("errors", responseErrorlist);
