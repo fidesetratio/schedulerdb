@@ -15,22 +15,26 @@ public class NotificationsHistory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long nhId;
+	private long nhNcId;
+	private String nhSender;
+	private String nhReceiver;
+	private String nhSubject ;
+	private String nhContent;
+	private boolean nhStatus;
+	private Date nhSendDate;
+	private String nhProccess;
 	
-	private String platform;
-	
-	private String sender;
-	
-	private String receiver;
-	
-	private String subject ;
-	
-	private String content;
-	
-	private boolean status;
-	
-	private Date sendDate;
-	
-	private String proccess;
+	// constructor email sent
+	public NotificationsHistory(NotificationsConfiguration nConfig, String subject, String content) {
+		this.nhNcId = nConfig.getNcId();
+		this.nhSender = nConfig.getNcSender();
+		this.nhReceiver = nConfig.getNcReceiver();
+		this.nhSubject = subject;
+		this.nhContent = content;
+		this.nhStatus = true;
+		this.nhSendDate = new Date();
+		this.nhProccess = nConfig.getNcProccess();
+	}
 
 	public long getNhId() {
 		return nhId;
@@ -40,74 +44,75 @@ public class NotificationsHistory {
 		this.nhId = nhId;
 	}
 
-	public String getPlatform() {
-		return platform;
+	public long getNhNcId() {
+		return nhNcId;
 	}
 
-	public void setPlatform(String platform) {
-		this.platform = platform;
+	public void setNhNcId(long nhNcId) {
+		this.nhNcId = nhNcId;
 	}
 
-	public String getSender() {
-		return sender;
+	public String getNhSender() {
+		return nhSender;
 	}
 
-	public void setSender(String sender) {
-		this.sender = sender;
+	public void setNhSender(String nhSender) {
+		this.nhSender = nhSender;
 	}
 
-	public String getReceiver() {
-		return receiver;
+	public String getNhReceiver() {
+		return nhReceiver;
 	}
 
-	public void setReceiver(String receiver) {
-		this.receiver = receiver;
+	public void setNhReceiver(String nhReceiver) {
+		this.nhReceiver = nhReceiver;
 	}
 
-	public String getSubject() {
-		return subject;
+	public String getNhSubject() {
+		return nhSubject;
 	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setNhSubject(String nhSubject) {
+		this.nhSubject = nhSubject;
 	}
 
-	public String getContent() {
-		return content;
+	public String getNhContent() {
+		return nhContent;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setNhContent(String nhContent) {
+		this.nhContent = nhContent;
 	}
 
-	public boolean isStatus() {
-		return status;
+	public boolean isNhStatus() {
+		return nhStatus;
 	}
 
-	public void setStatus(boolean status) {
-		this.status = status;
+	public void setNhStatus(boolean nhStatus) {
+		this.nhStatus = nhStatus;
 	}
 
-	public Date getSendDate() {
-		return sendDate;
+	public Date getNhSendDate() {
+		return nhSendDate;
 	}
 
-	public void setSendDate(Date sendDate) {
-		this.sendDate = sendDate;
+	public void setNhSendDate(Date nhSendDate) {
+		this.nhSendDate = nhSendDate;
 	}
 
-	public String getProccess() {
-		return proccess;
+	public String getNhProccess() {
+		return nhProccess;
 	}
 
-	public void setProccess(String proccess) {
-		this.proccess = proccess;
+	public void setNhProccess(String nhProccess) {
+		this.nhProccess = nhProccess;
 	}
 
 	@Override
 	public String toString() {
-		return "NotificationsHistory [nhId=" + nhId + ", platform=" + platform + ", sender=" + sender + ", receiver="
-				+ receiver + ", subject=" + subject + ", content=" + content + ", status=" + status + ", sendDate="
-				+ sendDate + ", proccess=" + proccess + "]";
+		return "NotificationsHistory [nhId=" + nhId + ", nhNcId=" + nhNcId + ", nhSender=" + nhSender + ", nhReceiver="
+				+ nhReceiver + ", nhSubject=" + nhSubject + ", nhContent=" + nhContent + ", nhStatus=" + nhStatus
+				+ ", nhSendDate=" + nhSendDate + ", nhProccess=" + nhProccess + "]";
 	}
+	
 }

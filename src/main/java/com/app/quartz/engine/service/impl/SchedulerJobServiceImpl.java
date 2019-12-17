@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ import com.app.quartz.engine.dto.SchedulerJob;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.repository.SchedulerJobInfoRepository;
 import com.app.quartz.engine.service.SchedulerJobService;
+import com.app.quartz.engine.util.SendEmailSMTPUtil;
 
 @Slf4j
 @Transactional
@@ -58,6 +60,9 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 
 	@Autowired
 	private SchedulerJobService schedulerJobService;
+	
+	@Autowired
+	private SendEmailSMTPUtil sendMailutil;
 
 	@Override
 	public List<SchedulerJobInfo> schedulerJobList() {
@@ -206,7 +211,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 			}
 			ret = schedulerFactoryBean.getScheduler().deleteJobs(jobKeys);
 			schedulerJobInfoRepository.deleteAll(listSchedulerJobInfo);
-			
+			sendMailutil.sendMail(1, "DELETE ", null);
 			return ret;
 		} catch (SchedulerException e) {
 
@@ -218,6 +223,8 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	public boolean pauseScheduleJob(SchedulerJobInfo schedulerJobInfo) {
 		try {
 			schedulerFactoryBean.getScheduler().pauseJob(new JobKey(schedulerJobInfo.getJobName(), schedulerJobInfo.getJobGroup()));
+			sendMailutil.sendMail(1, "PAUSE", schedulerJobInfo);
+			System.out.println("Scheduler paused");
 			return true;
 		} catch (SchedulerException e) {
 			return false;
@@ -231,6 +238,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	public boolean resumeScheduleJob(SchedulerJobInfo schedulerJobInfo) {
 		try {
 			schedulerFactoryBean.getScheduler().resumeJob(new JobKey(schedulerJobInfo.getJobName(), schedulerJobInfo.getJobGroup()));
+			sendMailutil.sendMail(1, "RESUME", schedulerJobInfo);
 			return true;
 		} catch (SchedulerException e) {
 			return false;
@@ -244,6 +252,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	public boolean startJobNow(SchedulerJobInfo jobInfo) {
 		try {
 			schedulerFactoryBean.getScheduler().triggerJob(new JobKey(jobInfo.getJobName(), jobInfo.getJobGroup()));
+			sendMailutil.sendMail(1, "START NOW JOB ", jobInfo);
 			return true;
 		} catch (SchedulerException e) {
 			return false;
@@ -418,7 +427,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	public void resumeAllSchedulers() {
 		try {
 			schedulerFactoryBean.getScheduler().resumeAll();
-
+			sendMailutil.sendMail(1, "RESUME ALL JOB", null);
 		} catch (SchedulerException e) {
 			logger.debug("SchedulerException while fetching all jobs. error message :" + e.getMessage());
 			e.printStackTrace();
@@ -440,6 +449,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	public void pauseAllSchedulers() {
 		try {
 			schedulerFactoryBean.getScheduler().pauseAll();
+			sendMailutil.sendMail(1, "PAUSE ALL JOBS", null);
 		} catch (SchedulerException e) {
 			logger.debug("SchedulerJobService:pauseAllSchedulers.");
 			e.printStackTrace();

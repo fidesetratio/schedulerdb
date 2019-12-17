@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.app.quartz.engine.service.GenericMethodService;
 import com.app.quartz.engine.util.RestClient;
+import com.app.quartz.engine.util.SendEmailSMTPUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
