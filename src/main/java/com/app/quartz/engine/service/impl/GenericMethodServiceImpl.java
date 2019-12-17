@@ -1,8 +1,6 @@
 package com.app.quartz.engine.service.impl;
 
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -15,6 +13,9 @@ import org.springframework.stereotype.Service;
 import com.app.quartz.engine.service.GenericMethodService;
 import com.app.quartz.engine.util.RestClient;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class GenericMethodServiceImpl implements GenericMethodService {
 

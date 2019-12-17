@@ -37,15 +37,15 @@
 	        	<div class="form-group row align-items-center">
 		    		<form:label class="col-sm-2 col-form-label" path="jobName">Name</form:label>
 				    <div class="col-sm-8">
-						<form:input type="text" class="form-control" path="jobName" placeholder="" />
+						<form:input type="text" class="form-control" path="jobName" disabled="${(not empty schedulerJobInfo.jobName) ? 'true' : 'false'}" placeholder="" />
 				    </div>
 		  		</div>
 		  		<div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="jobGroup">Group Name</form:label>
 					<div class="col-sm-8">
-						<form:select path="jobGroup" class="custom-select">
+						<form:select path="jobGroup" class="custom-select" disabled="${(not empty schedulerJobInfo.jobGroup) ? 'true' : 'false'}">
 						    <c:forEach var="itemGroup" items="${jobGrouplist}">
-						        <form:option value="${itemGroup.groupName}" selected="${itemGroup == jobGroup ? 'selected' : ''}" />
+						        <form:option value="${itemGroup.groupName}" selected="${itemGroup == schedulerJobInfo.jobGroup ? 'selected' : ''}" />
 						    </c:forEach>
 						</form:select>
 				    </div>
@@ -120,7 +120,7 @@
 				    <div class="col-sm-8">
 						<form:select path="httpMethod" class="custom-select">
 						    <c:forEach var="methodItem" items="${httpMethodlist}">
-						        <form:option value="${methodItem}" selected="${methodItem == httpMethod ? 'selected' : ''}" />
+						        <form:option value="${methodItem}" selected="${methodItem == schedulerJobInfo.httpMethod ? 'selected' : ''}" />
 						    </c:forEach>
 						</form:select>
 				    </div>
@@ -140,6 +140,7 @@
 <script type="text/javascript" src="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script> 
 <script type="text/javascript">
 $(document).ready(function () {
+	console.log("jobName: ${schedulerJobInfo.jobName}");
 	$("#cronJobid").click(function(){
 		if($(this).is(':checked')) {
 			$('#cronExpressionid').prop('disabled', false);

@@ -152,6 +152,7 @@ $(document).ready(function () {
 					$('#descriptionInput').val(groupInfo.description);
 					
 					$('#createGroupmodal').modal('show');
+					$('#groupNameinput').prop('disabled', true);
 				} else {
 					setTimeout(function() {
 				        document.location.reload()
