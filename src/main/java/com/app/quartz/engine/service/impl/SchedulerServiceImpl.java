@@ -26,6 +26,11 @@ import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.repository.SchedulerRepository;
 import com.app.quartz.engine.service.SchedulerService;
 
+/**
+ * 
+ * not used
+ *
+ */
 @Slf4j
 @Transactional
 @Service
@@ -60,7 +65,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 						Trigger trigger;
 						jobDetail = scheduleCreator.createJob(
 								(Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()), false, context,
-								jobInfo.getJobName(), jobInfo.getJobGroup(), jobInfo.getParams(), jobInfo.getUrl(), jobInfo.getHttpMethod());
+								jobInfo.getJobName(), jobInfo.getJobGroup(), jobInfo.getParams(), jobInfo.getUrl(), jobInfo.getHttpMethod(), jobInfo.getRequestBody());
 
 						if (jobInfo.getCronJob() && CronExpression.isValidExpression(jobInfo.getCronExpression())) {
 							trigger = scheduleCreator.createCronTrigger(jobInfo.getJobName(), new Date(),
@@ -95,7 +100,7 @@ public class SchedulerServiceImpl implements SchedulerService {
 
 				jobDetail = scheduleCreator.createJob(
 						(Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()), false, context,
-						jobInfo.getJobName(), jobInfo.getJobGroup(), jobInfo.getParams(), jobInfo.getUrl(), jobInfo.getHttpMethod());
+						jobInfo.getJobName(), jobInfo.getJobGroup(), jobInfo.getParams(), jobInfo.getUrl(), jobInfo.getHttpMethod(), jobInfo.getRequestBody());
 
 				Trigger trigger;
 

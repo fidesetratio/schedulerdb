@@ -40,6 +40,7 @@ public class SendEmailSMTPUtil {
 	public void sendMail(int platform, String process, SchedulerJobInfo schedulerJobInfo) {
 		this.process = process;
 		this.schedulerJobInfo = schedulerJobInfo;
+		
 		// ambil data konfigurasi dari tabel notification configuration
 		NotificationsConfiguration nc = ncService.getConfigByPlatform(platform);
 		
@@ -91,8 +92,10 @@ public class SendEmailSMTPUtil {
 	
 	private String replaceFieldInSubjectAndContent(String str) {
 		str = str.replace("{Process}", this.process);
-		str = str.replace("{JobName}", this.schedulerJobInfo.getJobName());
-		str = str.replace("{GroupName}", this.schedulerJobInfo.getJobGroup());
+		if (this.schedulerJobInfo != null) {
+			str = str.replace("{JobName}", this.schedulerJobInfo.getJobName());
+			str = str.replace("{GroupName}", this.schedulerJobInfo.getJobGroup());
+		}
 		return str;
 	}
 	

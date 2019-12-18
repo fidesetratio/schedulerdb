@@ -14,6 +14,10 @@ import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.service.SchedulerInfoService;
 import com.app.quartz.engine.util.ServerResponseCode;
 
+/**
+ * not used
+ *
+ */
 @RestController
 @RequestMapping("/info")
 public class SchedulerInfoController {

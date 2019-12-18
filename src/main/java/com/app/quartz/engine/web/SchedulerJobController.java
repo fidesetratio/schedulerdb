@@ -112,7 +112,7 @@ public class SchedulerJobController {
 			existingJob = schedulerInfoService.getInfoByName(schedulerJobInfo.getJobName());
 		}
 		
-		if (existingJob != null) {
+		if (existingJob.getId() != null) {
 			responseErrorlist.add("Job name is already used.");
 		}
 		

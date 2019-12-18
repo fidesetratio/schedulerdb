@@ -63,6 +63,8 @@ public class SchedulerJobInfo {
 	@NotEmpty(message = "Please choose HTTP Method")
 	private String httpMethod;
 	
+	private String requestBody;
+	
 	public SchedulerJobInfo() {
 		this.jobClass = "com.app.quartz.engine.jobs.GenericSchedulerJob";
 	}
@@ -179,12 +181,20 @@ public class SchedulerJobInfo {
 		this.paramInput = paramInput;
 	}
 
+	public String getRequestBody() {
+		return requestBody;
+	}
+
+	public void setRequestBody(String requestBody) {
+		this.requestBody = requestBody;
+	}
+
 	@Override
 	public String toString() {
 		return "SchedulerJobInfo [id=" + id + ", jobName=" + jobName + ", jobGroup=" + jobGroup + ", jobClass="
 				+ jobClass + ", cronExpression=" + cronExpression + ", startTime=" + startTime + ", repeatCount="
 				+ repeatCount + ", repeatInterval=" + repeatInterval + ", url=" + url + ", cronJob=" + cronJob
 				+ ", params=" + params + ", paramName=" + paramName + ", paramInput=" + paramInput + ", httpMethod="
-				+ httpMethod + "]";
+				+ httpMethod + ", requestBody=" + requestBody + "]";
 	}
 }

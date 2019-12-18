@@ -20,7 +20,7 @@ public class RestClient {
 
 	private static final Logger logger = LoggerFactory.getLogger(RestClient.class);
 
-	public String restClientOutput(String url, HttpMethod method, Object objectRequest) throws URISyntaxException {
+	public ResponseEntity<String> restClientOutput(String url, HttpMethod method, Object objectRequest) throws URISyntaxException {
 		ResponseEntity<String> result = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
@@ -29,7 +29,7 @@ public class RestClient {
 			headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			
-			// testing object
+			// contoh object ke json
 //			JSONObject json = new JSONObject();
 //			json.put("id", 1);
 //			json.put("title", "foo");
@@ -38,15 +38,13 @@ public class RestClient {
 
 			HttpEntity<Object> requestEntity = new HttpEntity<>(objectRequest, headers);
 			
-			result = restTemplate.exchange(uri, method, requestEntity, String.class);			
+			result = restTemplate.exchange(uri, method, requestEntity, String.class);	
 			
 		} catch (HttpClientErrorException e) {
+			result = new ResponseEntity<String>(e.getStatusCode());
 			e.printStackTrace();
 			logger.debug("RestClient. Http client error exception");
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.debug("RestClient. Exception");
 		}
-		return result.getBody();
+		return result;
 	}
 }

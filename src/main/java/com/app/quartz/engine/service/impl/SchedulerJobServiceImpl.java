@@ -26,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
@@ -95,7 +94,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 			if (!scheduler.checkExists(jobDetail.getKey())) {
 				jobDetail = scheduleCreator.createJob(
 						(Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()), false, context,
-						jobInfo.getJobName(), jobInfo.getJobGroup(), jobInfo.getParams(), jobInfo.getUrl(), jobInfo.getHttpMethod());
+						jobInfo.getJobName(), jobInfo.getJobGroup(), jobInfo.getParams(), jobInfo.getUrl(), jobInfo.getHttpMethod(), jobInfo.getRequestBody());
 
 				Trigger trigger;
 
@@ -223,7 +222,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	public boolean pauseScheduleJob(SchedulerJobInfo schedulerJobInfo) {
 		try {
 			schedulerFactoryBean.getScheduler().pauseJob(new JobKey(schedulerJobInfo.getJobName(), schedulerJobInfo.getJobGroup()));
-			sendMailutil.sendMail(1, "PAUSE", schedulerJobInfo);
+			sendMailutil.sendMail(1, "PAUSE ", schedulerJobInfo);
 			System.out.println("Scheduler paused");
 			return true;
 		} catch (SchedulerException e) {
@@ -238,7 +237,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	public boolean resumeScheduleJob(SchedulerJobInfo schedulerJobInfo) {
 		try {
 			schedulerFactoryBean.getScheduler().resumeJob(new JobKey(schedulerJobInfo.getJobName(), schedulerJobInfo.getJobGroup()));
-			sendMailutil.sendMail(1, "RESUME", schedulerJobInfo);
+			sendMailutil.sendMail(1, "RESUME ", schedulerJobInfo);
 			return true;
 		} catch (SchedulerException e) {
 			return false;
@@ -398,7 +397,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 						Trigger trigger;
 						jobDetail = scheduleCreator.createJob(
 								(Class<? extends QuartzJobBean>) Class.forName(jobInfo.getJobClass()), false, context,
-								jobInfo.getJobName(), jobInfo.getJobGroup(), jobInfo.getParams(), jobInfo.getUrl(), jobInfo.getHttpMethod());
+								jobInfo.getJobName(), jobInfo.getJobGroup(), jobInfo.getParams(), jobInfo.getUrl(), jobInfo.getHttpMethod(), jobInfo.getRequestBody());
 
 						if (jobInfo.getCronJob() && CronExpression.isValidExpression(jobInfo.getCronExpression())) {
 							trigger = scheduleCreator.createCronTrigger(jobInfo.getJobName(), new Date(),
@@ -427,7 +426,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	public void resumeAllSchedulers() {
 		try {
 			schedulerFactoryBean.getScheduler().resumeAll();
-			sendMailutil.sendMail(1, "RESUME ALL JOB", null);
+			sendMailutil.sendMail(1, "RESUME ALL JOB ", null);
 		} catch (SchedulerException e) {
 			logger.debug("SchedulerException while fetching all jobs. error message :" + e.getMessage());
 			e.printStackTrace();
@@ -449,7 +448,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	public void pauseAllSchedulers() {
 		try {
 			schedulerFactoryBean.getScheduler().pauseAll();
-			sendMailutil.sendMail(1, "PAUSE ALL JOBS", null);
+			sendMailutil.sendMail(1, "PAUSE ALL JOB ", null);
 		} catch (SchedulerException e) {
 			logger.debug("SchedulerJobService:pauseAllSchedulers.");
 			e.printStackTrace();

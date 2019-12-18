@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.service.SchedulerService;
 
+/**
+ * not used
+ *
+ */
 @RestController
 @RequestMapping("/scheduler")
 public class RestScheduler {

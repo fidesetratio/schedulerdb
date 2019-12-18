@@ -75,13 +75,15 @@ public class JobScheduleCreator {
 }
     
     
-    public JobDetail createJob(Class<? extends QuartzJobBean> jobClass, boolean isDurable,ApplicationContext context, String jobName, String jobGroup, String params,String restUrl,String httpMethod) {
+    public JobDetail createJob(Class<? extends QuartzJobBean> jobClass, boolean isDurable, ApplicationContext context, 
+    		String jobName, String jobGroup, String params, String restUrl, String httpMethod, String requestBody) {
 		JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
 		factoryBean.setJobClass(jobClass);
 		factoryBean.setDurability(isDurable);
 		factoryBean.setApplicationContext(context);
 		factoryBean.setName(jobName);
 		factoryBean.setGroup(jobGroup);
+		
 		// set job data map
 		JobDataMap jobDataMap = new JobDataMap();
 		jobDataMap.put(jobName + jobGroup, jobClass.getName());
@@ -91,6 +93,8 @@ public class JobScheduleCreator {
 			jobDataMap.put("url", restUrl);
 		if(httpMethod != null)
 			jobDataMap.put("httpMethod", httpMethod);
+		if(requestBody != null)
+			jobDataMap.put("requestBody", requestBody);
 		factoryBean.setJobDataMap(jobDataMap);
 		factoryBean.afterPropertiesSet();
 		return factoryBean.getObject();

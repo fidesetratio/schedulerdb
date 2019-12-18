@@ -22,7 +22,6 @@ public class NotificationsHistory {
 	private String nhContent;
 	private boolean nhStatus;
 	private Date nhSendDate;
-	private String nhProccess;
 	
 	// constructor email sent
 	public NotificationsHistory(NotificationsConfiguration nConfig, String subject, String content) {
@@ -33,7 +32,6 @@ public class NotificationsHistory {
 		this.nhContent = content;
 		this.nhStatus = true;
 		this.nhSendDate = new Date();
-		this.nhProccess = nConfig.getNcProccess();
 	}
 
 	public long getNhId() {
@@ -100,19 +98,10 @@ public class NotificationsHistory {
 		this.nhSendDate = nhSendDate;
 	}
 
-	public String getNhProccess() {
-		return nhProccess;
-	}
-
-	public void setNhProccess(String nhProccess) {
-		this.nhProccess = nhProccess;
-	}
-
 	@Override
 	public String toString() {
 		return "NotificationsHistory [nhId=" + nhId + ", nhNcId=" + nhNcId + ", nhSender=" + nhSender + ", nhReceiver="
 				+ nhReceiver + ", nhSubject=" + nhSubject + ", nhContent=" + nhContent + ", nhStatus=" + nhStatus
-				+ ", nhSendDate=" + nhSendDate + ", nhProccess=" + nhProccess + "]";
+				+ ", nhSendDate=" + nhSendDate + "]";
 	}
-	
 }

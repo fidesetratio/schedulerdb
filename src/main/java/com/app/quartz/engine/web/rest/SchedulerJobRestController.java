@@ -19,6 +19,10 @@ import com.app.quartz.engine.service.SchedulerJobService;
 import com.app.quartz.engine.util.ResultResponse;
 import com.app.quartz.engine.util.ServerResponseCode;
 
+/**
+ * not used
+ *
+ */
 @RestController
 @RequestMapping("/job")
 public class SchedulerJobRestController {

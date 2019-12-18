@@ -2,7 +2,7 @@ package com.app.quartz.engine.jobs;
 
 import java.util.Date;
 
-import org.quartz.JobDataMap;
+import org.quartz.DisallowConcurrentExecution;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.JobKey;
@@ -16,6 +16,7 @@ import com.app.quartz.engine.service.GenericMethodService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@DisallowConcurrentExecution
 public class GenericSchedulerJob extends QuartzJobBean {
 
 	private static final Logger logger = LoggerFactory.getLogger(GenericSchedulerJob.class);

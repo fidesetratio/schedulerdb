@@ -128,7 +128,7 @@ public class SchedulerInfoServiceImpl implements SchedulerInfoService {
 
 	@Override
 	public SchedulerJobInfo getInfoByName(String name) {
-		SchedulerJobInfo jobInfo = null;
+		SchedulerJobInfo jobInfo = new SchedulerJobInfo();
 		List<SchedulerJobInfo> listJobinfo = schedulerJobInfoRepository.findByName(name.trim().toLowerCase());
 		if (listJobinfo != null && listJobinfo.size() > 0) {
 			jobInfo = listJobinfo.get(0);
@@ -138,7 +138,7 @@ public class SchedulerInfoServiceImpl implements SchedulerInfoService {
 
 	@Override
 	public SchedulerJobInfo getInfoByNameExceptId(String name, long id) {
-		SchedulerJobInfo jobInfo = null;
+		SchedulerJobInfo jobInfo = new SchedulerJobInfo();
 		List<SchedulerJobInfo> listJobinfo = schedulerJobInfoRepository.findByNameExceptId(name.trim().toLowerCase(), id);
 		if (listJobinfo != null && listJobinfo.size() > 0) {
 			jobInfo = listJobinfo.get(0);

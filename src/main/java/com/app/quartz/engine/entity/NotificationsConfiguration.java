@@ -23,7 +23,6 @@ public class NotificationsConfiguration {
 	private String ncReceiver;
 	private String ncSubject;
 	private String ncContent;
-	private String ncProccess;
 	
 	public long getNcId() {
 		return ncId;
@@ -91,18 +90,13 @@ public class NotificationsConfiguration {
 	public void setNcContent(String ncContent) {
 		this.ncContent = ncContent;
 	}
-	public String getNcProccess() {
-		return ncProccess;
-	}
-	public void setNcProccess(String ncProccess) {
-		this.ncProccess = ncProccess;
-	}
 	
 	@Override
 	public String toString() {
 		return "NotificationsConfiguration [ncId=" + ncId + ", ncPlatform=" + ncPlatform + ", ncHost=" + ncHost
 				+ ", ncPort=" + ncPort + ", ncUsername=" + ncUsername + ", ncPassword=" + ncPassword + ", ncAuth="
 				+ ncAuth + ", ncSender=" + ncSender + ", ncReceiver=" + ncReceiver + ", ncSubject=" + ncSubject
-				+ ", ncContent=" + ncContent + ", ncProccess=" + ncProccess + "]";
+				+ ", ncContent=" + ncContent + "]";
 	}
+
 }
