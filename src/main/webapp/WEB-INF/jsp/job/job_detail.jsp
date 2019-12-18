@@ -4,6 +4,9 @@
 <html lang="en">
 <head>
 	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/bootstrap/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="${path}/static/plugins/css/tempusdominus-bootstrap-4.min.css">
     
     <title>${title}</title>
     <style>
@@ -12,6 +15,12 @@
 		 }
     </style>
 </head>
+<script type="text/javascript" src="${path}/static/plugins/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="${path}/static/plugins/js/popper.min.js"></script>
+<script type="text/javascript" src="${path}/static/plugins/js/moment.min.js"></script>
+<script type="text/javascript" src="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script> 
+<script type="text/javascript" src="${path}/static/plugins/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="${path}/static/plugins/js/tempusdominus-bootstrap-4.min.js"></script>
 <body>
 	<jsp:include page="/static/common/include/menu_bar.jsp" />
 	<div>
@@ -37,13 +46,13 @@
 	        	<div class="form-group row align-items-center">
 		    		<form:label class="col-sm-2 col-form-label" path="jobName">Name</form:label>
 				    <div class="col-sm-8">
-						<form:input type="text" class="form-control" path="jobName" disabled="${(not empty schedulerJobInfo.jobName) ? 'true' : 'false'}" placeholder="" />
+						<form:input type="text" class="form-control" path="jobName" disabled="${(not empty schedulerJobInfo.jobName) && (submitFailed == false) ? 'true' : 'false'}" placeholder="" />
 				    </div>
 		  		</div>
 		  		<div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="jobGroup">Group Name</form:label>
 					<div class="col-sm-8">
-						<form:select path="jobGroup" class="custom-select" disabled="${(not empty schedulerJobInfo.jobGroup) ? 'true' : 'false'}">
+						<form:select path="jobGroup" class="custom-select" disabled="${(not empty schedulerJobInfo.jobGroup) && (submitFailed == false) ? 'true' : 'false'}">
 						    <c:forEach var="itemGroup" items="${jobGrouplist}">
 						        <form:option value="${itemGroup.groupName}" selected="${itemGroup == schedulerJobInfo.jobGroup ? 'selected' : ''}" />
 						    </c:forEach>
@@ -93,7 +102,7 @@
 	  					</c:choose>
 				    </div>
 		  		</div>
-		  		<div class="form-group row">
+		  		<%-- <div class="form-group row">
     				<div class="col-sm-2">
 						<form:label class="col-form-label" path="cronJob">Cron Job</form:label>
 					</div>
@@ -102,19 +111,37 @@
 				        	<form:checkbox class="form-check-input" path="cronJob" value="true" id="cronJobid" />
       					</div>
     				</div>
-  				</div>
+  				</div> --%>
+  				<!--  yang ini benar -->
+  				<%-- <div class="form-group row">
+  					<form:label class="col-sm-2 col-form-label" path="dateForcron">Schedule Time</form:label>
+				    <div class="col-sm-8">
+						<div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                    		<form:input type="text" class="form-control datetimepicker-input" path="dateForcron" data-target="#datetimepicker3" />
+                    		<div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                        		<div class="input-group-text"><i class="fa fa-clock-o"></i></div>
+                    		</div>
+               			</div>
+				    </div>
+  				</div> --%>
   				<div class="form-group row">
+  					<label class="col-sm-2 col-form-label">Schedule Time</label>
+				    <div class="col-sm-8">
+						<jsp:include page="cron_detail.jsp" />
+				    </div>
+  				</div>
+  				<%-- <div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="cronExpression">Cron Expression</form:label>
 				    <div class="col-sm-8">
 						<form:input type="text" class="form-control" path="cronExpression" disabled="${schedulerJobInfo.cronJob ? 'false' : 'true'}" placeholder="" id="cronExpressionid" />
 				    </div>
-		  		</div>
-		  		<div class="form-group row">
+		  		</div> --%>
+		  		<%-- <div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="repeatInterval">Repeat Interval</form:label>
 				    <div class="col-sm-8">
 						<form:input type="text" class="form-control" path="repeatInterval" disabled="${schedulerJobInfo.cronJob ? 'true' : 'false'}" placeholder="" id="repeatIntervalid" />
 				    </div>
-		  		</div>
+		  		</div> --%>
 		  		<div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="httpMethod">Http Method</form:label>
 				    <div class="col-sm-8">
@@ -134,13 +161,14 @@
 	        </form:form>
 		</div>
 	</div>   
-
-<script type="text/javascript" src="${path}/static/plugins/js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="${path}/static/plugins/js/popper.min.js"></script>
-<script type="text/javascript" src="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script> 
 <script type="text/javascript">
+$(function () {
+	$('#datetimepicker3').datetimepicker({
+		format:'HH:mm'
+    });
+});
+
 $(document).ready(function () {
-	console.log("jobName: ${schedulerJobInfo.jobName}");
 	$("#cronJobid").click(function(){
 		if($(this).is(':checked')) {
 			$('#cronExpressionid').prop('disabled', false);

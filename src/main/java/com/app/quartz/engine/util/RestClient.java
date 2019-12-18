@@ -9,19 +9,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.app.quartz.engine.dto.ServerResponse;
+
 @Component
 public class RestClient {
 
 	private static final Logger logger = LoggerFactory.getLogger(RestClient.class);
 
-	public ResponseEntity<String> restClientOutput(String url, HttpMethod method, Object objectRequest) throws URISyntaxException {
-		ResponseEntity<String> result = null;
+	public ServerResponse restClientOutput(String url, HttpMethod method, Object objectRequest) throws URISyntaxException {
+		ServerResponse result = new ServerResponse();
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			URI uri = new URI(url);
@@ -38,13 +41,21 @@ public class RestClient {
 
 			HttpEntity<Object> requestEntity = new HttpEntity<>(objectRequest, headers);
 			
-			result = restTemplate.exchange(uri, method, requestEntity, String.class);	
-			
+			ResponseEntity<String> restReponse = restTemplate.exchange(uri, method, requestEntity, String.class);	
+			result.setStatusCode(restReponse.getStatusCode().value());
+			result.setData(restReponse.getBody());
 		} catch (HttpClientErrorException e) {
-			result = new ResponseEntity<String>(e.getStatusCode());
+			result.setStatusCode(e.getStatusCode().value());
+			result.setData(e.getMessage());
 			e.printStackTrace();
-			logger.debug("RestClient. Http client error exception");
+			logger.debug("RestClient:restClientOutput. Http client error exception");
+		} catch (Exception e1) {
+			result.setStatusCode(HttpStatus.BAD_GATEWAY.value());
+			result.setData(e1.getMessage());
+		    e1.printStackTrace();
+		    logger.debug("RestClient:restClientOutput. Exception");
 		}
+		
 		return result;
 	}
 }

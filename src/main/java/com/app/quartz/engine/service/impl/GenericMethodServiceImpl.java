@@ -8,10 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.app.quartz.engine.dto.ServerResponse;
 import com.app.quartz.engine.entity.SchedulerJobHistory;
 import com.app.quartz.engine.repository.SchedulerJobHistoryRepository;
 import com.app.quartz.engine.service.GenericMethodService;
@@ -45,7 +45,7 @@ public class GenericMethodServiceImpl implements GenericMethodService {
 		}
 		
 		try {
-			ResponseEntity<String> response = restClient.restClientOutput(url, HttpMethod.valueOf(httpMethod.toUpperCase()), requestBody);
+			ServerResponse response = restClient.restClientOutput(url, HttpMethod.valueOf(httpMethod.toUpperCase()), requestBody);
 			System.out.println("rest client response : " + response);
 			
 			SchedulerJobHistory history = new SchedulerJobHistory();
@@ -56,8 +56,8 @@ public class GenericMethodServiceImpl implements GenericMethodService {
 			history.setSjhUrl(url);
 			history.setSjhParams(params);
 			history.setSjhRequestBody(requestBody);
-			history.setSjhResponseStatus(response.getStatusCode().toString());
-			history.setSjhResponseBody(response.getBody());
+			history.setSjhResponseStatus(Integer.toString(response.getStatusCode()));
+			history.setSjhResponseBody(response.getData().toString());
 			
 			schedulerJobHistoryRepository.saveAndFlush(history);
 		} catch (URISyntaxException e) {

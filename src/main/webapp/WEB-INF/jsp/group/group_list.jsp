@@ -19,7 +19,12 @@
 			margin-left: 100px !important;
 		}
 	</style>
-	</head>
+</head>
+<script type="text/javascript" src="${path}/static/plugins/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="${path}/static/plugins/js/popper.min.js"></script>
+<script type="text/javascript" src="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script> 
+<script type="text/javascript" src="${path}/static/plugins/js/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="${path}/static/plugins/js/dataTables.bootstrap4.min.js"></script>
 <body>
 <div>
 	<jsp:include page="/static/common/include/menu_bar.jsp" />
@@ -80,15 +85,14 @@
    			</div>
   		</div>
 	</div>
-</div>
-<script type="text/javascript" src="${path}/static/plugins/js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="${path}/static/plugins/js/popper.min.js"></script>
-<script type="text/javascript" src="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script> 
-<script type="text/javascript" src="${path}/static/plugins/js/jquery.dataTables.min.js"></script> 
-<script type="text/javascript" src="${path}/static/plugins/js/dataTables.bootstrap4.min.js"></script> 
+</div> 
 <script type="text/javascript">
 $(document).ready(function () {
 	$("#errorLabel").hide();
+	
+	$(".createGroup").click(function() {
+		$('#groupNameinput').prop('disabled', false);
+	});
 	
 	$(".closeModal").click(function() {
 		$('#createGroupmodal').modal('hide');

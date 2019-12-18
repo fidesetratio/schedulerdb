@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.quartz.CronExpression;
 import org.quartz.JobKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.app.quartz.engine.dto.AjaxRequestModel;
 import com.app.quartz.engine.dto.SchedulerJob;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
+import com.app.quartz.engine.entity.converter.CronConverter;
 import com.app.quartz.engine.service.JobRequestProcessService;
 import com.app.quartz.engine.service.SchedulerGroupInfoService;
 import com.app.quartz.engine.service.SchedulerInfoService;
@@ -80,6 +82,7 @@ public class SchedulerJobController {
 			JobKey jobKey = new JobKey(jobName, groupName);
 			schedulerJobInfo = schedulerJobService.getJobInfo(jobKey);
 			model.addAttribute("schedulerJobInfo", schedulerJobInfo);
+			model.addAttribute("submitFailed", false);
 			model.addAttribute("title", "Edit Job");
 		} else {
 			model.addAttribute("schedulerJobInfo", schedulerJobInfo);
@@ -98,6 +101,14 @@ public class SchedulerJobController {
 	@RequestMapping(value = "/submit", method = RequestMethod.POST, headers = "Accept=application/json")
 	public String submit(@Valid @ModelAttribute("schedulerJobInfo")SchedulerJobInfo schedulerJobInfo, 
 			  BindingResult bindingResult, Model model) {
+		System.out.println("submit schedulerJobInfo: " + schedulerJobInfo.toString());
+		
+		// convert date to cron expression
+		String cronExpression = CronConverter.stringToCron(schedulerJobInfo.getCronProperties());
+		if (CronExpression.isValidExpression(cronExpression)) {
+			schedulerJobInfo.setCronExpression(cronExpression);
+		}
+		
 		List<String> responseErrorlist = new ArrayList<String>();
 		List<ObjectError> objectErrorlist = bindingResult.getAllErrors();
 		for (ObjectError oe : objectErrorlist) {
@@ -118,6 +129,8 @@ public class SchedulerJobController {
 		
 		if (responseErrorlist != null && responseErrorlist.size() > 0) {
 			model.addAttribute("schedulerJobInfo", schedulerJobInfo);
+			model.addAttribute("submitFailed", true);
+			model.addAttribute("jobGrouplist",schedulerGroupInfoService.getAllGroup());
 			model.addAttribute("httpMethodlist", httpMethodlist);
 			model.addAttribute("errors", responseErrorlist);
 			return "job/job_detail";
@@ -154,4 +167,5 @@ public class SchedulerJobController {
 		}
 		return params;
 	}
+	
 }

@@ -14,6 +14,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.URL;
 
+import com.app.quartz.engine.dto.CronProperties;
 import com.app.quartz.engine.entity.converter.BooleanStringConverter;
 /**
  * JPA Model for scheduler job info
@@ -38,7 +39,10 @@ public class SchedulerJobInfo {
 	private String jobClass;
 
 	private String cronExpression;
-
+	
+	@Transient
+	private CronProperties cronProperties;
+	
 	private Date startTime;
 	
 	private int repeatCount;
@@ -67,6 +71,7 @@ public class SchedulerJobInfo {
 	
 	public SchedulerJobInfo() {
 		this.jobClass = "com.app.quartz.engine.jobs.GenericSchedulerJob";
+		this.cronJob = true;
 	}
 
 	public Long getId() {
@@ -189,12 +194,20 @@ public class SchedulerJobInfo {
 		this.requestBody = requestBody;
 	}
 
+	public CronProperties getCronProperties() {
+		return cronProperties;
+	}
+
+	public void setCronProperties(CronProperties cronProperties) {
+		this.cronProperties = cronProperties;
+	}
+
 	@Override
 	public String toString() {
 		return "SchedulerJobInfo [id=" + id + ", jobName=" + jobName + ", jobGroup=" + jobGroup + ", jobClass="
-				+ jobClass + ", cronExpression=" + cronExpression + ", startTime=" + startTime + ", repeatCount="
-				+ repeatCount + ", repeatInterval=" + repeatInterval + ", url=" + url + ", cronJob=" + cronJob
-				+ ", params=" + params + ", paramName=" + paramName + ", paramInput=" + paramInput + ", httpMethod="
-				+ httpMethod + ", requestBody=" + requestBody + "]";
+				+ jobClass + ", cronExpression=" + cronExpression + ", cronProperties=" + cronProperties
+				+ ", startTime=" + startTime + ", repeatCount=" + repeatCount + ", repeatInterval=" + repeatInterval
+				+ ", url=" + url + ", cronJob=" + cronJob + ", params=" + params + ", paramName=" + paramName
+				+ ", paramInput=" + paramInput + ", httpMethod=" + httpMethod + ", requestBody=" + requestBody + "]";
 	}
 }
