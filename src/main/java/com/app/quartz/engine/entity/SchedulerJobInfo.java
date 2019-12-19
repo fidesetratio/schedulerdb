@@ -40,6 +40,8 @@ public class SchedulerJobInfo {
 
 	private String cronExpression;
 	
+	private String cronInput;
+	
 	@Transient
 	private CronProperties cronProperties;
 	
@@ -114,6 +116,22 @@ public class SchedulerJobInfo {
 		this.cronExpression = cronExpression;
 	}
 
+	public String getCronInput() {
+		return cronInput;
+	}
+
+	public void setCronInput(String cronInput) {
+		this.cronInput = cronInput;
+	}
+
+	public CronProperties getCronProperties() {
+		return cronProperties;
+	}
+
+	public void setCronProperties(CronProperties cronProperties) {
+		this.cronProperties = cronProperties;
+	}
+
 	public Date getStartTime() {
 		return startTime;
 	}
@@ -138,6 +156,14 @@ public class SchedulerJobInfo {
 		this.repeatInterval = repeatInterval;
 	}
 
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	public Boolean getCronJob() {
 		return cronJob;
 	}
@@ -152,22 +178,6 @@ public class SchedulerJobInfo {
 
 	public void setParams(String params) {
 		this.params = params;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getHttpMethod() {
-		return httpMethod;
-	}
-
-	public void setHttpMethod(String httpMethod) {
-		this.httpMethod = httpMethod;
 	}
 
 	public List<String> getParamName() {
@@ -186,6 +196,14 @@ public class SchedulerJobInfo {
 		this.paramInput = paramInput;
 	}
 
+	public String getHttpMethod() {
+		return httpMethod;
+	}
+
+	public void setHttpMethod(String httpMethod) {
+		this.httpMethod = httpMethod;
+	}
+
 	public String getRequestBody() {
 		return requestBody;
 	}
@@ -194,20 +212,15 @@ public class SchedulerJobInfo {
 		this.requestBody = requestBody;
 	}
 
-	public CronProperties getCronProperties() {
-		return cronProperties;
-	}
-
-	public void setCronProperties(CronProperties cronProperties) {
-		this.cronProperties = cronProperties;
-	}
-
 	@Override
 	public String toString() {
 		return "SchedulerJobInfo [id=" + id + ", jobName=" + jobName + ", jobGroup=" + jobGroup + ", jobClass="
-				+ jobClass + ", cronExpression=" + cronExpression + ", cronProperties=" + cronProperties
-				+ ", startTime=" + startTime + ", repeatCount=" + repeatCount + ", repeatInterval=" + repeatInterval
-				+ ", url=" + url + ", cronJob=" + cronJob + ", params=" + params + ", paramName=" + paramName
-				+ ", paramInput=" + paramInput + ", httpMethod=" + httpMethod + ", requestBody=" + requestBody + "]";
+				+ jobClass + ", cronExpression=" + cronExpression + ", cronInput=" + cronInput + ", cronProperties="
+				+ cronProperties + ", startTime=" + startTime + ", repeatCount=" + repeatCount + ", repeatInterval="
+				+ repeatInterval + ", url=" + url + ", cronJob=" + cronJob + ", params=" + params + ", paramName="
+				+ paramName + ", paramInput=" + paramInput + ", httpMethod=" + httpMethod + ", requestBody="
+				+ requestBody + "]";
 	}
+	
+	
 }

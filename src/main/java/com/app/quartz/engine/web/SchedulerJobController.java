@@ -2,6 +2,7 @@ package com.app.quartz.engine.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -23,12 +24,12 @@ import com.app.quartz.engine.dto.AjaxRequestModel;
 import com.app.quartz.engine.dto.SchedulerJob;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.entity.converter.CronConverter;
+import com.app.quartz.engine.obj.Days;
+import com.app.quartz.engine.obj.Months;
 import com.app.quartz.engine.service.JobRequestProcessService;
 import com.app.quartz.engine.service.SchedulerGroupInfoService;
 import com.app.quartz.engine.service.SchedulerInfoService;
 import com.app.quartz.engine.service.SchedulerJobService;
-import com.app.quartz.engine.util.Days;
-import com.app.quartz.engine.util.Months;
 
 @Controller
 @RequestMapping("/job")
@@ -105,10 +106,10 @@ public class SchedulerJobController {
 	@RequestMapping(value = "/submit", method = RequestMethod.POST, headers = "Accept=application/json")
 	public String submit(@Valid @ModelAttribute("schedulerJobInfo")SchedulerJobInfo schedulerJobInfo, 
 			  BindingResult bindingResult, Model model) {
-		System.out.println("submit schedulerJobInfo: " + schedulerJobInfo.toString());
 		
 		// convert date to cron expression
-		String cronExpression = CronConverter.stringToCron(schedulerJobInfo.getCronProperties());
+		Map<String, String> map = CronConverter.generateCron(schedulerJobInfo.getCronProperties());
+		String cronExpression = map.get("cronExpression");
 		if (CronExpression.isValidExpression(cronExpression)) {
 			schedulerJobInfo.setCronExpression(cronExpression);
 		}
@@ -146,7 +147,8 @@ public class SchedulerJobController {
 				params = generateURLparams(schedulerJobInfo.getParamName(), schedulerJobInfo.getParamInput());
 			}
 			schedulerJobInfo.setParams(params);
-//			schedulerJobService.createScheduleJob(schedulerJobInfo);
+			schedulerJobInfo.setCronInput(map.get("cronInput"));
+			schedulerJobService.createScheduleJob(schedulerJobInfo);
 			return "redirect:/job";
 		}
 	}

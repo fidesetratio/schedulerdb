@@ -6,15 +6,20 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.app.quartz.engine.dto.CronProperties;
-import com.app.quartz.engine.util.CronTab;
-import com.app.quartz.engine.util.Days;
-import com.app.quartz.engine.util.Months;
+import com.app.quartz.engine.obj.CronTab;
+import com.app.quartz.engine.obj.Days;
+import com.app.quartz.engine.obj.Months;
 
 public final class CronConverter {
 	
-	public static String stringToCron(CronProperties cronProperties) {
+	public static Map<String, String> generateCron(CronProperties cronProperties) {
+		Map<String, String> map = new HashMap<String, String>();
+		
+		// generate cron expression
 		String cronExpression = "";
 		
 		String scheduleTime = checkSchedule(cronProperties);
@@ -44,7 +49,15 @@ public final class CronConverter {
             default:
             	System.out.print("There is no schedule.");
         }
-        return cronExpression;
+	    
+	    map.put("cronExpression", cronExpression);
+	    
+	    // generate cron input, ini berguna untuk menampilkan kembali isi cron ke halaman edit job
+	    // format CronProperties
+	    cronProperties.setCronTab(scheduleTime);
+	    String cronInput = cronProperties.toString();
+	    map.put("cronInput", cronInput);
+        return map;
     }
 
 	/**

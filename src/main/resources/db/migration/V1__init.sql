@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS NOTIFICATIONS_HISTORY;
 CREATE TABLE `scheduler_job_info` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `cron_expression` varchar(255) DEFAULT NULL,
+  `cron_input` varchar(255) DEFAULT NULL,
   `cron_job` varchar(255) DEFAULT 'Y',
   `job_class` varchar(255) DEFAULT NULL,
   `job_group` varchar(255) DEFAULT NULL,

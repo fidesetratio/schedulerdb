@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.quartz.engine.dto.ServerResponse;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
+import com.app.quartz.engine.obj.ServerResponseCode;
 import com.app.quartz.engine.service.SchedulerInfoService;
-import com.app.quartz.engine.util.ServerResponseCode;
 
 /**
  * not used

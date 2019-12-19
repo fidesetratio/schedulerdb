@@ -2,6 +2,7 @@ package com.app.quartz.engine.dto;
 
 public class CronProperties {
 
+	private String cronTab;
 	private String minutes;
 	private String hourly;
 	private boolean everyDay;
@@ -14,6 +15,12 @@ public class CronProperties {
 	private String yearlyDate;
 	private String yearlyHour;
 	
+	public String getCronTab() {
+		return cronTab;
+	}
+	public void setCronTab(String cronTab) {
+		this.cronTab = cronTab;
+	}
 	public String getMinutes() {
 		return minutes;
 	}
@@ -83,10 +90,9 @@ public class CronProperties {
 	
 	@Override
 	public String toString() {
-		return "CronProperties [minutes=" + minutes + ", hourly=" + hourly + ", everyDay=" + everyDay + ", dailyHour="
-				+ dailyHour + ", weeklyDay=" + weeklyDay + ", weeklyHour=" + weeklyHour + ", monthlyDay=" + monthlyDay
-				+ ", monthlyHour=" + monthlyHour + ", yearlyMonth=" + yearlyMonth + ", yearlyDate=" + yearlyDate
-				+ ", yearlyHour=" + yearlyHour + "]";
+		return "cronTab=" + cronTab + ", minutes=" + minutes + ", hourly=" + hourly + ", everyDay="
+				+ everyDay + ", dailyHour=" + dailyHour + ", weeklyDay=" + weeklyDay + ", weeklyHour=" + weeklyHour
+				+ ", monthlyDay=" + monthlyDay + ", monthlyHour=" + monthlyHour + ", yearlyMonth=" + yearlyMonth
+				+ ", yearlyDate=" + yearlyDate + ", yearlyHour=" + yearlyHour;
 	}
-
 }

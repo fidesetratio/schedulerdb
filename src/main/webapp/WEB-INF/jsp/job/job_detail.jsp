@@ -141,6 +141,12 @@
 				    </div>
 		  		</div>
 		  		<div class="form-group row">
+					<form:label class="col-sm-2 col-form-label" path="requestBody">Request Body (JSON)</form:label>
+					<div class="col-sm-8">
+				    	<form:textarea class="form-control" rows="3" path="requestBody"></form:textarea>
+				    </div>
+				</div>
+		  		<div class="form-group row">
 				    <div class="col-sm-8">
 				    	<button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
 				    	<a class="btn btn-primary" href="${path}/job" role="button">Cancel</a>
