@@ -112,18 +112,6 @@
       					</div>
     				</div>
   				</div> --%>
-  				<!--  yang ini benar -->
-  				<%-- <div class="form-group row">
-  					<form:label class="col-sm-2 col-form-label" path="dateForcron">Schedule Time</form:label>
-				    <div class="col-sm-8">
-						<div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-                    		<form:input type="text" class="form-control datetimepicker-input" path="dateForcron" data-target="#datetimepicker3" />
-                    		<div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
-                        		<div class="input-group-text"><i class="fa fa-clock-o"></i></div>
-                    		</div>
-               			</div>
-				    </div>
-  				</div> --%>
   				<div class="form-group row">
   					<label class="col-sm-2 col-form-label">Schedule Time</label>
 				    <div class="col-sm-8">
@@ -154,7 +142,7 @@
 		  		</div>
 		  		<div class="form-group row">
 				    <div class="col-sm-8">
-				    	<button type="submit" class="btn btn-primary">Submit</button>
+				    	<button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
 				    	<a class="btn btn-primary" href="${path}/job" role="button">Cancel</a>
 				    </div>
   				</div>
@@ -164,6 +152,15 @@
 <script type="text/javascript">
 $(function () {
 	$('#datetimepicker3').datetimepicker({
+		format:'HH:mm'
+    });
+	$('#datetimepicker4').datetimepicker({
+		format:'HH:mm'
+    });
+	$('#datetimepicker5').datetimepicker({
+		format:'HH:mm'
+    });
+	$('#datetimepicker6').datetimepicker({
 		format:'HH:mm'
     });
 });
@@ -191,6 +188,11 @@ $(document).ready(function () {
 		if($('.paramRow').length > 1) {
 			$(this).closest(".paramRow").remove();	
 		}
+	});
+	
+	$('a[data-toggle="tab"]').click(function(){  
+		$('#nav-tabContent input').val('');
+		$('#nav-tabContent input[type="radio"]').prop('checked', false); 
 	});
 });
 </script>    

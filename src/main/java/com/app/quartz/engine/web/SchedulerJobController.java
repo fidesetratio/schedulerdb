@@ -27,6 +27,8 @@ import com.app.quartz.engine.service.JobRequestProcessService;
 import com.app.quartz.engine.service.SchedulerGroupInfoService;
 import com.app.quartz.engine.service.SchedulerInfoService;
 import com.app.quartz.engine.service.SchedulerJobService;
+import com.app.quartz.engine.util.Days;
+import com.app.quartz.engine.util.Months;
 
 @Controller
 @RequestMapping("/job")
@@ -45,7 +47,7 @@ public class SchedulerJobController {
 	private JobRequestProcessService jobRequestProcessService;
 	
 	private final String[] httpMethodlist = {RequestMethod.GET.toString(), RequestMethod.POST.toString(), RequestMethod.PUT.toString(), RequestMethod.DELETE.toString()};
-
+	
 	/**
 	 * view job list and search job
 	 * @param request
@@ -78,6 +80,8 @@ public class SchedulerJobController {
 		SchedulerJobInfo schedulerJobInfo = new SchedulerJobInfo();
 		model.addAttribute("jobGrouplist",schedulerGroupInfoService.getAllGroup());
 		model.addAttribute("httpMethodlist", httpMethodlist);
+		model.addAttribute("days", this.getDays());
+		model.addAttribute("months", this.getMonths());
 		if (!jobName.isEmpty() && jobName != null && !groupName.isEmpty() && groupName != null) {
 			JobKey jobKey = new JobKey(jobName, groupName);
 			schedulerJobInfo = schedulerJobService.getJobInfo(jobKey);
@@ -131,6 +135,8 @@ public class SchedulerJobController {
 			model.addAttribute("schedulerJobInfo", schedulerJobInfo);
 			model.addAttribute("submitFailed", true);
 			model.addAttribute("jobGrouplist",schedulerGroupInfoService.getAllGroup());
+			model.addAttribute("days", this.getDays());
+			model.addAttribute("months", this.getMonths());
 			model.addAttribute("httpMethodlist", httpMethodlist);
 			model.addAttribute("errors", responseErrorlist);
 			return "job/job_detail";
@@ -140,7 +146,7 @@ public class SchedulerJobController {
 				params = generateURLparams(schedulerJobInfo.getParamName(), schedulerJobInfo.getParamInput());
 			}
 			schedulerJobInfo.setParams(params);
-			schedulerJobService.createScheduleJob(schedulerJobInfo);
+//			schedulerJobService.createScheduleJob(schedulerJobInfo);
 			return "redirect:/job";
 		}
 	}
@@ -168,4 +174,19 @@ public class SchedulerJobController {
 		return params;
 	}
 	
+	private List<String> getDays() {
+		List<String> days = new ArrayList<String>();
+		for (Days d: Days.values()) {
+			days.add(d.getValue());
+		}
+		return days;
+	}
+	
+	private List<String> getMonths() {
+		List<String> months = new ArrayList<String>();
+		for (Months m: Months.values()) {
+			months.add(m.getValue());
+		}
+		return months;
+	}
 }
