@@ -12,4 +12,5 @@ public interface SchedulerGroupInfoService {
 	public SchedulerGroupInfo getGroupInfoByName(String groupName);
 	public SchedulerGroupInfo getGroupInfoByNameExceptId(String groupName, long groupId);
 	public SchedulerGroupInfo getGroupInfo(long groupId);
+	public List<String> getAllGroupName();
 }

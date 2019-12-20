@@ -1,5 +1,6 @@
 package com.app.quartz.engine.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +70,16 @@ public class SchedulerGroupInfoServiceImpl implements SchedulerGroupInfoService 
 		}
 		
 		return groupInfolist;
+	}
+
+	@Override
+	public List<String> getAllGroupName() {
+		List<String> list = new ArrayList<String>();
+		List<SchedulerGroupInfo> listGroup = schedulerGroupInfoRepository.findAllByOrderByGroupNameAsc();
+		for (SchedulerGroupInfo group: listGroup) {
+			list.add(group.getGroupName());
+		}
+		
+		return list;
 	}
 }

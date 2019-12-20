@@ -1,5 +1,6 @@
 package com.app.quartz.engine.service.impl;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.quartz.engine.component.JobScheduleCreator;
+import com.app.quartz.engine.dto.CronProperties;
 import com.app.quartz.engine.dto.SchedulerJob;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.repository.SchedulerJobInfoRepository;
@@ -441,6 +443,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 			schedulerJobInfo.setParamName(map.get("keys"));
 			schedulerJobInfo.setParamInput(map.get("values"));
 		}
+		schedulerJobInfo.setCronProperties(generateCronProperties(schedulerJobInfo.getCronInput()));
 		return schedulerJobInfo;
 	}
 
@@ -495,6 +498,21 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 		return listSchedulerjob;
 	}
 	
+	@Override
+	public int countTotalJobByGroup(String jobGroup) {
+		int total = 0;
+		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+
+		try {
+			Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.jobGroupEquals(jobGroup));
+			total = jobKeys.size();
+		} catch (SchedulerException e) {
+			e.printStackTrace();
+		}
+		
+		return total;
+	}
+	
 	private Map<String, List<String>> generateParamsToMap(String str) {
 		Map<String, List<String>> map = new HashMap<String, List<String>>();
 		List<String> keys = new ArrayList<String>();
@@ -512,18 +530,43 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 		return map;
 	}
 
-	@Override
-	public int countTotalJobByGroup(String jobGroup) {
-		int total = 0;
-		Scheduler scheduler = schedulerFactoryBean.getScheduler();
-
-		try {
-			Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.jobGroupEquals(jobGroup));
-			total = jobKeys.size();
-		} catch (SchedulerException e) {
-			e.printStackTrace();
-		}
+	/**
+	 * generate data data di cronInput menjadi value di field CronProperties
+	 * @param cronInput
+	 * @return
+	 */
+	private CronProperties generateCronProperties(String cronInput) {
+		String[] values = cronInput.split(",");
+		CronProperties prop = new CronProperties();
+		prop.setCronTab(getPropValue(values, "cronTab"));
+		prop.setMinutes(getPropValue(values, "minutes"));
+		prop.setHourly(getPropValue(values, "hourly"));
+		prop.setEveryDay(Boolean.parseBoolean(getPropValue(values, "everyDay")));
+		prop.setDailyHour(getPropValue(values, "dailyHour"));
+		prop.setWeeklyDay(getPropValue(values, "weeklyDay"));
+		prop.setWeeklyHour(getPropValue(values, "weeklyHour"));
+		prop.setMonthlyDay(getPropValue(values, "monthlyDay"));
+		prop.setMonthlyHour(getPropValue(values, "monthlyHour"));
+		prop.setYearlyMonth(getPropValue(values, "yearlyMonth"));
+		prop.setYearlyDate(getPropValue(values, "yearlyDate"));
+		prop.setYearlyHour(getPropValue(values, "yearlyHour"));
 		
-		return total;
+		return prop;
 	}
+	
+	private String getPropValue(String[] values, String strFind) {
+		for (String s: values) {
+			if (s.contains(strFind)) {
+				String[] splitValues = s.split("=");
+				strFind = "";
+				if (splitValues.length == 2) {
+					strFind = splitValues[1];
+				}
+				break;
+			}
+		}
+		return strFind;
+	}
+	
+	
 }

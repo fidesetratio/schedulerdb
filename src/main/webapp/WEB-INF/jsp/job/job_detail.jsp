@@ -46,15 +46,15 @@
 	        	<div class="form-group row align-items-center">
 		    		<form:label class="col-sm-2 col-form-label" path="jobName">Name</form:label>
 				    <div class="col-sm-8">
-						<form:input type="text" class="form-control" path="jobName" disabled="${(not empty schedulerJobInfo.jobName) && (submitFailed == false) ? 'true' : 'false'}" placeholder="" />
+						<form:input type="text" class="form-control" path="jobName" readonly="${(not empty schedulerJobInfo.jobName) && (submitFailed == false) ? 'true' : 'false'}" placeholder="" />
 				    </div>
 		  		</div>
 		  		<div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="jobGroup">Group Name</form:label>
 					<div class="col-sm-8">
-						<form:select path="jobGroup" class="custom-select" disabled="${(not empty schedulerJobInfo.jobGroup) && (submitFailed == false) ? 'true' : 'false'}">
+						<form:select path="jobGroup" class="custom-select">
 						    <c:forEach var="itemGroup" items="${jobGrouplist}">
-						        <form:option value="${itemGroup.groupName}" selected="${itemGroup == schedulerJobInfo.jobGroup ? 'selected' : ''}" />
+						        <form:option value="${itemGroup}" selected="${itemGroup == schedulerJobInfo.jobGroup ? 'selected' : ''}" />
 						    </c:forEach>
 						</form:select>
 				    </div>
@@ -172,7 +172,7 @@ $(function () {
 });
 
 $(document).ready(function () {
-	$("#cronJobid").click(function(){
+	/* $("#cronJobid").click(function(){
 		if($(this).is(':checked')) {
 			$('#cronExpressionid').prop('disabled', false);
 			$('#cronExpressionid').val("");
@@ -184,7 +184,7 @@ $(document).ready(function () {
 			$('#repeatIntervalid').prop('disabled', false);
 			$('#repeatIntervalid').val("");
 		}
-	});
+	}); */
 	
 	$(document).on('click', '.addParam', function(e) {
 		$(this).closest(".paramRow").clone().find("input:text").val("").end().insertAfter($(this).closest(".paramRow"));
@@ -200,6 +200,20 @@ $(document).ready(function () {
 		$('#nav-tabContent input').val('');
 		$('#nav-tabContent input[type="radio"]').prop('checked', false); 
 	});
+	
+	// mengembalikan data pada form cron saat gagal submit dan edit job
+	if ("${schedulerJobInfo.cronProperties.cronTab}" != "") {
+		$('.nav-item').removeClass('active');
+		var className = "nav-" + "${schedulerJobInfo.cronProperties.cronTab}" + "-tab";
+		
+		$('.nav-item').each(function(i, obj) {
+			var id = this.id;
+	    	if(id == className) {
+	    		$(this).addClass('active');
+	    	}
+		});
+	}
+	
 });
 </script>    
 </body>

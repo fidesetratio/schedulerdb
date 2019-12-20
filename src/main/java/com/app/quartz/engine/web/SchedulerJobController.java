@@ -2,12 +2,10 @@ package com.app.quartz.engine.web;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.quartz.CronExpression;
 import org.quartz.JobKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -79,7 +77,6 @@ public class SchedulerJobController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET, headers = "Accept=application/json")
 	public String createJob(@RequestParam("jobName") String jobName, @RequestParam("groupName") String groupName, Model model) {
 		SchedulerJobInfo schedulerJobInfo = new SchedulerJobInfo();
-		model.addAttribute("jobGrouplist",schedulerGroupInfoService.getAllGroup());
 		model.addAttribute("httpMethodlist", httpMethodlist);
 		model.addAttribute("days", this.getDays());
 		model.addAttribute("months", this.getMonths());
@@ -89,7 +86,9 @@ public class SchedulerJobController {
 			model.addAttribute("schedulerJobInfo", schedulerJobInfo);
 			model.addAttribute("submitFailed", false);
 			model.addAttribute("title", "Edit Job");
+			model.addAttribute("jobGrouplist", schedulerJobInfo.getJobGroup());
 		} else {
+			model.addAttribute("jobGrouplist", schedulerGroupInfoService.getAllGroupName());
 			model.addAttribute("schedulerJobInfo", schedulerJobInfo);
 			model.addAttribute("title", "Create Job");
 		}
@@ -106,13 +105,8 @@ public class SchedulerJobController {
 	@RequestMapping(value = "/submit", method = RequestMethod.POST, headers = "Accept=application/json")
 	public String submit(@Valid @ModelAttribute("schedulerJobInfo")SchedulerJobInfo schedulerJobInfo, 
 			  BindingResult bindingResult, Model model) {
-		
 		// convert date to cron expression
-		Map<String, String> map = CronConverter.generateCron(schedulerJobInfo.getCronProperties());
-		String cronExpression = map.get("cronExpression");
-		if (CronExpression.isValidExpression(cronExpression)) {
-			schedulerJobInfo.setCronExpression(cronExpression);
-		}
+		schedulerJobInfo = CronConverter.generateCron(schedulerJobInfo);
 		
 		List<String> responseErrorlist = new ArrayList<String>();
 		List<ObjectError> objectErrorlist = bindingResult.getAllErrors();
@@ -135,7 +129,7 @@ public class SchedulerJobController {
 		if (responseErrorlist != null && responseErrorlist.size() > 0) {
 			model.addAttribute("schedulerJobInfo", schedulerJobInfo);
 			model.addAttribute("submitFailed", true);
-			model.addAttribute("jobGrouplist",schedulerGroupInfoService.getAllGroup());
+			model.addAttribute("jobGrouplist",schedulerGroupInfoService.getAllGroupName());
 			model.addAttribute("days", this.getDays());
 			model.addAttribute("months", this.getMonths());
 			model.addAttribute("httpMethodlist", httpMethodlist);
@@ -147,8 +141,7 @@ public class SchedulerJobController {
 				params = generateURLparams(schedulerJobInfo.getParamName(), schedulerJobInfo.getParamInput());
 			}
 			schedulerJobInfo.setParams(params);
-			schedulerJobInfo.setCronInput(map.get("cronInput"));
-			schedulerJobService.createScheduleJob(schedulerJobInfo);
+//			schedulerJobService.createScheduleJob(schedulerJobInfo);
 			return "redirect:/job";
 		}
 	}

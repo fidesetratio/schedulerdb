@@ -90,9 +90,9 @@ public class CronProperties {
 	
 	@Override
 	public String toString() {
-		return "cronTab=" + cronTab + ", minutes=" + minutes + ", hourly=" + hourly + ", everyDay="
-				+ everyDay + ", dailyHour=" + dailyHour + ", weeklyDay=" + weeklyDay + ", weeklyHour=" + weeklyHour
-				+ ", monthlyDay=" + monthlyDay + ", monthlyHour=" + monthlyHour + ", yearlyMonth=" + yearlyMonth
-				+ ", yearlyDate=" + yearlyDate + ", yearlyHour=" + yearlyHour;
+		return "cronTab=" + cronTab + "; minutes=" + minutes + "; hourly=" + hourly + "; everyDay="
+				+ everyDay + "; dailyHour=" + dailyHour + "; weeklyDay=" + weeklyDay + "; weeklyHour=" + weeklyHour
+				+ "; monthlyDay=" + monthlyDay + "; monthlyHour=" + monthlyHour + "; yearlyMonth=" + yearlyMonth
+				+ "; yearlyDate=" + yearlyDate + "; yearlyHour=" + yearlyHour;
 	}
 }
