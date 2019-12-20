@@ -2,16 +2,16 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 <nav>
 	<div class="nav nav-tabs" id="nav-tab" role="tablist">
-		<a class="nav-item nav-link active" id="nav-Minutes-tab" data-toggle="tab" href="#nav-Minutes" role="tab" aria-controls="nav-minutes" aria-selected="true">Minutes</a>
-		<a class="nav-item nav-link" id="nav-Hourly-tab" data-toggle="tab" href="#nav-Hourly" role="tab" aria-controls="nav-hourly" aria-selected="false">Hourly</a>
-		<a class="nav-item nav-link" id="nav-Daily-tab" data-toggle="tab" href="#nav-Daily" role="tab" aria-controls="nav-daily" aria-selected="false">Daily</a>
-		<a class="nav-item nav-link" id="nav-Weekly-tab" data-toggle="tab" href="#nav-Weekly" role="tab" aria-controls="nav-weekly" aria-selected="false">Weekly</a>
-		<a class="nav-item nav-link" id="nav-Monthly-tab" data-toggle="tab" href="#nav-Monthly" role="tab" aria-controls="nav-monthly" aria-selected="false">Monthly</a>
-		<a class="nav-item nav-link" id="nav-Yearly-tab" data-toggle="tab" href="#nav-Yearly" role="tab" aria-controls="nav-yearly" aria-selected="false">Yearly</a>
+		<a class="nav-item nav-link active" id="nav-Minutes-tab" data-toggle="tab" href="#nav-Minutes" role="tab" aria-controls="nav-Minutes" aria-selected="true">Minutes</a>
+		<a class="nav-item nav-link" id="nav-Hourly-tab" data-toggle="tab" href="#nav-Hourly" role="tab" aria-controls="nav-Hourly" aria-selected="false">Hourly</a>
+		<a class="nav-item nav-link" id="nav-Daily-tab" data-toggle="tab" href="#nav-Daily" role="tab" aria-controls="nav-Daily" aria-selected="false">Daily</a>
+		<a class="nav-item nav-link" id="nav-Weekly-tab" data-toggle="tab" href="#nav-Weekly" role="tab" aria-controls="nav-Weekly" aria-selected="false">Weekly</a>
+		<a class="nav-item nav-link" id="nav-Monthly-tab" data-toggle="tab" href="#nav-Monthly" role="tab" aria-controls="nav-Monthly" aria-selected="false">Monthly</a>
+		<a class="nav-item nav-link" id="nav-Yearly-tab" data-toggle="tab" href="#nav-Yearly" role="tab" aria-controls="nav-Yearly" aria-selected="false">Yearly</a>
   	</div>
 </nav>
 <div class="tab-content" id="nav-tabContent">
-	<div class="tab-pane fade show active" id="nav-Minutes" role="tabpanel" aria-labelledby="nav-minutes-tab">
+	<div class="tab-pane fade show active" id="nav-Minutes" role="tabpanel" aria-labelledby="nav-Minutes-tab">
 		<br/>
 		<div class="form-group row align-items-center">
 			<form:label class="col-sm-2 col-form-label" path="cronProperties.minutes">Every</form:label>
@@ -21,7 +21,7 @@
 			<label class="col-sm-2 col-form-label">minutes.</label>
 		</div>
 	</div>
-	<div class="tab-pane fade" id="nav-Hourly" role="tabpanel" aria-labelledby="nav-hourly-tab">
+	<div class="tab-pane fade" id="nav-Hourly" role="tabpanel" aria-labelledby="nav-Hourly-tab">
 		<br/>
 		<div class="form-group row align-items-center">
 			<form:label class="col-sm-2 col-form-label" path="cronProperties.hourly">Every</form:label>
@@ -31,7 +31,7 @@
 			<label class="col-sm-2 col-form-label">hour(s).</label>
 		</div>
 	</div>
-	<div class="tab-pane fade" id="nav-Daily" role="tabpanel" aria-labelledby="nav-daily-tab">
+	<div class="tab-pane fade" id="nav-Daily" role="tabpanel" aria-labelledby="nav-Daily-tab">
 		<br/>
 		<div class="form-group row align-items-center">
 		 	<div class="col-sm-4">
@@ -53,7 +53,7 @@
 			</div>
   		</div>
 	</div>
-	<div class="tab-pane fade" id="nav-Weekly" role="tabpanel" aria-labelledby="nav-weekly-tab">
+	<div class="tab-pane fade" id="nav-Weekly" role="tabpanel" aria-labelledby="nav-Weekly-tab">
 		<br/>
 		<div class="form-group row align-items-center">
 			<div class="col-sm-4">
@@ -76,7 +76,7 @@
 			</div>
   		</div>
 	</div>
-	<div class="tab-pane fade" id="nav-Monthly" role="tabpanel" aria-labelledby="nav-monthly-tab">
+	<div class="tab-pane fade" id="nav-Monthly" role="tabpanel" aria-labelledby="nav-Monthly-tab">
 		<br/>
 		<div class="form-group row align-items-center">
 			<form:label class="col-sm-2 col-form-label" path="cronProperties.monthlyDay">Day</form:label>
@@ -97,7 +97,7 @@
 			</div>
   		</div>
 	</div>
-	<div class="tab-pane fade" id="nav-Yearly" role="tabpanel" aria-labelledby="nav-yearly-tab">
+	<div class="tab-pane fade" id="nav-Yearly" role="tabpanel" aria-labelledby="nav-Yearly-tab">
 		<br/>	
 		<div class="form-group row align-items-center">
 			<div class="col-sm-2">

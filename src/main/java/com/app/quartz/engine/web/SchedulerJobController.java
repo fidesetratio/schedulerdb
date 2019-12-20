@@ -141,7 +141,7 @@ public class SchedulerJobController {
 				params = generateURLparams(schedulerJobInfo.getParamName(), schedulerJobInfo.getParamInput());
 			}
 			schedulerJobInfo.setParams(params);
-//			schedulerJobService.createScheduleJob(schedulerJobInfo);
+			schedulerJobService.createScheduleJob(schedulerJobInfo);
 			return "redirect:/job";
 		}
 	}

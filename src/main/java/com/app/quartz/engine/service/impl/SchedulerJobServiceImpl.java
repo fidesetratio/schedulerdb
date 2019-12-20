@@ -536,7 +536,7 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 	 * @return
 	 */
 	private CronProperties generateCronProperties(String cronInput) {
-		String[] values = cronInput.split(",");
+		String[] values = cronInput.split(";");
 		CronProperties prop = new CronProperties();
 		prop.setCronTab(getPropValue(values, "cronTab"));
 		prop.setMinutes(getPropValue(values, "minutes"));

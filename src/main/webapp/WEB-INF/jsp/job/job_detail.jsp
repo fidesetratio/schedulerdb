@@ -196,20 +196,22 @@ $(document).ready(function () {
 		}
 	});
 	
-	$('a[data-toggle="tab"]').click(function(){  
+	/* $('a[data-toggle="tab"]').click(function(){  
 		$('#nav-tabContent input').val('');
 		$('#nav-tabContent input[type="radio"]').prop('checked', false); 
-	});
+	}); */
 	
 	// mengembalikan data pada form cron saat gagal submit dan edit job
 	if ("${schedulerJobInfo.cronProperties.cronTab}" != "") {
 		$('.nav-item').removeClass('active');
+		$('.tab-pane').removeClass('active');
 		var className = "nav-" + "${schedulerJobInfo.cronProperties.cronTab}" + "-tab";
+		var classChildname = "nav-" + "${schedulerJobInfo.cronProperties.cronTab}";
 		
 		$('.nav-item').each(function(i, obj) {
 			var id = this.id;
 	    	if(id == className) {
-	    		$(this).addClass('active');
+	    		$(this).trigger("click");
 	    	}
 		});
 	}
