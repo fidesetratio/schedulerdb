@@ -146,6 +146,12 @@
 				    	<form:textarea class="form-control" rows="3" path="requestBody"></form:textarea>
 				    </div>
 				</div>
+				<div class="form-group row" style="display: none;">
+		    		<form:label class="col-sm-2 col-form-label" path="cronProperties.cronTab">Schedule Time</form:label>
+				    <div class="col-sm-8">
+						<form:input type="text" class="form-control" id="cronTabid" path="cronProperties.cronTab" placeholder="" />
+				    </div>
+		  		</div>
 		  		<div class="form-group row">
 				    <div class="col-sm-8">
 				    	<button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
@@ -196,10 +202,13 @@ $(document).ready(function () {
 		}
 	});
 	
-	/* $('a[data-toggle="tab"]').click(function(){  
-		$('#nav-tabContent input').val('');
-		$('#nav-tabContent input[type="radio"]').prop('checked', false); 
-	}); */
+	$('a[data-toggle="tab"]').click(function(){  
+		// mengosongkan inputan
+		/* $('#nav-tabContent input').val('');
+		$('#nav-tabContent input[type="radio"]').prop('checked', false);  */
+		
+		$("#cronTabid").val($(this).text());
+	});
 	
 	// mengembalikan data pada form cron saat gagal submit dan edit job
 	if ("${schedulerJobInfo.cronProperties.cronTab}" != "") {
@@ -215,7 +224,6 @@ $(document).ready(function () {
 	    	}
 		});
 	}
-	
 });
 </script>    
 </body>

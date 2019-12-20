@@ -6,8 +6,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.quartz.CronExpression;
 
@@ -22,32 +20,47 @@ public final class CronConverter {
 	public static SchedulerJobInfo generateCron(SchedulerJobInfo schedulerJobInfo) {
 		CronProperties cronProperties = schedulerJobInfo.getCronProperties();
 		
+		if (cronProperties.getCronTab() == null || cronProperties.getCronTab().isEmpty()) {
+			cronProperties.setCronTab(CronTab.MINUTES); 
+		}
+		
 		// generate cron expression
 		String cronExpression = "";
 		
-		String scheduleTime = checkSchedule(cronProperties);
-	    switch (scheduleTime) {
+	    switch (cronProperties.getCronTab()) {
             case CronTab.MINUTES:
-            	cronExpression = minutes(cronProperties.getMinutes());
+            	if (cronProperties.getMinutes() != null && !cronProperties.getMinutes().isEmpty()) {
+            		cronExpression = minutes(cronProperties.getMinutes());
+        		}
             	break;
             case CronTab.HOURLY:
-            	cronExpression = hourly(cronProperties.getHourly());
+            	if (cronProperties.getHourly() != null && !cronProperties.getHourly().isEmpty()) {
+            		cronExpression = hourly(cronProperties.getHourly());
+            	}
             	break;
             case CronTab.DAILY:
-            	Calendar cal = getCalendar(cronProperties.getDailyHour());
-            	cronExpression = daily(cronProperties.isEveryDay(), String.valueOf(cal.get(Calendar.MINUTE)), String.valueOf(cal.get(Calendar.HOUR_OF_DAY)));
+            	if (cronProperties.getDailyHour() != null && !cronProperties.getDailyHour().isEmpty()) {
+            		Calendar cal = getCalendar(cronProperties.getDailyHour());
+                	cronExpression = daily(cronProperties.isEveryDay(), String.valueOf(cal.get(Calendar.MINUTE)), String.valueOf(cal.get(Calendar.HOUR_OF_DAY)));
+            	}
             	break;
             case CronTab.WEEKLY:
-            	Calendar cal1 = getCalendar(cronProperties.getWeeklyHour());
-            	cronExpression = weekly(String.valueOf(cal1.get(Calendar.MINUTE)), String.valueOf(cal1.get(Calendar.HOUR_OF_DAY)), getDays(cronProperties.getWeeklyDay()).getKey());
+            	if (cronProperties.getWeeklyHour() != null && !cronProperties.getWeeklyHour().isEmpty()) {
+            		Calendar cal1 = getCalendar(cronProperties.getWeeklyHour());
+                	cronExpression = weekly(String.valueOf(cal1.get(Calendar.MINUTE)), String.valueOf(cal1.get(Calendar.HOUR_OF_DAY)), getDays(cronProperties.getWeeklyDay()).getKey());
+            	}
             	break;
             case CronTab.MONTHLY:
-            	Calendar cal2 = getCalendar(cronProperties.getMonthlyHour());
-            	cronExpression = monthly(String.valueOf(cal2.get(Calendar.MINUTE)), String.valueOf(cal2.get(Calendar.HOUR_OF_DAY)), cronProperties.getMonthlyDay());
+            	if (cronProperties.getMonthlyHour() != null && !cronProperties.getMonthlyHour().isEmpty()) {
+            		Calendar cal2 = getCalendar(cronProperties.getMonthlyHour());
+                	cronExpression = monthly(String.valueOf(cal2.get(Calendar.MINUTE)), String.valueOf(cal2.get(Calendar.HOUR_OF_DAY)), cronProperties.getMonthlyDay());
+            	}
             	break;
             case CronTab.YEARLY:
-            	Calendar cal3 = getCalendar(cronProperties.getYearlyHour());
-            	cronExpression = yearly(String.valueOf(cal3.get(Calendar.MINUTE)), String.valueOf(cal3.get(Calendar.HOUR_OF_DAY)), cronProperties.getYearlyDate(), String.valueOf(getMonths(cronProperties.getYearlyMonth()).getKey()));
+            	if (cronProperties.getYearlyHour() != null && !cronProperties.getYearlyHour().isEmpty()) {
+            		Calendar cal3 = getCalendar(cronProperties.getYearlyHour());
+                	cronExpression = yearly(String.valueOf(cal3.get(Calendar.MINUTE)), String.valueOf(cal3.get(Calendar.HOUR_OF_DAY)), cronProperties.getYearlyDate(), String.valueOf(getMonths(cronProperties.getYearlyMonth()).getKey()));
+            	}
             	break;
             default:
             	System.out.print("There is no schedule.");
@@ -59,7 +72,6 @@ public final class CronConverter {
 	    
 	    // generate cron input, ini berguna untuk menampilkan kembali isi cron ke halaman edit job
 	    // format CronProperties
-	    cronProperties.setCronTab(scheduleTime);
 	    String cronInput = cronProperties.toString();
 	    schedulerJobInfo.setCronInput(cronInput);
         return schedulerJobInfo;
@@ -138,24 +150,6 @@ public final class CronConverter {
 	 */
 	public static String yearly(String seconds, String hour, String dayOfmonth, String month) {
 		return "0 " + seconds + " " + hour + " " + dayOfmonth + " " + month + " ? * ";
-	}
-	
-	public static String checkSchedule(CronProperties cronProperties) {
-		// check if scheduler is minutes, hourly, daily, monthly, or yearly
-		if (cronProperties.getMinutes() != null && !cronProperties.getMinutes().isEmpty()) {
-			return CronTab.MINUTES;
-		} else if (cronProperties.getHourly() != null && !cronProperties.getHourly().isEmpty()) {
-			return CronTab.HOURLY;
-		} else if (cronProperties.getDailyHour() != null && !cronProperties.getDailyHour().isEmpty()) {
-			return CronTab.DAILY;
-		} else if (cronProperties.getWeeklyHour() != null && !cronProperties.getWeeklyHour().isEmpty()) {
-			return CronTab.WEEKLY;
-		} else if (cronProperties.getMonthlyHour() != null && !cronProperties.getMonthlyHour().isEmpty()) {
-			return CronTab.MONTHLY;
-		} else if (cronProperties.getYearlyHour() != null && !cronProperties.getYearlyHour().isEmpty()) {
-			return CronTab.YEARLY;
-		}
-		return null;
 	}
 	
 	public static Days getDays(String day) {
