@@ -46,12 +46,12 @@ public class GenericMethodServiceImpl implements GenericMethodService {
 		
 		try {
 			ServerResponse response = restClient.restClientOutput(url, HttpMethod.valueOf(httpMethod.toUpperCase()), requestBody);
-			System.out.println("rest client response : " + response);
 			
 			SchedulerJobHistory history = new SchedulerJobHistory();
 			history.setSjhJobName(context.getJobDetail().getKey().getName());
 			history.setSjhJobGroup(context.getJobDetail().getKey().getGroup());
 			history.setSjhTriggerName(context.getTrigger().getKey().getName());
+			history.setSjhFireTime(context.getFireTime());
 			history.setSjhHttpMethod(httpMethod);
 			history.setSjhUrl(url);
 			history.setSjhParams(params);

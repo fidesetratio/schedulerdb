@@ -1,5 +1,7 @@
 package com.app.quartz.engine.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +20,7 @@ public class SchedulerJobHistory {
 	private long sjhId;
 	private String sjhJobName;
 	private String sjhJobGroup;
+	private Date sjhFireTime;
 	private String sjhTriggerName;
 	private String sjhHttpMethod;
 	private String sjhUrl;
@@ -86,12 +89,19 @@ public class SchedulerJobHistory {
 	public void setSjhResponseBody(String sjhResponseBody) {
 		this.sjhResponseBody = sjhResponseBody;
 	}
+	public Date getSjhFireTime() {
+		return sjhFireTime;
+	}
+	public void setSjhFireTime(Date sjhFireTime) {
+		this.sjhFireTime = sjhFireTime;
+	}
 	
 	@Override
 	public String toString() {
 		return "SchedulerJobHistory [sjhId=" + sjhId + ", sjhJobName=" + sjhJobName + ", sjhJobGroup=" + sjhJobGroup
-				+ ", sjhTriggerName=" + sjhTriggerName + ", sjhHttpMethod=" + sjhHttpMethod + ", sjhUrl=" + sjhUrl
-				+ ", sjhParams=" + sjhParams + ", sjhRequestBody=" + sjhRequestBody + ", sjhResponseStatus="
-				+ sjhResponseStatus + ", sjhResponseBody=" + sjhResponseBody + "]";
+				+ ", sjhFireTime=" + sjhFireTime + ", sjhTriggerName=" + sjhTriggerName + ", sjhHttpMethod="
+				+ sjhHttpMethod + ", sjhUrl=" + sjhUrl + ", sjhParams=" + sjhParams + ", sjhRequestBody="
+				+ sjhRequestBody + ", sjhResponseStatus=" + sjhResponseStatus + ", sjhResponseBody=" + sjhResponseBody
+				+ "]";
 	}
 }

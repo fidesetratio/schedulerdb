@@ -25,6 +25,14 @@
 		          		<a class="dropdown-item" href="${path}/schedulerdb/job/create?jobName=&groupName=">Create Job</a>
 		        	</div>
 		      	</li>
+		      	<li class="nav-item dropdown">
+		     		<span class="nav-link dropdown-toggle" id="jobDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          		History
+		        	</span>
+		        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		          		<a class="dropdown-item" href="${path}/schedulerdb/history">Scheduler</a>
+		        	</div>
+		      	</li>
 			</ul>
 		</div>
 	</nav>

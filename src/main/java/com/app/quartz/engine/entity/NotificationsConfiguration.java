@@ -22,7 +22,7 @@ public class NotificationsConfiguration {
 	private String ncPort;
 	private String ncUsername;
 	private String ncPassword;
-	private String ncAuth;
+	private boolean ncAuth;
 	private String ncSender;
 	private String ncReceiver;
 	private String ncSubject;
@@ -64,10 +64,10 @@ public class NotificationsConfiguration {
 	public void setNcPassword(String ncPassword) {
 		this.ncPassword = ncPassword;
 	}
-	public String getNcAuth() {
+	public boolean isNcAuth() {
 		return ncAuth;
 	}
-	public void setNcAuth(String ncAuth) {
+	public void setNcAuth(boolean ncAuth) {
 		this.ncAuth = ncAuth;
 	}
 	public String getNcSender() {

@@ -75,14 +75,14 @@
 		<table class="table" id="jobDatalist">
 			<thead class="thead-light">
 				<tr>
-					<th scope="col"><input type="checkbox" id="parentBox" /></th>
-					<th scope="col">Job Name</th>
-					<th scope="col">Group Name</th>
-					<th scope="col">Schedule Time</th>
-					<th scope="col">Last Fired Time</th>
-					<th scope="col">Next Fire Time</th>
-					<th scope="col">Job State</th>
-					<th scope="col">Action</th>
+					<th class="text-center" scope="col"><input type="checkbox" id="parentBox" /></th>
+					<th class="text-center" scope="col">Job Name</th>
+					<th class="text-center" scope="col">Group Name</th>
+					<th class="text-center" scope="col">Schedule Time</th>
+					<th class="text-center" scope="col">Last Fired Time</th>
+					<th class="text-center" scope="col">Next Fire Time</th>
+					<th class="text-center" scope="col">Job State</th>
+					<th class="text-center" scope="col">Action</th>
 				</tr>
 			</thead>
 		<tbody>
@@ -110,10 +110,11 @@
 <script type="text/javascript">
 $(document).ready(function () {
 	$('#jobDatalist').DataTable({
-		"ordering": false,
 		"lengthChange": false,
         "searching": false,
         "autoWidth": false,
+        "pageLength": 5,
+        "order": [[ 1, "asc" ]]
 	});
 	
 	$("#parentBox").click(function(){
