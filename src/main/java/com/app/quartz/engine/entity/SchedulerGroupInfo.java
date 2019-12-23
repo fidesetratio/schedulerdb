@@ -11,6 +11,10 @@ import org.hibernate.annotations.Proxy;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Scheduler groups
+ *
+ */
 @Proxy(lazy=false)
 @Entity
 @Table(name = "scheduler_group_info")

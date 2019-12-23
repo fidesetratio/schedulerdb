@@ -23,4 +23,6 @@ public interface SchedulerJobInfoRepository extends JpaRepository<SchedulerJobIn
 	
 	@Query("FROM SchedulerJobInfo sc where LOWER(sc.jobName) = :name and sc.id <> :id ")
 	public List<SchedulerJobInfo> findByNameExceptId(@Param("name") String name, @Param("id") long id);
+	
+	public List<SchedulerJobInfo> findAllByOrderByJobNameAsc();
 }

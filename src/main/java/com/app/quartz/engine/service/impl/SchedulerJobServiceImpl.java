@@ -307,7 +307,6 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 					}
 					jobObj.setJobState(jobState);
 
-					
 					list.add(jobObj);
 				}
 			}

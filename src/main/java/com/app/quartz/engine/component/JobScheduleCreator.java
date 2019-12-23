@@ -74,7 +74,19 @@ public class JobScheduleCreator {
 		return factoryBean.getObject();
 }
     
-    
+    /**
+     * Create complete Job including JobDataMap for retrieving params, url, httpMethod, requestBody
+     * @param jobClass
+     * @param isDurable
+     * @param context
+     * @param jobName
+     * @param jobGroup
+     * @param params
+     * @param restUrl
+     * @param httpMethod
+     * @param requestBody
+     * @return
+     */
     public JobDetail createJob(Class<? extends QuartzJobBean> jobClass, boolean isDurable, ApplicationContext context, 
     		String jobName, String jobGroup, String params, String restUrl, String httpMethod, String requestBody) {
 		JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
@@ -142,7 +154,16 @@ public class JobScheduleCreator {
         return factoryBean.getObject();
     }
     
-    
+    /**
+     * Simple trigger for Simple Trigger with start time, repeat interval and repeat count
+     * 
+     * @param triggerName
+     * @param startTime
+     * @param repeatInterval
+     * @param repeatCount
+     * @param misFireInstruction
+     * @return
+     */
     public SimpleTrigger createSimpleTrigger(String triggerName, Date startTime,  
     			Long repeatInterval, int repeatCount, int misFireInstruction) {
         SimpleTriggerFactoryBean factoryBean = new SimpleTriggerFactoryBean();

@@ -6,6 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Configuration for email notification
+ *
+ */
 @Entity
 @Table(name = "notifications_configuration")
 public class NotificationsConfiguration {

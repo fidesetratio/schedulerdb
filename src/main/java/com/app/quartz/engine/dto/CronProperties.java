@@ -1,5 +1,10 @@
 package com.app.quartz.engine.dto;
 
+/**
+ * This method to save cron input from UI
+ * generate original cron to original cron is currently not achievable
+ *
+ */
 public class CronProperties {
 
 	private String cronTab;

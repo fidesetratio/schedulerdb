@@ -1,5 +1,9 @@
 package com.app.quartz.engine.obj;
 
+/**
+ * 
+ * Days values
+ */
 public enum Days {
 	
 	SUNDAY("SUN", "Sunday"), 

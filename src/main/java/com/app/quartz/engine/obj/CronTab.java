@@ -1,5 +1,9 @@
 package com.app.quartz.engine.obj;
 
+/**
+ * Cron tab values
+ *
+ */
 public class CronTab {
 
 	public static final String MINUTES = "Minutes";
