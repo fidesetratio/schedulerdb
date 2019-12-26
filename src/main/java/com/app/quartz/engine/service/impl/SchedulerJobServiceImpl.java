@@ -224,7 +224,6 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 		try {
 			schedulerFactoryBean.getScheduler().pauseJob(new JobKey(schedulerJobInfo.getJobName(), schedulerJobInfo.getJobGroup()));
 			sendMailutil.sendMail(1, "PAUSE ", schedulerJobInfo);
-			System.out.println("Scheduler paused");
 			return true;
 		} catch (SchedulerException e) {
 			return false;

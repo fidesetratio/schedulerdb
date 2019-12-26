@@ -8,6 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.quartz.CronExpression;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.app.quartz.engine.dto.CronProperties;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
@@ -16,6 +18,8 @@ import com.app.quartz.engine.obj.Days;
 import com.app.quartz.engine.obj.Months;
 
 public final class CronConverter {
+	
+	private static final Logger logger = LoggerFactory.getLogger(CronConverter.class);
 	
 	public static SchedulerJobInfo generateCron(SchedulerJobInfo schedulerJobInfo) {
 		CronProperties cronProperties = schedulerJobInfo.getCronProperties();
@@ -63,7 +67,7 @@ public final class CronConverter {
             	}
             	break;
             default:
-            	System.out.print("There is no schedule.");
+            	logger.error("CronConverter:generateCron.switch (cronProperties.getCronTab())");
         }
 	    
 	    if (CronExpression.isValidExpression(cronExpression)) {

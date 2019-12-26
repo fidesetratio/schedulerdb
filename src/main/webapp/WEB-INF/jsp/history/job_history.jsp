@@ -5,6 +5,7 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/bootstrap/font-awesome-4.7.0/css/font-awesome.min.css">
 	
 	<title>Scheduler History</title>
 	<style>
@@ -55,7 +56,11 @@
 	    			<td>${history.sjhJobGroup}</td>
 	    			<td>${history.sjhFireTime}</td>
 	    			<td>${history.sjhResponseStatus}</td>
-	    			<td><a class="btn btn-primary" href="${path}/history/${history.sjhId}" role="button">Detail</a></td>
+	    			<td>
+	    				<a class="btn btn-primary" href="${path}/history/${history.sjhId}" role="button">
+							<i class="fa fa-info" aria-hidden="true"></i>
+						</a>
+					</td>
 	    		</tr>
 			</c:forEach>
 		</tbody>

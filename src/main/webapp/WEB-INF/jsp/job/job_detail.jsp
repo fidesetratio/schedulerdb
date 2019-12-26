@@ -79,8 +79,12 @@
 									    	<form:input type="text" class="form-control paramInput" path="paramInput" value="${schedulerJobInfo.paramInput[counter]}" />
 									    </div>
 									    <div class="col">
-									    	<button type="button" class="btn btn-info deleteParam">Delete</button>
-									     	<button type="button" class="btn btn-info addParam">Add</button>
+									    	<button type="button" class="btn btn-info deleteParam">
+									    		<i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+											</button>
+									     	<button type="button" class="btn btn-info addParam">
+												<i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+											</button>
 									    </div>
 									</div>
 	                    		</c:forEach>
@@ -94,8 +98,12 @@
 								    	<form:input type="text" class="form-control paramInput" path="paramInput" />
 								    </div>
 								    <div class="col">
-								    	<button type="button" class="btn btn-info deleteParam">Delete</button>
-								      	<button type="button" class="btn btn-info addParam">Add</button>
+								    	<button type="button" class="btn btn-info deleteParam">
+								    		<i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+								    	</button>
+								      	<button type="button" class="btn btn-info addParam">
+											<i class="fa fa-plus fa-lg" aria-hidden="true"></i>
+										</button>
 								    </div>
 								</div>
 	  						</c:when>

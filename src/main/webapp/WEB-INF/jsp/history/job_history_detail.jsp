@@ -17,19 +17,6 @@
 		.table td {
    			text-align: left;   
 		}
-		.searchScheduler {
-		   	display: table-cell;
-		}
-		.dataTables_info {
-			width: 75%;
-			float: center;
-			text-align: center;
-		}
-		.dataTables_paginate {
-			width: 85%;
-			float: center;
-			text-align: center;
-		}
 	</style>
 </head>
 <script type="text/javascript" src="${path}/static/plugins/js/jquery-3.4.1.min.js"></script>
@@ -41,8 +28,8 @@
 <body>
 <div>
 	<jsp:include page="/static/common/include/menu_bar.jsp" />
-	<div class="container">
 	<br />
+	<div class="container">
 		<div class="row">
 			<div class="col-sm table-responsive bg-light text-dark tableDetailcontainer">
 				<table class="table table-borderless" id="schedulerHistorytable" >
@@ -89,11 +76,6 @@
 						    <td>:</td>
 						    <td>${history.sjhParams}</td>
 		    			</tr>
-		    			<tr>
-						    <td>Request Body</td>
-						    <td>:</td>
-						    <td>${history.sjhRequestBody}</td>
-		    			</tr>
 		  			</tbody>
 				</table>
 			</div>
@@ -107,6 +89,11 @@
 		    			</tr>
 		  			</thead>
 		  			<tbody>
+		    			<tr>
+						    <td>Request Body</td>
+						    <td>:</td>
+						    <td>${history.sjhRequestBody}</td>
+		    			</tr>
 		    			<tr>
 						    <td>Response Status</td>
 						    <td>:</td>
@@ -122,6 +109,13 @@
     		</div>
 		</div>
 	</div>
+	<br />
+	<div class="container" style="text-align: right;">
+		<a class="btn btn-primary" href="${path}/history" role="button">
+			<i class="fa fa-chevron-right" aria-hidden="true"></i>
+		</a>
+	</div>
+	<br />
 </div>
 <script type="text/javascript">
 </script>

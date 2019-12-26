@@ -79,7 +79,6 @@ public class SendEmailSMTPUtil {
             // kirim email
             Transport.send(message);
             
-            System.out.println("Generate notification history");
             // simpan history email
             NotificationsHistory nh = new NotificationsHistory(nc, subject, content);
     		nhService.saveNotificationsHistory(nh);

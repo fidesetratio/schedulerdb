@@ -5,6 +5,7 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/bootstrap/bootstrap-4.3.1-dist/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/bootstrap/font-awesome-4.7.0/css/font-awesome.min.css">
 	
 	<title>Job List</title>
 	<style>
@@ -46,9 +47,15 @@
 	<br />
 	<div class="processButtons">
 		<div class="processButtonleft">
-			<a class="btn btn-light refreshButton" href="${path}/job" role="button">Refresh Page</a>
-			<button type="button" class="btn btn-primary processButton">Pause All</button>
-			<button type="button" class="btn btn-info processButton">Resume All</button>
+			<a class="btn btn-light refreshButton" href="${path}/job" role="button">
+				<i class="fa fa-refresh"></i> Refresh
+			</a>
+			<button type="button" class="btn btn-primary processButton">
+				<i class="fa fa-pause"></i> Pause All
+			</button>
+			<button type="button" class="btn btn-info processButton">
+				<i class="fa fa-play"></i> Resume All
+			</button>
 		</div>
 		<div class="searchScheduler">
 			<form class="form-inline" action="${path}/job" method="post" autocomplete="off">
@@ -60,14 +67,22 @@
 					</select>
 				</div>
 				<input class="form-control mb-2 mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="jobSearchinput">
-				<button class="btn btn btn-info mb-2 mr-sm-2" type="submit">Search</button>
+				<button class="btn btn btn-info mb-2 mr-sm-2" type="submit">
+					<i class="fa fa-search"></i> Search
+				</button>
 			</form>
 		</div>
 		<div class="processButtonright">
 			<!-- <button type="button" class="btn btn-warning processButton">Start Now</button> -->
-			<button type="button" class="btn btn-primary processButton">Pause</button>
-			<button type="button" class="btn btn-info processButton">Resume</button>
-			<button type="button" class="btn btn-warning processButton">Delete</button>
+			<button type="button" class="btn btn-primary processButton">
+				<i class="fa fa-pause"></i> Pause
+			</button>
+			<button type="button" class="btn btn-info processButton">
+				<i class="fa fa-play"></i> Resume
+			</button>
+			<button type="button" class="btn btn-warning processButton">
+				<i class="fa fa-trash"></i> Delete
+			</button>
 		</div>		
 	</div>
 	<br />
@@ -95,7 +110,11 @@
 	    			<td>${job.lastFiredTime}</td>
 	    			<td>${job.nextFireTime}</td>
 	    			<td class="jobState">${job.jobState}</td>
-	    			<td><a class="btn btn-primary" href="${path}/job/create?jobName=${job.jobName}&groupName=${job.groupName}" role="button">Edit</a></td>
+	    			<td>
+	    				<a class="btn btn-primary" href="${path}/job/create?jobName=${job.jobName}&groupName=${job.groupName}" role="button">
+	    					<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+	    				</a>
+	    			</td>
 	    		</tr>
 			</c:forEach>
 		</tbody>

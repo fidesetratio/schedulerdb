@@ -2,7 +2,6 @@ package com.app.quartz.engine.entity.converter;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.persistence.AttributeConverter;
 
@@ -11,7 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class MapStringConverter  implements AttributeConverter<HashMap,String>{
+public class MapStringConverter  implements AttributeConverter<HashMap, String>{
 
 	@Override
 	public String convertToDatabaseColumn(HashMap map) {

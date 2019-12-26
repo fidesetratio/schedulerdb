@@ -29,7 +29,7 @@ import com.app.quartz.engine.service.SchedulerService;
 /**
  * 
  * not used
- *
+ * first coded scheduler service 
  */
 @Slf4j
 @Transactional

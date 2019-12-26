@@ -105,7 +105,6 @@ public class SchedulerJobController {
 	@RequestMapping(value = "/submit", method = RequestMethod.POST, headers = "Accept=application/json")
 	public String submit(@Valid @ModelAttribute("schedulerJobInfo")SchedulerJobInfo schedulerJobInfo, 
 			  BindingResult bindingResult, Model model) {
-		System.out.println("schedulerJobInfo: " + schedulerJobInfo.toString());
 		
 		// convert date to cron expression
 		schedulerJobInfo = CronConverter.generateCron(schedulerJobInfo);
