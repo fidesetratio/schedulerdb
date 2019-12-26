@@ -7,5 +7,5 @@ import com.app.quartz.engine.entity.SchedulerJobHistory;
 public interface SchedulerJobHistoryService {
 
 	public List<SchedulerJobHistory> getAllHistory();
-	
+	public SchedulerJobHistory getHistoryDetail(long id);
 }

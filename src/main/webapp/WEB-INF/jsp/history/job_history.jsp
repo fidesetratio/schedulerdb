@@ -39,6 +39,7 @@
 		<table class="table" id="schedulerHistorytable">
 			<thead class="thead-light">
 				<tr>
+					<th scope="col"><input type="checkbox" style="display:none" id="parentBox" /></th>
 					<th class="text-center" scope="col">Job Name</th>
 					<th class="text-center" scope="col">Group Name</th>
 					<th class="text-center" scope="col">Fired Time</th>
@@ -49,11 +50,12 @@
 		<tbody>
 			<c:forEach var="history" items="${schedulerHistorylist}">
 	    		<tr>
+	    			<td><input type="checkbox" class="checkId" style="display:none" name="childboxName" value="${history.sjhId}" />&nbsp;</td>
 	    			<td>${history.sjhJobName}</td>
 	    			<td>${history.sjhJobGroup}</td>
 	    			<td>${history.sjhFireTime}</td>
 	    			<td>${history.sjhResponseStatus}</td>
-	    			<td><a class="btn btn-primary" href="" role="button">Detail</a></td>
+	    			<td><a class="btn btn-primary" href="${path}/history/${history.sjhId}" role="button">Detail</a></td>
 	    		</tr>
 			</c:forEach>
 		</tbody>

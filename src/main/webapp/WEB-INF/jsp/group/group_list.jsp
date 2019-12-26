@@ -37,7 +37,7 @@
 		<table class="table" id="groupDatalist">
 			<thead class="thead-light">
 				<tr>
-					<th scope="col"><input type="checkbox" id="parentBox" /></th>
+					<th scope="col"><input type="checkbox" style="display:none" id="parentBox" /></th>
 					<th scope="col">Group Name</th>
 					<th scope="col">Total Jobs</th>
 					<th scope="col">Action</th>
@@ -46,7 +46,7 @@
 		<tbody>
 			<c:forEach var="group" items="${groupList}">
 	    		<tr>
-	    			<td><input type="checkbox" class="checkId" name="childboxName" value="${group.groupId}" />&nbsp;</td>
+	    			<td><input type="checkbox" class="checkId" style="display:none" name="childboxName" value="${group.groupId}" />&nbsp;</td>
 	    			<td class="groupName">${group.groupName}</td>
 	    			<td>${group.totalJobs}</td>
 	    			<td><button type="button" class="btn btn-primary editButton">Edit</button></td>

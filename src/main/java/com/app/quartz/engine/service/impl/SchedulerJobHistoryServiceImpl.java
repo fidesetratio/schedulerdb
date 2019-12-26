@@ -25,4 +25,9 @@ public class SchedulerJobHistoryServiceImpl implements SchedulerJobHistoryServic
 		return schedulerJobHistoryRepository.findAllByOrderBySjhFireTimeDesc();
 	}
 
+	@Override
+	public SchedulerJobHistory getHistoryDetail(long id) {
+		return schedulerJobHistoryRepository.getOne(id);
+	}
+
 }

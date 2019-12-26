@@ -1,5 +1,6 @@
 package com.app.quartz.engine.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -7,14 +8,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Proxy;
 /**
  * Scheduler job history  
  *
  */
+@Proxy(lazy=false)
 @Entity
 @Table(name = "scheduler_job_history")
-public class SchedulerJobHistory {
+public class SchedulerJobHistory implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3667323237624509171L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long sjhId;
