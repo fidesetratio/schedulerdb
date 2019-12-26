@@ -45,7 +45,7 @@ public class SendEmailSMTPUtil {
 		NotificationsConfiguration nc = ncService.getConfigByPlatform(platform);
 		
         Properties prop = new Properties();
-        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.auth", String.valueOf(nc.isNcAuth()));
         prop.put("mail.smtp.starttls.enable", "true");
         prop.put("mail.smtp.host", nc.getNcHost());
         prop.put("mail.smtp.port", nc.getNcPort());

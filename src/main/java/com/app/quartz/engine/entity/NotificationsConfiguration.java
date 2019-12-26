@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.app.quartz.engine.obj.NotificationType;
 
 /**
  * Configuration for email notification
@@ -18,6 +21,10 @@ public class NotificationsConfiguration {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long ncId;
 	private int ncPlatform;
+	
+	@Transient
+	private String platformType;
+	
 	private String ncHost;
 	private String ncPort;
 	private String ncUsername;
@@ -94,13 +101,19 @@ public class NotificationsConfiguration {
 	public void setNcContent(String ncContent) {
 		this.ncContent = ncContent;
 	}
+	public String getPlatformType() {
+		return platformType;
+	}
+	public void setPlatformType(String platformType) {
+		this.platformType = platformType;
+	}
 	
 	@Override
 	public String toString() {
-		return "NotificationsConfiguration [ncId=" + ncId + ", ncPlatform=" + ncPlatform + ", ncHost=" + ncHost
-				+ ", ncPort=" + ncPort + ", ncUsername=" + ncUsername + ", ncPassword=" + ncPassword + ", ncAuth="
-				+ ncAuth + ", ncSender=" + ncSender + ", ncReceiver=" + ncReceiver + ", ncSubject=" + ncSubject
-				+ ", ncContent=" + ncContent + "]";
+		return "NotificationsConfiguration [ncId=" + ncId + ", ncPlatform=" + ncPlatform + ", platformType="
+				+ platformType + ", ncHost=" + ncHost + ", ncPort=" + ncPort + ", ncUsername=" + ncUsername
+				+ ", ncPassword=" + ncPassword + ", ncAuth=" + ncAuth + ", ncSender=" + ncSender + ", ncReceiver="
+				+ ncReceiver + ", ncSubject=" + ncSubject + ", ncContent=" + ncContent + "]";
 	}
 
 }

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.app.quartz.engine.dto.AjaxRequestModel;
 import com.app.quartz.engine.dto.SchedulerJob;
+import com.app.quartz.engine.entity.SchedulerJobHistory;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.entity.converter.CronConverter;
 import com.app.quartz.engine.obj.Days;
@@ -27,6 +29,7 @@ import com.app.quartz.engine.obj.Months;
 import com.app.quartz.engine.service.JobRequestProcessService;
 import com.app.quartz.engine.service.SchedulerGroupInfoService;
 import com.app.quartz.engine.service.SchedulerInfoService;
+import com.app.quartz.engine.service.SchedulerJobHistoryService;
 import com.app.quartz.engine.service.SchedulerJobService;
 
 @Controller
@@ -45,6 +48,9 @@ public class SchedulerJobController {
 	@Autowired
 	private JobRequestProcessService jobRequestProcessService;
 	
+	@Autowired
+	private SchedulerJobHistoryService schedulerJobHistoryService;
+		
 	private final String[] httpMethodlist = {RequestMethod.GET.toString(), RequestMethod.POST.toString(), RequestMethod.PUT.toString(), RequestMethod.DELETE.toString()};
 	
 	/**
@@ -157,6 +163,21 @@ public class SchedulerJobController {
 	public String ajaxCall(@RequestBody AjaxRequestModel ajaxRequestModel) {
 		jobRequestProcessService.jobRequestProcess(ajaxRequestModel);
 		return "redirect:/job";
+	}
+	
+	@RequestMapping(value = "/history", method = RequestMethod.GET)
+	public String historyList(Model model) {
+		model.addAttribute("schedulerHistorylist", schedulerJobHistoryService.getAllHistory());
+		
+		return "job/job_history";
+	}
+	
+	@RequestMapping(value = "/history/{sjhId}", method = RequestMethod.GET)
+	public String getHistoryDetail(@PathVariable("sjhId") long sjhId, Model model) {
+		SchedulerJobHistory schedulerJobHistory = schedulerJobHistoryService.getHistoryDetail(sjhId);
+		model.addAttribute("history", schedulerJobHistory);
+		
+		return "job/job_history_detail";
 	}
 	
 	private String generateURLparams(List<String> str1, List<String> str2) {

@@ -29,28 +29,24 @@ public class JobRequestProcessServiceImpl implements JobRequestProcessService {
 	@Override
 	public void jobRequestProcess(AjaxRequestModel ajaxRequestModel) {
 		List<SchedulerJobInfo> schedulerInfolist = ajaxRequestModel.getJobList();
-		if (ajaxRequestModel.getJobProcess().toUpperCase().equals("PAUSE")) {
+		if (ajaxRequestModel.getJobProcess().trim().toUpperCase().equals("PAUSE")) {
 			for (SchedulerJobInfo sc : schedulerInfolist) {
 				schedulerJobService.pauseScheduleJob(sc);
 				logger.debug("Job: " + sc.getJobName() + " is paused. Time: " + new Date());
 			}
-		} else if (ajaxRequestModel.getJobProcess().toUpperCase().equals("RESUME")) {
+		} else if (ajaxRequestModel.getJobProcess().trim().toUpperCase().equals("RESUME")) {
 			for (SchedulerJobInfo sc : schedulerInfolist) {
 				schedulerJobService.resumeScheduleJob(sc);
 				logger.debug("Job: " + sc.getJobName() + " is resumed. Time: " + new Date());
 			}
-		} else if (ajaxRequestModel.getJobProcess().toUpperCase().equals("RESUME ALL")) {
+		} else if (ajaxRequestModel.getJobProcess().trim().toUpperCase().equals("RESUME ALL")) {
 			schedulerJobService.resumeAllSchedulers();
 			logger.debug("All job is resumed. Time: " + new Date());
-		} else if (ajaxRequestModel.getJobProcess().toUpperCase().equals("PAUSE ALL")) {
+		} else if (ajaxRequestModel.getJobProcess().trim().toUpperCase().equals("PAUSE ALL")) {
 			schedulerJobService.pauseAllSchedulers();
 			logger.debug("All job is paused. Time: " + new Date());
-		} else if (ajaxRequestModel.getJobProcess().toUpperCase().equals("DELETE")) {
+		} else if (ajaxRequestModel.getJobProcess().trim().toUpperCase().equals("DELETE")) {
 			schedulerJobService.deleteScheduleJob(schedulerInfolist);
-		} else if (ajaxRequestModel.getJobProcess().toUpperCase().equals("START NOW")) {
-			for (SchedulerJobInfo sc : schedulerInfolist) {
-				schedulerJobService.startJobNow(sc);
-			}
 		}
 	}
 

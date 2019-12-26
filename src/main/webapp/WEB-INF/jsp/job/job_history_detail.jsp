@@ -111,7 +111,7 @@
 	</div>
 	<br />
 	<div class="container" style="text-align: right;">
-		<a class="btn btn-primary" href="${path}/history" role="button">
+		<a class="btn btn-primary" href="${path}/job/history" role="button">
 			<i class="fa fa-chevron-right" aria-hidden="true"></i>
 		</a>
 	</div>

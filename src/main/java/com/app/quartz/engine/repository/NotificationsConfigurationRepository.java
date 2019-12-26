@@ -15,4 +15,6 @@ public interface NotificationsConfigurationRepository extends JpaRepository<Noti
 	
 	@Query("FROM NotificationsConfiguration nc WHERE nc.ncPlatform = :platform ")
 	public List<NotificationsConfiguration> findByPlatform(@Param("platform") int platform);
+	
+	public List<NotificationsConfiguration> findAllByOrderByNcIdAsc();
 }

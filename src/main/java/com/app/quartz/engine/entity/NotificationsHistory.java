@@ -7,11 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Proxy;
 
 /**
  * Notification history
  *
  */
+@Proxy(lazy=false)
 @Entity
 @Table(name = "notifications_history")
 public class NotificationsHistory {
@@ -20,6 +24,10 @@ public class NotificationsHistory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long nhId;
 	private long nhNcId;
+	
+	@Transient
+	private String nhNcNotiftype;
+	
 	private String nhSender;
 	private String nhReceiver;
 	private String nhSubject ;
@@ -36,6 +44,10 @@ public class NotificationsHistory {
 		this.nhContent = content;
 		this.nhStatus = true;
 		this.nhSendDate = new Date();
+	}
+
+	public NotificationsHistory() {
+		super();
 	}
 
 	public long getNhId() {
@@ -102,10 +114,18 @@ public class NotificationsHistory {
 		this.nhSendDate = nhSendDate;
 	}
 
+	public String getNhNcNotiftype() {
+		return nhNcNotiftype;
+	}
+
+	public void setNhNcNotiftype(String nhNcNotiftype) {
+		this.nhNcNotiftype = nhNcNotiftype;
+	}
+
 	@Override
 	public String toString() {
-		return "NotificationsHistory [nhId=" + nhId + ", nhNcId=" + nhNcId + ", nhSender=" + nhSender + ", nhReceiver="
-				+ nhReceiver + ", nhSubject=" + nhSubject + ", nhContent=" + nhContent + ", nhStatus=" + nhStatus
-				+ ", nhSendDate=" + nhSendDate + "]";
+		return "NotificationsHistory [nhId=" + nhId + ", nhNcId=" + nhNcId + ", nhNcNotiftype=" + nhNcNotiftype
+				+ ", nhSender=" + nhSender + ", nhReceiver=" + nhReceiver + ", nhSubject=" + nhSubject + ", nhContent="
+				+ nhContent + ", nhStatus=" + nhStatus + ", nhSendDate=" + nhSendDate + "]";
 	}
 }

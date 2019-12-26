@@ -162,8 +162,12 @@
 		  		</div>
 		  		<div class="form-group row">
 				    <div class="col-sm-8">
-				    	<button type="submit" class="btn btn-primary" id="submitButton">Submit</button>
-				    	<a class="btn btn-primary" href="${path}/job" role="button">Cancel</a>
+				    	<button type="submit" class="btn btn-primary" id="submitButton">
+							<i class="fa fa-floppy-o"></i> Submit
+						</button>
+				    	<a class="btn btn-primary" href="${path}/job" role="button">
+							<i class="fa fa-times"></i> Cancel
+						</a>
 				    </div>
   				</div>
 	        </form:form>

@@ -23,14 +23,16 @@
 		        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 		          		<a class="dropdown-item" href="${path}/schedulerdb/job">Job List</a>
 		          		<a class="dropdown-item" href="${path}/schedulerdb/job/create?jobName=&groupName=">Create Job</a>
+		          		<a class="dropdown-item" href="${path}/schedulerdb/job/history">History</a>
 		        	</div>
 		      	</li>
 		      	<li class="nav-item dropdown">
-		     		<span class="nav-link dropdown-toggle" id="jobDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		          		History
+		     		<span class="nav-link dropdown-toggle" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		          		Notification
 		        	</span>
 		        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-		          		<a class="dropdown-item" href="${path}/schedulerdb/history">Scheduler</a>
+		        		<a class="dropdown-item" href="${path}/schedulerdb/notification">List</a>
+		          		<a class="dropdown-item" href="${path}/schedulerdb/notification/history">History</a>
 		        	</div>
 		      	</li>
 			</ul>
