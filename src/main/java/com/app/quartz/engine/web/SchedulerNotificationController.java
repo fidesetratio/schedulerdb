@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.app.quartz.engine.entity.NotificationsConfiguration;
 import com.app.quartz.engine.service.NotificationsConfigurationService;
 import com.app.quartz.engine.service.NotificationsHistoryService;
 
@@ -31,6 +32,15 @@ public class SchedulerNotificationController {
 		model.addAttribute("notificationHistorylist", notificationsHistoryService.getAllnotificationHistory());
 	
 		return "notification/notification_history";
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.GET, headers = "Accept=application/json")
+	public String notification(Model model) {
+		NotificationsConfiguration nc = new NotificationsConfiguration();
+		model.addAttribute("notificationsConfiguration", nc);
+		model.addAttribute("title", "Create Notification");
+		
+		return "notification/notification_detail";
 	}
 	
 }

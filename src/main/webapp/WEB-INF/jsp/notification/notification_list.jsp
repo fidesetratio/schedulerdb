@@ -15,6 +15,10 @@
 		   	overflow-y: auto !important;
 		   	text-align: center;
 		}
+		.createNotification {
+			text-align: center;
+			margin-left: 110px !important;
+		}
 		.dataTables_info {
 			width: 75%;
 			float: center;
@@ -37,6 +41,10 @@
 	<jsp:include page="/static/common/include/menu_bar.jsp" />
 	<br />
 	<div class="table-responsive">
+		<a class="btn btn-primary createNotification" href="${path}/notification/create" role="button">
+			<i class="fa fa-plus"></i> Notification
+		</a>
+		<br /><br />
 		<table class="table" id="notificationListtable">
 			<thead class="thead-light">
 				<tr>
