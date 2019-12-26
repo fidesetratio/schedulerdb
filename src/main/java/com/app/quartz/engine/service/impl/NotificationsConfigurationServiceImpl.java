@@ -52,4 +52,9 @@ public class NotificationsConfigurationServiceImpl implements NotificationsConfi
 		return NotificationType.getValue(nc.getNcPlatform());
 	}
 
+	@Override
+	public NotificationsConfiguration saveNotificationsConfiguration(NotificationsConfiguration nc) {
+		return ncRepository.saveAndFlush(nc);
+	}
+
 }

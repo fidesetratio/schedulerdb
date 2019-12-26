@@ -84,8 +84,8 @@ public class SchedulerJobController {
 	public String createJob(@RequestParam("jobName") String jobName, @RequestParam("groupName") String groupName, Model model) {
 		SchedulerJobInfo schedulerJobInfo = new SchedulerJobInfo();
 		model.addAttribute("httpMethodlist", httpMethodlist);
-		model.addAttribute("days", this.getDays());
-		model.addAttribute("months", this.getMonths());
+		model.addAttribute("days", Days.values());
+		model.addAttribute("months", Months.values());
 		if (!jobName.isEmpty() && jobName != null && !groupName.isEmpty() && groupName != null) {
 			JobKey jobKey = new JobKey(jobName, groupName);
 			schedulerJobInfo = schedulerJobService.getJobInfo(jobKey);
@@ -137,8 +137,8 @@ public class SchedulerJobController {
 			model.addAttribute("schedulerJobInfo", schedulerJobInfo);
 			model.addAttribute("submitFailed", true);
 			model.addAttribute("jobGrouplist",schedulerGroupInfoService.getAllGroupName());
-			model.addAttribute("days", this.getDays());
-			model.addAttribute("months", this.getMonths());
+			model.addAttribute("days", Days.values());
+			model.addAttribute("months", Months.values());
 			model.addAttribute("httpMethodlist", httpMethodlist);
 			model.addAttribute("errors", responseErrorlist);
 			return "job/job_detail";
@@ -190,20 +190,5 @@ public class SchedulerJobController {
 		}
 		return params;
 	}
-	
-	private List<String> getDays() {
-		List<String> days = new ArrayList<String>();
-		for (Days d: Days.values()) {
-			days.add(d.getValue());
-		}
-		return days;
-	}
-	
-	private List<String> getMonths() {
-		List<String> months = new ArrayList<String>();
-		for (Months m: Months.values()) {
-			months.add(m.getValue());
-		}
-		return months;
-	}
+
 }

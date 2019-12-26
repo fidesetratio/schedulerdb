@@ -41,7 +41,7 @@
 	<jsp:include page="/static/common/include/menu_bar.jsp" />
 	<br />
 	<div class="table-responsive">
-		<a class="btn btn-primary createNotification" href="${path}/notification/create" role="button">
+		<a class="btn btn-primary createNotification" href="${path}/notification/create?notifId=" role="button">
 			<i class="fa fa-plus"></i> Notification
 		</a>
 		<br /><br />
@@ -61,7 +61,7 @@
 	    			<td>${notif.platformType}</td>
 	    			<td>${notif.ncHost}</td>
 	    			<td>
-	    				<a class="btn btn-primary" href="${path}/notification/${notif.ncId}" role="button">
+	    				<a class="btn btn-primary" href="${path}/notification/create?notifId=${notif.ncId}" role="button">
 	    					<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 	    				</a>
 	    			</td>

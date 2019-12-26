@@ -59,7 +59,7 @@
 			<div class="col-sm-4">
 				<form:select path="cronProperties.weeklyDay" class="custom-select">
 					<c:forEach var="day" items="${days}">
-						<form:option value="${day}">${day}</form:option>
+						<form:option value="${day.value}">${day.value}</form:option>
 					</c:forEach>
 				</form:select>
 			</div>
@@ -106,7 +106,7 @@
 			<div class="col-sm-4">
 				<form:select path="cronProperties.yearlyMonth" class="custom-select">
 					<c:forEach var="month" items="${months}">
-						<form:option value="${month}">${month}</form:option>
+						<form:option value="${month.value}">${month.value}</form:option>
 					</c:forEach>
 				</form:select>
 			</div>

@@ -7,12 +7,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.app.quartz.engine.obj.NotificationType;
+import org.hibernate.annotations.Proxy;
+
 
 /**
  * Configuration for email notification
  *
  */
+@Proxy(lazy=false)
 @Entity
 @Table(name = "notifications_configuration")
 public class NotificationsConfiguration {
@@ -20,6 +22,7 @@ public class NotificationsConfiguration {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long ncId;
+	
 	private int ncPlatform;
 	
 	@Transient
@@ -46,6 +49,12 @@ public class NotificationsConfiguration {
 	}
 	public void setNcPlatform(int ncPlatform) {
 		this.ncPlatform = ncPlatform;
+	}
+	public String getPlatformType() {
+		return platformType;
+	}
+	public void setPlatformType(String platformType) {
+		this.platformType = platformType;
 	}
 	public String getNcHost() {
 		return ncHost;
@@ -100,12 +109,6 @@ public class NotificationsConfiguration {
 	}
 	public void setNcContent(String ncContent) {
 		this.ncContent = ncContent;
-	}
-	public String getPlatformType() {
-		return platformType;
-	}
-	public void setPlatformType(String platformType) {
-		this.platformType = platformType;
 	}
 	
 	@Override

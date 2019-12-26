@@ -10,4 +10,5 @@ public interface NotificationsConfigurationService {
 	public List<NotificationsConfiguration> getAllNotifications();
 	public NotificationsConfiguration getConfigById(long id);
 	public String getPlatformType(long id);
+	public NotificationsConfiguration saveNotificationsConfiguration(NotificationsConfiguration nc);
 }

@@ -2,8 +2,7 @@ package com.app.quartz.engine.obj;
 
 public enum NotificationType {
 
-	EMAIL(1, "Email"),
-	TELEGRAM(2, "Telegram");
+	EMAIL(1, "Email");
 	
 	private final int key;
 	private final String value;
