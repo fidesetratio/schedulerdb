@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="${path}/static/plugins/bootstrap/font-awesome-4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="${path}/static/plugins/css/tempusdominus-bootstrap-4.min.css">
     
-    <title>Notification Detail</title>
+    <title>${title} Notification</title>
     <style>
     </style>
 </head>
@@ -23,66 +23,101 @@
 	<div>
         <div class="container">
         	<br />
-        	<h3>Notification Detail</h3><br />
-        	<div class="container">
-        		<div class="row">
-        			<div class="col-sm">
-		        		<div class="card" style="width: 18rem;">
-		  					<div class="card-body">
-							    <h6 class="card-title"><b>Notification Type</b></h6>
-							    <p class="card-text">${notificationsHistory.nhNcNotiftype}</p>
-		  					</div>
-						</div>
-						<br />
-						<div class="card" style="width: 18rem;">
-		  					<div class="card-body">
-							    <h6 class="card-title"><b>Notification Sender</b></h6>
-							    <p class="card-text">${notificationsHistory.nhSender}</p>
-		  					</div>
-						</div>
-						<br />
-						<div class="card" style="width: 18rem;">
-		  					<div class="card-body">
-							    <h6 class="card-title"><b>Notification Receiver</b></h6>
-							    <p class="card-text">${notificationsHistory.nhReceiver}</p>
-		  					</div>
-						</div>
-						<br />
-					</div>
-					<div class="col-sm">
-						<div class="card" style="width: 18rem;">
-		  					<div class="card-body">
-							    <h6 class="card-title"><b>Notification Subject</b></h6>
-							    <p class="card-text">${notificationsHistory.nhSubject}</p>
-		  					</div>
-						</div>
-						<br />
-						<div class="card" style="width: 18rem;">
-		  					<div class="card-body">
-							    <h6 class="card-title"><b>Notification Status</b></h6>
-							    <p class="card-text">${notificationsHistory.nhStatus}</p>
-		  					</div>
-						</div>
-						<br />
-						<div class="card" style="width: 18rem;">
-		  					<div class="card-body">
-							    <h6 class="card-title"><b>Notification Send Date</b></h6>
-							    <p class="card-text">${notificationsHistory.nhSendDate}</p>
-		  					</div>
-						</div>
-						<br />
-					</div>
-					<div class="col-sm">
-						<div class="card" style="width: 18rem;">
-		  					<div class="card-body">
-							    <h6 class="card-title"><b>Notification Content</b></h6>
-							    <p class="card-text">${notificationsHistory.nhContent}</p>
-		  					</div>
-						</div>
-						<br />
-					</div>
+        	<h3>${title}</h3><br />
+        	<form:form method="POST" action="${path}/notification/submit" modelAttribute="notificationsConfiguration" autocomplete="off">
+	        	<span style = "color:#ff0000;">
+	        		<c:if test="${not empty errors}"><b>Error</b>: 
+	        			<ul>
+				        	<c:forEach var="itemError" items="${errors}">
+				        		<li>${itemError}</li>
+				        	</c:forEach>
+			        	</ul>
+	        		</c:if>
+	        	</span>
+	        	<div class="form-group row" style="display: none;">
+		    		<form:label class="col-sm-2 col-form-label" path="ncId">ID</form:label>
+				    <div class="col-sm-8">
+						<form:input type="text" class="form-control" path="ncId" placeholder="" value="${notificationsConfiguration.ncId}" />
+				    </div>
+		  		</div>
+	        	<div class="form-group row">
+		    		<form:label class="col-sm-2 col-form-label" path="ncPlatform">Notification Type</form:label>
+				    <div class="col-sm-8">
+						<form:select path="ncPlatform" class="custom-select">
+						    <c:forEach var="nc" items="${notificationType}">
+						        <form:option value="${nc.key}" selected="${ncPlatform == nc.key ? 'selected' : ''}">${nc.value}</form:option>
+						    </c:forEach>
+						</form:select>
+				    </div>
+		  		</div>
+		  		<div class="form-group row">
+		    		<form:label class="col-sm-2 col-form-label" path="ncHost">Host</form:label>
+				    <div class="col-sm-8">
+						<form:input type="text" class="form-control" path="ncHost" placeholder="" />
+				    </div>
+		  		</div>
+		  		<div class="form-group row">
+		    		<form:label class="col-sm-2 col-form-label" path="ncPort">Port</form:label>
+				    <div class="col-sm-8">
+						<form:input type="text" class="form-control" path="ncPort" placeholder="" />
+				    </div>
+		  		</div>
+		  		<div class="form-group row">
+		    		<form:label class="col-sm-2 col-form-label" path="ncUsername">Username</form:label>
+				    <div class="col-sm-8">
+						<form:input type="text" class="form-control" path="ncUsername" placeholder="" />
+				    </div>
+		  		</div>
+		  		<div class="form-group row">
+		    		<form:label class="col-sm-2 col-form-label" path="ncPassword">Password</form:label>
+				    <div class="col-sm-8">
+						<form:input type="text" class="form-control" path="ncPassword" placeholder="" />
+				    </div>
+		  		</div>
+		  		<div class="form-group row">
+		    		<form:label class="col-sm-2 col-form-label" path="ncAuth">Authentication</form:label>
+				    <div class="col-sm-8">
+						<form:select path="ncAuth" class="custom-select">
+							<form:option value="true">Yes</form:option>
+							<form:option value="false">No</form:option>
+						</form:select>
+				    </div>
+		  		</div>
+  				<div class="form-group row">
+		    		<form:label class="col-sm-2 col-form-label" path="ncSender">Sender</form:label>
+				    <div class="col-sm-8">
+						<form:input type="text" class="form-control" path="ncSender" placeholder="" />
+				    </div>
+		  		</div>
+		  		<div class="form-group row">
+		    		<form:label class="col-sm-2 col-form-label" path="ncReceiver">Receiver</form:label>
+				    <div class="col-sm-8">
+						<form:input type="text" class="form-control" path="ncReceiver" placeholder="" />
+				    </div>
+		  		</div>
+		  		<div class="form-group row">
+		    		<form:label class="col-sm-2 col-form-label" path="ncSubject">Subject</form:label>
+				    <div class="col-sm-8">
+						<form:input type="text" class="form-control" path="ncSubject" placeholder="" />
+				    </div>
+		  		</div>
+		  		<div class="form-group row">
+					<form:label class="col-sm-2 col-form-label" path="ncContent">Content</form:label>
+					<div class="col-sm-8">
+				    	<form:textarea class="form-control" rows="3" path="ncContent"></form:textarea>
+				    </div>
 				</div>
-        	</div>
+		  		<div class="form-group row">
+				    <div class="col-sm-8">
+				    	<button type="submit" class="btn btn-primary" id="submitButton">
+							<i class="fa fa-floppy-o"></i> Submit
+						</button>
+				    	<a class="btn btn-primary" href="${path}/notification" role="button">
+							<i class="fa fa-times"></i> Cancel
+						</a>
+				    </div>
+  				</div>
+		  	</form:form>
 		</div>
 	</div>
 <script type="text/javascript">
