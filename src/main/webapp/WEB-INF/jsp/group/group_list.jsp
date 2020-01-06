@@ -64,6 +64,9 @@
 	    				<button type="button" class="btn btn-primary editButton">
 							<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
 						</button>
+						<button type="button" class="btn btn-primary detailButton">
+							<i class="fa fa-info-circle" aria-hidden="true"></i>
+						</button>
 					</td>
 	    		</tr>
 			</c:forEach>
@@ -77,9 +80,6 @@
     		<div class="modal-content">
       			<div class="modal-header">
         			<h5 class="modal-title">${title}</h5>
-			        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			        	<span aria-hidden="true">&times;</span>
-			        </button> -->
       			</div>
 	      		<div class="modal-body">
 	      			<b><label class="col-form-label" id="errorLabel" style="color:#ff0000;"></label></b>

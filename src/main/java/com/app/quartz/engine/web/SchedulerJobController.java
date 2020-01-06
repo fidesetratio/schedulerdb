@@ -156,7 +156,7 @@ public class SchedulerJobController {
 	}
 	
 	/**
-	 * harus diresearch lagi mengenai retry ini
+	 * fungsi retry ini sudah berjalan tetapi harus diresearch lagi mengenai retry ini
 	 * @param schedulerJobHistory
 	 * @return
 	 */
