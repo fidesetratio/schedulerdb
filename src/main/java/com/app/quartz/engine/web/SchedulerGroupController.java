@@ -26,6 +26,11 @@ public class SchedulerGroupController {
 	@Autowired
 	private SchedulerGroupInfoService schedulerGroupInfoService;
 
+	/**
+	 * List of group for view group table
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String groupList(Model model) {
 		SchedulerGroupInfo schedulerGroupInfo = new SchedulerGroupInfo();
@@ -36,6 +41,11 @@ public class SchedulerGroupController {
 		return "group/group_list";
 	}
 	
+	/**
+	 * submit add group
+	 * @param schedulerGroupInfo
+	 * @return
+	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ServerResponse submit(@RequestBody SchedulerGroupInfo schedulerGroupInfo) {
@@ -72,6 +82,11 @@ public class SchedulerGroupController {
 		return serverResponse;
 	}
 	
+	/**
+	 * view group detail
+	 * @param groupId
+	 * @return
+	 */
 	@RequestMapping(value = "/{groupId}", method = RequestMethod.GET, headers = "Accept=application/json", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public ServerResponse getGroupEditData(@PathVariable("groupId") long groupId) {

@@ -58,7 +58,7 @@
 	    			<td>${history.sjhResponseStatus}</td>
 	    			<td>
 	    				<a class="btn btn-primary" href="${path}/job/history/${history.sjhId}" role="button">
-							<i class="fa fa-info" aria-hidden="true"></i>
+							<i class="fa fa-info-circle" aria-hidden="true"></i>
 						</a>
 					</td>
 	    		</tr>

@@ -21,9 +21,9 @@
 		          		Job
 		        	</span>
 		        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-		          		<a class="dropdown-item" href="${path}/schedulerdb/job">Job List</a>
 		          		<a class="dropdown-item" href="${path}/schedulerdb/job/create?jobName=&groupName=">Create Job</a>
 		          		<a class="dropdown-item" href="${path}/schedulerdb/job/history">History</a>
+		          		<a class="dropdown-item" href="${path}/schedulerdb/job">Job List</a>
 		        	</div>
 		      	</li>
 		      	<li class="nav-item dropdown">
@@ -31,8 +31,8 @@
 		          		Notification
 		        	</span>
 		        	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		        		<a class="dropdown-item" href="${path}/schedulerdb/notification/history">History</a>
 		        		<a class="dropdown-item" href="${path}/schedulerdb/notification">List</a>
-		          		<a class="dropdown-item" href="${path}/schedulerdb/notification/history">History</a>
 		        	</div>
 		      	</li>
 			</ul>

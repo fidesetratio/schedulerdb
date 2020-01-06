@@ -38,5 +38,14 @@ public class NotificationsHistoryServiceImpl implements NotificationsHistoryServ
 		return list;
 	}
 
-	
+	@Override
+	public NotificationsHistory getNotificationHistoryById(long id) {
+		NotificationsHistory nh = nhRepository.getOne(id);
+		
+		if (nh != null) {
+			nh.setNhNcNotiftype(notificationsConfigurationService.getPlatformType(nh.getNhNcId()));
+		}
+		
+		return nh;
+	}	
 }

@@ -8,4 +8,5 @@ public interface NotificationsHistoryService {
 
 	public NotificationsHistory saveNotificationsHistory(NotificationsHistory history);
 	public List<NotificationsHistory> getAllnotificationHistory();
+	public NotificationsHistory getNotificationHistoryById(long id);
 }

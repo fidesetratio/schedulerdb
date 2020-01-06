@@ -165,6 +165,11 @@ public class SchedulerJobController {
 		return "redirect:/job";
 	}
 	
+	/**
+	 * List of scheduler history table
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/history", method = RequestMethod.GET)
 	public String historyList(Model model) {
 		model.addAttribute("schedulerHistorylist", schedulerJobHistoryService.getAllHistory());
@@ -172,6 +177,12 @@ public class SchedulerJobController {
 		return "job/job_history";
 	}
 	
+	/**
+	 * Get history detail for scheduler
+	 * @param sjhId
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/history/{sjhId}", method = RequestMethod.GET)
 	public String getHistoryDetail(@PathVariable("sjhId") long sjhId, Model model) {
 		SchedulerJobHistory schedulerJobHistory = schedulerJobHistoryService.getHistoryDetail(sjhId);
@@ -180,6 +191,12 @@ public class SchedulerJobController {
 		return "job/job_history_detail";
 	}
 	
+	/**
+	 * generate URL
+	 * @param str1
+	 * @param str2
+	 * @return
+	 */
 	private String generateURLparams(List<String> str1, List<String> str2) {
 		String params = "?";
 		for (int i = 0; i < str1.size(); i++) {

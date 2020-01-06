@@ -63,13 +63,13 @@
   							<td>OK</td>
 					  	</c:when>
   						<c:otherwise>
-  							<td>NOT OK</td>
+  							<td>-</td>
   						</c:otherwise>
 					</c:choose>
 	    			<td>${notif.nhSendDate}</td>
 	    			<td>
 	    				<a class="btn btn-primary" href="${path}/notification/${notif.nhId}" role="button">
-	    					<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+	    					<i class="fa fa-info-circle" aria-hidden="true"></i>
 	    				</a>
 	    			</td>
 	    		</tr>

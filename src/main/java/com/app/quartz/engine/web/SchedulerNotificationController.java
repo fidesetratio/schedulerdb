@@ -10,11 +10,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.app.quartz.engine.entity.NotificationsConfiguration;
+import com.app.quartz.engine.entity.NotificationsHistory;
 import com.app.quartz.engine.obj.NotificationType;
 import com.app.quartz.engine.service.NotificationsConfigurationService;
 import com.app.quartz.engine.service.NotificationsHistoryService;
@@ -29,6 +31,12 @@ public class SchedulerNotificationController {
 	@Autowired
 	private NotificationsHistoryService notificationsHistoryService;
 	
+	/**
+	 * Get all notifications configuration for notification list table
+	 * 
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String notifications(Model model) {
 		model.addAttribute("notificationList", notificationsConfigurationService.getAllNotifications());
@@ -36,6 +44,21 @@ public class SchedulerNotificationController {
 		return "notification/notification_list";
 	}
 	
+	@RequestMapping(value = "/{nhId}", method = RequestMethod.GET)
+	public String getNotificationDetail(@PathVariable("nhId") long nhId, Model model) {
+		NotificationsHistory notificationsHistory = notificationsHistoryService.getNotificationHistoryById(nhId);
+		
+		model.addAttribute("notificationsHistory", notificationsHistory);
+		
+		return "notification/notification_detail";
+	}
+	
+	/**
+	 * Get all notifications history for notification history table
+	 *
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/history", method = RequestMethod.GET)
 	public String notificationsHistory(Model model) {
 		model.addAttribute("notificationHistorylist", notificationsHistoryService.getAllnotificationHistory());
@@ -43,6 +66,12 @@ public class SchedulerNotificationController {
 		return "notification/notification_history";
 	}
 
+	/**
+	 * View create and edit notification
+	 * @param notifId
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/create", method = RequestMethod.GET, headers = "Accept=application/json")
 	public String notification(@RequestParam("notifId") String notifId, Model model) {
 		NotificationsConfiguration notificationsConfiguration = new NotificationsConfiguration();
@@ -60,6 +89,13 @@ public class SchedulerNotificationController {
 		return "notification/notification_detail";
 	}
 	
+	/**
+	 * submit notification (create and edit)
+	 * @param notificationsConfiguration
+	 * @param bindingResult
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/submit", method = RequestMethod.POST, headers = "Accept=application/json")
 	public String submit(@Valid @ModelAttribute("notificationsConfiguration")NotificationsConfiguration notificationsConfiguration, 
 			  BindingResult bindingResult, Model model) {

@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class SchedulerCommonController {
 
+	/**
+	 * default url to schedulerdb redirect to list of job page
+	 * @return
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	public String redirectJoblist() {
 		return "redirect:/job";
