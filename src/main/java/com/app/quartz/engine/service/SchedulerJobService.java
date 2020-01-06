@@ -6,6 +6,7 @@ import java.util.Map;
 import org.quartz.JobKey;
 
 import com.app.quartz.engine.dto.SchedulerJob;
+import com.app.quartz.engine.entity.SchedulerJobHistory;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 
 public interface SchedulerJobService {
@@ -28,4 +29,5 @@ public interface SchedulerJobService {
 	public SchedulerJobInfo getJobInfo(JobKey jobKey);
 	public List<SchedulerJob> searchSchedulerb(String jobName, String jobGroup);
 	public int countTotalJobByGroup(String jobGroup);
+	public boolean retryScheduler(SchedulerJobHistory schedulerJobHistory);
 }

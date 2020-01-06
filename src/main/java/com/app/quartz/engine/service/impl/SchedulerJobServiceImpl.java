@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.app.quartz.engine.component.JobScheduleCreator;
 import com.app.quartz.engine.dto.CronProperties;
 import com.app.quartz.engine.dto.SchedulerJob;
+import com.app.quartz.engine.entity.SchedulerJobHistory;
 import com.app.quartz.engine.entity.SchedulerJobInfo;
 import com.app.quartz.engine.repository.SchedulerJobInfoRepository;
 import com.app.quartz.engine.service.SchedulerJobService;
@@ -563,6 +564,16 @@ public class SchedulerJobServiceImpl implements SchedulerJobService {
 			}
 		}
 		return strFind;
+	}
+
+	@Override
+	public boolean retryScheduler(SchedulerJobHistory schedulerJobHistory) {
+		try {
+			schedulerFactoryBean.getScheduler().triggerJob(new JobKey(schedulerJobHistory.getSjhJobName(), schedulerJobHistory.getSjhJobGroup()));
+			return true;
+		} catch (SchedulerException e) {
+			return false;
+		}
 	}
 	
 	

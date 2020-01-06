@@ -45,12 +45,12 @@ public class SchedulerNotificationController {
 	}
 	
 	@RequestMapping(value = "/{nhId}", method = RequestMethod.GET)
-	public String getNotificationDetail(@PathVariable("nhId") long nhId, Model model) {
+	public String getNotificationHistoryDetail(@PathVariable("nhId") long nhId, Model model) {
 		NotificationsHistory notificationsHistory = notificationsHistoryService.getNotificationHistoryById(nhId);
 		
 		model.addAttribute("notificationsHistory", notificationsHistory);
 		
-		return "notification/notification_detail";
+		return "notification/notification_history_detail";
 	}
 	
 	/**

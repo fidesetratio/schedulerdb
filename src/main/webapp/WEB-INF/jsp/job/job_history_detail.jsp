@@ -111,13 +111,54 @@
 	</div>
 	<br />
 	<div class="container" style="text-align: right;">
-		<a class="btn btn-primary" href="${path}/job/history" role="button">
-			<i class="fa fa-chevron-right" aria-hidden="true"></i>
-		</a>
+		<div class="row">
+			<div class="col-sm">
+				<button type="button" class="btn btn-info" id="retryButton">
+					<i class="fa fa-repeat" aria-hidden="false"> Retry</i>
+				</button>
+			</div>
+			<div class="col-sm">
+				<a class="btn btn-primary" href="${path}/job/history" role="button">
+					<i class="fa fa-chevron-right" aria-hidden="true"></i>
+				</a>
+			</div>
+		</div>
 	</div>
 	<br />
 </div>
 <script type="text/javascript">
+$(document).ready(function () {
+	var SchedulerJobHistory = {
+			sjhJobName: "${history.sjhJobName}",
+			sjhJobGroup: "${history.sjhJobGroup}"
+	}
+
+	
+	$("#retryButton").click(function(){
+		$.ajax({
+			url: '${path}/job/retry',
+			type: 'POST',
+			data: JSON.stringify(SchedulerJobHistory),
+		    contentType: 'application/json',
+		    processData: false,
+		    success: function(responseData, status, xhr) {	
+				if (xhr.status == 200) {
+					if (responseData) {
+						window.location.href = "${path}/job/history";
+					} else {
+						setTimeout(function() {
+					        document.location.reload()
+					  }, 50);
+					}
+				}
+		    },
+		    error: function(request, status, error) {
+		    	console.log("status: ", status);
+		        console.log("error: ", error);
+		    }
+		});
+	});
+});
 </script>
 </body>
 </html>
