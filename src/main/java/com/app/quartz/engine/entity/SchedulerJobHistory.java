@@ -12,7 +12,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Proxy;
 /**
  * Scheduler job history  
- *
+ *scheduler_job_history
+ *SCHEDULER_JOB_HISTORY
  */
 @Proxy(lazy=false)
 @Entity

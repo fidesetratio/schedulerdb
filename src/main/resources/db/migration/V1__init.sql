@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS SCHEDULER_JOB_INFO;
-DROP TABLE IF EXISTS SCHEDULER_JOB_HISTORY;
+DROP TABLE IF EXISTS scheduler_group_info;
+DROP TABLE IF EXISTS scheduler_job_history;
 DROP TABLE IF EXISTS QRTZ_FIRED_TRIGGERS;
 DROP TABLE IF EXISTS QRTZ_PAUSED_TRIGGER_GRPS;
 DROP TABLE IF EXISTS QRTZ_SCHEDULER_STATE;
@@ -11,76 +11,88 @@ DROP TABLE IF EXISTS QRTZ_BLOB_TRIGGERS;
 DROP TABLE IF EXISTS QRTZ_TRIGGERS;
 DROP TABLE IF EXISTS QRTZ_JOB_DETAILS;
 DROP TABLE IF EXISTS QRTZ_CALENDARS;
-DROP TABLE IF EXISTS SCHEDULER_GROUP_INFO;
-DROP TABLE IF EXISTS NOTIFICATIONS_CONFIGURATION;
-DROP TABLE IF EXISTS NOTIFICATIONS_HISTORY;
+DROP TABLE IF EXISTS scheduler_job_info;
+DROP TABLE IF EXISTS notifications_configuration;
+DROP TABLE IF EXISTS notifications_history;
+DROP TABLE IF EXISTS job_class_repository;
 
-CREATE TABLE SCHEDULER_JOB_INFO (
-  ID bigint(20) NOT NULL AUTO_INCREMENT,
-  CRON_EXPRESSION varchar(255) DEFAULT NULL,
-  CRON_INPUT varchar(255) DEFAULT NULL,
-  CRON_JOB varchar(255) DEFAULT 'Y',
-  JOB_CLASS varchar(255) DEFAULT NULL,
-  JOB_GROUP varchar(255) DEFAULT NULL,
-  JOB_NAME varchar(255) DEFAULT NULL,
-  START_TIME DATE DEFAULT NULL,
-  REPEAT_COUNT bigint(20) DEFAULT NULL,
-  REPEAT_INTERVAL bigint(20) DEFAULT NULL,
-  PARAMS varchar(255) DEFAULT NULL,
-  URL varchar(255) DEFAULT NULL,
-  HTTP_METHOD varchar(10) DEFAULT NULL,
-  REQUEST_BODY varchar(255) DEFAULT NULL,
-  PRIMARY KEY (ID)
-) ENGINE=INNODB;
 
-CREATE TABLE SCHEDULER_GROUP_INFO(
-GROUP_ID bigint(20) NOT NULL AUTO_INCREMENT,
-GROUP_NAME VARCHAR(200) NOT NULL,
-DESCRIPTION VARCHAR(200) DEFAULT NULL,
-PRIMARY KEY (GROUP_ID)
-)ENGINE=InnoDB;
+create table job_class_repository(
+	id bigint(20) not null auto_increment,
+	job_class varchar(255) default null,
+	job_name varchar(255) default null,
+	job_active int not null default 0,
+	primary key (id)
+) engine=innodb;
 
-CREATE TABLE SCHEDULER_JOB_HISTORY(
-SJH_ID bigint(20) NOT NULL AUTO_INCREMENT,
-SJH_JOB_NAME VARCHAR(250) DEFAULT NULL,
-SJH_JOB_GROUP VARCHAR(250) DEFAULT NULL,
-SJH_FIRE_TIME DATETIME DEFAULT NULL,
-SJH_TRIGGER_NAME VARCHAR(250) DEFAULT NULL,
-SJH_HTTP_METHOD VARCHAR(250) DEFAULT NULL,
-SJH_URL VARCHAR(250) DEFAULT NULL,
-SJH_PARAMS VARCHAR(250) DEFAULT NULL,
-SJH_REQUEST_BODY VARCHAR(250) DEFAULT NULL,
-SJH_RESPONSE_STATUS VARCHAR(250) DEFAULT NULL,
-SJH_RESPONSE_BODY VARCHAR(250) DEFAULT NULL,
-PRIMARY KEY (SJH_ID)
-)ENGINE=InnoDB;
+create table scheduler_job_info (
+  id bigint(20) not null auto_increment,
+  cron_expression varchar(255) default null,
+  cron_input varchar(255) default null,
+  cron_job varchar(255) default 'y',
+  job_class varchar(255) default null,
+  job_class_name varchar(255) default null,
+  job_group varchar(255) default null,
+  job_name varchar(255) default null,
+  start_time date default null,
+  repeat_count bigint(20) default null,
+  repeat_interval bigint(20) default null,
+  params varchar(255) default null,
+  url varchar(255) default null,
+  http_method varchar(10) default null,
+  request_body varchar(255) default null,
+  primary key (id)
+) engine=innodb;
 
-CREATE TABLE NOTIFICATIONS_CONFIGURATION(
-NC_ID bigint(20) NOT NULL AUTO_INCREMENT,
-NC_PLATFORM int(10) NOT NULL,
-NC_HOST VARCHAR(200) DEFAULT NULL,
-NC_PORT VARCHAR(200) DEFAULT NULL,
-NC_USERNAME VARCHAR(250) DEFAULT NULL,
-NC_PASSWORD VARCHAR(250) DEFAULT NULL,
-NC_AUTH BOOLEAN DEFAULT NULL,
-NC_SENDER VARCHAR(250) DEFAULT NULL,
-NC_RECEIVER VARCHAR(250) DEFAULT NULL,
-NC_SUBJECT VARCHAR(250) DEFAULT NULL,
-NC_CONTENT VARCHAR(250) DEFAULT NULL,
-PRIMARY KEY (NC_ID)
-)ENGINE=InnoDB;
+create table scheduler_group_info(
+group_id bigint(20) not null auto_increment,
+group_name varchar(200) not null,
+description varchar(200) default null,
+primary key (group_id)
+)engine=innodb;
 
-CREATE TABLE NOTIFICATIONS_HISTORY(
-NH_ID bigint(20) NOT NULL AUTO_INCREMENT,
-NH_NC_ID bigint(20) NOT NULL,
-NH_SENDER VARCHAR(250) DEFAULT NULL,
-NH_RECEIVER VARCHAR(250) DEFAULT NULL,
-NH_SUBJECT VARCHAR(250) DEFAULT NULL,
-NH_CONTENT VARCHAR(250) DEFAULT NULL,
-NH_STATUS BOOLEAN NOT NULL,
-NH_SEND_DATE DATETIME DEFAULT NULL,
-PRIMARY KEY (NH_ID)
-)ENGINE=InnoDB;
+create table scheduler_job_history(
+sjh_id bigint(20) not null auto_increment,
+sjh_job_name varchar(250) default null,
+sjh_job_group varchar(250) default null,
+sjh_fire_time datetime default null,
+sjh_trigger_name varchar(250) default null,
+sjh_http_method varchar(250) default null,
+sjh_url varchar(250) default null,
+sjh_params varchar(250) default null,
+sjh_request_body varchar(250) default null,
+sjh_response_status varchar(250) default null,
+sjh_response_body varchar(250) default null,
+primary key (sjh_id)
+)engine=innodb;
+
+create table notifications_configuration(
+nc_id bigint(20) not null auto_increment,
+nc_platform int(10) not null,
+nc_host varchar(200) default null,
+nc_port varchar(200) default null,
+nc_username varchar(250) default null,
+nc_password varchar(250) default null,
+nc_auth boolean default null,
+nc_sender varchar(250) default null,
+nc_receiver varchar(250) default null,
+nc_subject varchar(250) default null,
+nc_content varchar(250) default null,
+primary key (nc_id)
+)engine=innodb;
+
+create table notifications_history(
+nh_id bigint(20) not null auto_increment,
+nh_nc_id bigint(20) not null,
+nh_sender varchar(250) default null,
+nh_receiver varchar(250) default null,
+nh_subject varchar(250) default null,
+nh_content varchar(250) default null,
+nh_status boolean not null,
+nh_send_date datetime default null,
+primary key (nh_id)
+)engine=innodb;
+
 
 CREATE TABLE QRTZ_JOB_DETAILS(
 SCHED_NAME VARCHAR(120) NOT NULL,
@@ -243,3 +255,16 @@ CREATE INDEX IDX_QRTZ_FT_T_G ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_NAME,TRIG
 CREATE INDEX IDX_QRTZ_FT_TG ON QRTZ_FIRED_TRIGGERS(SCHED_NAME,TRIGGER_GROUP);
 
 commit;
+
+
+	
+insert into job_class_repository(
+	job_class,
+	job_name,
+	job_active
+)
+values(
+	'com.app.quartz.engine.jobs.GenericSchedulerJob',
+	'JobGenericRest',
+	'1'
+);

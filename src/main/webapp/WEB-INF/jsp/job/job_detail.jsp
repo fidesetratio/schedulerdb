@@ -1,3 +1,5 @@
+<!-- https://javarevisited.blogspot.com/2014/11/how-to-loop-hashmap-or-hashtable-in-jsp-example.html -->
+<!--  https://stackoverflow.com/questions/7202368/spring-mvc-formselect-selected-value -->
 <!DOCTYPE HTML>
 <%@ include file="/taglibs.jsp"%>
 <c:set var="path" value="${pageContext.request.contextPath}" />
@@ -50,9 +52,33 @@
 				    </div>
 		  		</div>
 		  		<div class="form-group row">
+		    		<form:label class="col-sm-2 col-form-label" path="jobGroup">Job Name</form:label>
+					<div class="col-sm-8">
+						<form:select path="jobGroup"  class="custom-select">
+						 <form:option value="-" label="-Please Select-"/>
+						  <c:forEach var="jobName" items="${jobsName}">
+						   			<option value="${jobName.key}" selected="true">${jobName.value}</option>
+							</c:forEach>	
+						</form:select>				    
+						</div>
+		  		</div>
+		  		
+		  		<div class="form-group row">
+		    		<form:label class="col-sm-2 col-form-label" path="jobGroup">Notification</form:label>
+					<div class="col-sm-8">
+						<form:select path="jobGroup"  class="custom-select">
+						 <form:option value="-" label="-Please Select-"/>
+						  <c:forEach var="jobName" items="${jobsName}">
+						   			<option value="${jobName.key}" selected="true">${jobName.value}</option>
+							</c:forEach>	
+						</form:select>				    
+						</div>
+		  		</div>
+		  		 		<div class="form-group row">
 		    		<form:label class="col-sm-2 col-form-label" path="jobGroup">Group Name</form:label>
 					<div class="col-sm-8">
 						<form:select path="jobGroup" class="custom-select">
+						                   
 						    <c:forEach var="itemGroup" items="${jobGrouplist}">
 						        <form:option value="${itemGroup}" selected="${itemGroup == schedulerJobInfo.jobGroup ? 'selected' : ''}" />
 						    </c:forEach>

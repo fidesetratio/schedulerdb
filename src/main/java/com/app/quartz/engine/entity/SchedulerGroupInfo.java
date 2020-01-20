@@ -13,7 +13,9 @@ import org.json.JSONObject;
 
 /**
  * Scheduler groups
- *
+ *NOTIFICATIONS_HISTORY
+ *scheduler_group_info
+ *SCHEDULER_GROUP_INFO
  */
 @Proxy(lazy=false)
 @Entity

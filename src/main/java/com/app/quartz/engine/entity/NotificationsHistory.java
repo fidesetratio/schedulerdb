@@ -13,6 +13,7 @@ import org.hibernate.annotations.Proxy;
 
 /**
  * Notification history
+ *NOTIFICATIONS_HISTORY
  *
  */
 @Proxy(lazy=false)

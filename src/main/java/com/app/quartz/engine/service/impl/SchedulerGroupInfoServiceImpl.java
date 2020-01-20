@@ -1,13 +1,18 @@
 package com.app.quartz.engine.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.app.quartz.engine.entity.JobClassRepository;
 import com.app.quartz.engine.entity.SchedulerGroupInfo;
+import com.app.quartz.engine.repository.JobClassRepositoryRepository;
 import com.app.quartz.engine.repository.SchedulerGroupInfoRepository;
 import com.app.quartz.engine.service.SchedulerGroupInfoService;
 import com.app.quartz.engine.service.SchedulerJobService;
@@ -21,6 +26,9 @@ public class SchedulerGroupInfoServiceImpl implements SchedulerGroupInfoService 
 
 	@Autowired
 	private SchedulerGroupInfoRepository schedulerGroupInfoRepository;
+	
+	@Autowired
+	private JobClassRepositoryRepository jobClassRepositoryRepository;
 	
 	@Autowired
 	private SchedulerJobService schedulerJobService;
@@ -81,5 +89,23 @@ public class SchedulerGroupInfoServiceImpl implements SchedulerGroupInfoService 
 		}
 		
 		return list;
+	}
+
+	@Override
+	public List<JobClassRepository> findActiveJobRepository() {
+		return jobClassRepositoryRepository.findAll();
+	}
+
+	@Override
+	public Map getJobsName() {
+		
+		Map<Long,String> jobs = new LinkedHashMap<Long,String>();
+		// TODO Auto-generated method stub
+		List<String> list = new ArrayList<String>();
+		List<JobClassRepository> jobNames = this.findActiveJobRepository();
+		for (JobClassRepository group: jobNames) {
+			jobs.put(group.getId(), group.getJobName());
+		}
+		return jobs;
 	}
 }

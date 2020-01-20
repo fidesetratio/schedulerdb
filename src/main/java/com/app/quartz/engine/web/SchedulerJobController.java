@@ -95,8 +95,11 @@ public class SchedulerJobController {
 			model.addAttribute("submitFailed", false);
 			model.addAttribute("title", "Edit Job");
 			model.addAttribute("jobGrouplist", schedulerJobInfo.getJobGroup());
+		
 		} else {
 			model.addAttribute("jobGrouplist", schedulerGroupInfoService.getAllGroupName());
+			model.addAttribute("jobsName", schedulerGroupInfoService.getJobsName());
+			System.out.println("size:"+schedulerGroupInfoService.getJobsName().size());
 			model.addAttribute("schedulerJobInfo", schedulerJobInfo);
 			model.addAttribute("title", "Create Job");
 		}

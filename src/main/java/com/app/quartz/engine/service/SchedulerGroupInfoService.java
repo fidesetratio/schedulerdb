@@ -1,7 +1,9 @@
 package com.app.quartz.engine.service;
 
 import java.util.List;
+import java.util.Map;
 
+import com.app.quartz.engine.entity.JobClassRepository;
 import com.app.quartz.engine.entity.SchedulerGroupInfo;
 
 public interface SchedulerGroupInfoService {
@@ -13,4 +15,6 @@ public interface SchedulerGroupInfoService {
 	public SchedulerGroupInfo getGroupInfoByNameExceptId(String groupName, long groupId);
 	public SchedulerGroupInfo getGroupInfo(long groupId);
 	public List<String> getAllGroupName();
-}
+	public List<JobClassRepository> findActiveJobRepository();
+	public Map getJobsName();
+};

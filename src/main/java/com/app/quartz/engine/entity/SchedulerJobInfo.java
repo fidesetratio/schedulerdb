@@ -20,6 +20,8 @@ import com.app.quartz.engine.entity.converter.BooleanStringConverter;
  * JPA Model for scheduler job info
  * 
  * @author Patar.Tambunan
+ * scheduler_job_info
+ * SCHEDULER_JOB_INFO
  *
  */
 
@@ -37,6 +39,10 @@ public class SchedulerJobInfo {
 	private String jobGroup;
 
 	private String jobClass;
+	
+	private String jobClassName;
+
+
 
 	private String cronExpression;
 	
@@ -220,6 +226,15 @@ public class SchedulerJobInfo {
 				+ repeatInterval + ", url=" + url + ", cronJob=" + cronJob + ", params=" + params + ", paramName="
 				+ paramName + ", paramInput=" + paramInput + ", httpMethod=" + httpMethod + ", requestBody="
 				+ requestBody + "]";
+	}
+	
+	
+	public String getJobClassName() {
+		return jobClassName;
+	}
+
+	public void setJobClassName(String jobClassName) {
+		this.jobClassName = jobClassName;
 	}
 	
 	

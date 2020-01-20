@@ -12,7 +12,7 @@ import org.hibernate.annotations.Proxy;
 
 /**
  * Configuration for email notification
- *
+ *	NOTIFICATIONS_CONFIGURATION
  */
 @Proxy(lazy=false)
 @Entity
